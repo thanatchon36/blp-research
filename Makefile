@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 ARGS ?=
 
-.PHONY: setup pipeline figures paper web arxiv dataset banner test all clean
+.PHONY: setup pipeline figures paper web arxiv dataset banner poster test all clean
 
 setup:          ## create venv and install the package (needs uv)
 	uv venv .venv --python 3.12
@@ -28,6 +28,9 @@ dataset:        ## Hugging Face dataset -> dataset/ (synthetic data and results;
 
 banner:         ## README banner -> docs/assets/banner.png
 	$(PY) scripts/make_banner.py
+
+poster:         ## LinkedIn poster -> docs/assets/linkedin_poster.png (needs Google Chrome); post text in docs/linkedin_post.md
+	$(PY) scripts/make_linkedin_poster.py
 
 test:
 	$(PY) -m pytest -q

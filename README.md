@@ -119,6 +119,7 @@ scripts/build_web.py        web reader docs/paper/ from paper/main.tex
 scripts/arxiv_bundle.py     arXiv source bundle
 scripts/export_dataset.py   Hugging Face dataset (card in dataset_card/)
 scripts/make_banner.py      README banner
+scripts/make_linkedin_poster.py  LinkedIn poster (post text in docs/linkedin_post.md)
 paper/                      main.tex, references.bib, figures/, numbers.json, main.pdf, reader.html
 docs/                       GitHub Pages: web reader, banner, logo
 tests/                      smoke tests
