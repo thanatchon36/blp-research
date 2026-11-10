@@ -65,7 +65,7 @@ Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assi
 \vspace{-0.6em}
 \begin{quote}
 \small
-Regional output statistics in Thailand are compiled annually and released with a substantial lag, whereas the Business Liaison Program (BLP) of the Bank of Thailand collects timely but qualitative information from firms. This proposal sets out a four-study research program that converts Thai-language BLP interview notes into quantitative regional indicators and builds and evaluates a retrieval-augmented generative-AI assistant that drafts regional economic reports. Study~1 develops a six-topic codebook, compares lexicon, fine-tuned encoder and large-language-model (LLM) coding against an expert gold standard, and constructs diffusion indices weighted by sectoral output shares and adjusted for changes in panel composition through weighted two-way fixed effects. Study~2 tests predictive validity in a pseudo-real-time nowcasting exercise with Clark--West and Diebold--Mariano tests. Study~3 follows design science research to build an assistant that cites a source for every sentence and blocks any number it cannot trace to a data table. Study~4 is a pre-registered randomized crossover experiment testing whether the assistant reduces report-preparation time by more than 20\% without degrading blinded quality ratings. An open-source implementation is validated end to end on synthetic data: composition adjustment raises the correlation between the index and latent activity from 0.89 to 0.92 on average, the verifier blocks every injected error, and a power analysis shows that 30 participants completing four tasks each provide power of 0.92 if the true time reduction is 35\%. Results on the confidential BLP data are the object of the doctoral research and are not reported here.
+Regional output statistics in Thailand are compiled annually and released with a substantial lag, whereas the Business Liaison Program (BLP) of the Bank of Thailand collects timely but qualitative information from firms. This proposal sets out a four-study research program that converts Thai-language BLP interview notes into quantitative regional indicators and builds and evaluates a retrieval-augmented generative-AI assistant that drafts regional economic reports. Study~1 develops a six-topic codebook, compares lexicon, fine-tuned encoder and large-language-model (LLM) coding against an expert gold standard, and constructs diffusion indices weighted by sectoral output shares and adjusted for changes in panel composition through weighted two-way fixed effects. Study~2 tests predictive validity in a pseudo-real-time nowcasting exercise with Clark--West and Diebold--Mariano tests. Study~3 follows design science research to build an assistant that cites a source for every sentence and blocks any number it cannot trace to a data table. Study~4 is a pre-registered randomized crossover experiment testing whether the assistant reduces report-preparation time by more than 20\% without degrading blinded quality ratings. An open-source implementation is validated end to end on synthetic data: composition adjustment raises the correlation between the index and latent activity from 0.89 to 0.92 on average, the verifier blocks every injected error, and a power analysis shows that 30 participants completing four tasks each provide power of 0.92 if the true time reduction is 35\%. Results on the confidential BLP data are the object of the planned research and are not reported here.
 \end{quote}
 
 \textbf{Keywords}\quad business liaison $\cdot$ text as data $\cdot$ nowcasting $\cdot$ regional economics $\cdot$ large language models $\cdot$ retrieval-augmented generation $\cdot$ randomized crossover experiment $\cdot$ central banking
@@ -589,17 +589,17 @@ The BLP sample is purposive, and fixed effects cannot remove selection on curren
 \section{Work plan}\label{sec:plan}
 
 \subsection{Effort allocation}
-Effort is split 60\% academic design and 40\% code (\cref{fig:effort}). Academic design covers the research questions, measurement design, identification, experimental design, statistical analysis and writing; code covers the data pipeline, models, the assistant, logging tools and reproducibility. Code is concentrated in Study~1 and Study~3, where the artifacts are built; the theoretical chapters carry no code.
+Effort is split 60\% academic design and 40\% code (\cref{fig:effort}). Academic design covers the research questions, measurement design, identification, experimental design, statistical analysis and writing; code covers the data pipeline, models, the assistant, logging tools and reproducibility. Code is concentrated in Study~1 and Study~3, where the artifacts are built; the introduction, literature and discussion carry no code.
 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_effort.pdf}
-\caption{Planned allocation of thesis effort by chapter. Bar segments show academic design and code; labels give percentage points of total effort.}
+\caption{Planned allocation of effort by component. Bar segments show academic design and code; labels give percentage points of total effort.}
 \label{fig:effort}
 \end{figure}
 
 \subsection{Timeline}
-\Cref{fig:timeline} shows the four-year plan. The milestones are M1, the proposal defense (month 6); M2, ethics approval and the data-access agreement (month 9); M3, pre-registration of Study~4 (month 30); and M4, the final defense (month 47).
+\Cref{fig:timeline} shows the four-year plan. The milestones are M1, approval of the research proposal (month 6); M2, ethics approval and the data-access agreement (month 9); M3, pre-registration of Study~4 (month 30); and M4, the final report (month 47).
 
 \begin{figure}[tbp]
 \centering
@@ -609,7 +609,7 @@ Effort is split 60\% academic design and 40\% code (\cref{fig:effort}). Academic
 \end{figure}
 
 \subsection{Publication plan}
-Each study is written as a self-contained paper (\cref{tab:papers}), and the thesis combines them with an introduction and a concluding chapter.
+Each study is written as a self-contained paper (\cref{tab:papers}), and a final report combines them with an introduction and a concluding synthesis.
 
 \begin{table}[tbp]
 \centering\small
@@ -648,7 +648,7 @@ Model drift during the experiment & Medium & Medium & Freeze weights and prompts
 
 % =====================================================================================
 \section{Conclusion}\label{sec:conclusion}
-The Business Liaison Program collects some of the most timely information available about Thailand's regional economies, but its value is limited by its form and by the effort needed to turn it into reports. This proposal sets out how to measure that information rigorously, how to test whether it improves regional nowcasts, how to build an assistant whose drafts can be audited sentence by sentence, and how to test causally whether that assistant saves more than a fifth of the time needed to prepare a report. The accompanying software already runs end to end; the doctoral research will apply it to the BLP data.
+The Business Liaison Program collects some of the most timely information available about Thailand's regional economies, but its value is limited by its form and by the effort needed to turn it into reports. This proposal sets out how to measure that information rigorously, how to test whether it improves regional nowcasts, how to build an assistant whose drafts can be audited sentence by sentence, and how to test causally whether that assistant saves more than a fifth of the time needed to prepare a report. The accompanying software already runs end to end; the next stage of the research will apply it to the BLP data.
 
 \section*{Code and data availability}
 The companion code (\url{https://github.com/thanatchon36/blp-research}) implements every study, includes a synthetic data generator and regenerates all data-driven figures and numbers in this paper with \texttt{make figures}. BLP data are confidential and remain within the Bank of Thailand's secure environment; only synthetic data are distributed.

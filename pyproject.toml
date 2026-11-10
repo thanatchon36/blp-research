@@ -1,6 +1,6 @@
 [project]
 name = "blp-research"
-version = "0.1.0"
+version = "0.1.1"
 description = "Text-based regional indicators from Business Liaison Program notes and a grounded report-drafting assistant"
 readme = "README.md"
 requires-python = ">=3.11"

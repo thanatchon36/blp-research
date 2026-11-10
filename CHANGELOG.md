@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-11-10
+
+### Changed
+- The paper no longer describes the program as doctoral research: the abstract and conclusion refer to the planned
+  research, Figure 7 shows effort by component instead of by thesis chapter, and the timeline's milestones are the
+  approval of the research proposal and the final report instead of the proposal and final defenses.
+
 ## [0.1.0] - 2026-11-10
 
 ### Added

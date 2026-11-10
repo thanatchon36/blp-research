@@ -13,7 +13,7 @@ type: software
 authors:
   - family-names: Chongmankhong
     given-names: Thanatchon
-version: 0.1.0
+version: 0.1.1
 date-released: 2026-11-10
 doi: 10.5281/zenodo.24102338
 license: MIT

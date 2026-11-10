@@ -198,10 +198,10 @@ NUM["dryrun"] = {"reduction": round(t["reduction"], 3), "ci_lo": round(t["reduct
                  "balance": design.balance_table(sched).to_dict()}
 
 # ---------------------------------------------------------------- Work plan: effort and timeline
-chapters = [("Ch. 1  Introduction", 5, 0), ("Ch. 2  Literature and framework", 10, 0),
-            ("Ch. 3  Design, data and governance", 7, 3), ("Ch. 4  Study 1: indicator construction", 12, 13),
-            ("Ch. 5  Study 2: validation and nowcasting", 8, 7), ("Ch. 6  Study 3: AI assistant", 6, 14),
-            ("Ch. 7  Study 4: time experiment", 7, 3), ("Ch. 8  Discussion and conclusion", 5, 0)]
+chapters = [("Introduction", 5, 0), ("Literature and framework", 10, 0),
+            ("Design, data and governance", 7, 3), ("Study 1: indicator construction", 12, 13),
+            ("Study 2: validation and nowcasting", 8, 7), ("Study 3: AI assistant", 6, 14),
+            ("Study 4: time experiment", 7, 3), ("Discussion and conclusion", 5, 0)]
 fig, ax = plt.subplots(figsize=(6.5, 2.85), layout="constrained")
 for i, (name, acad, code) in enumerate(chapters):
     ax.barh(i, acad, color=LIGHT, height=0.62)
@@ -213,7 +213,7 @@ for i, (name, acad, code) in enumerate(chapters):
 ax.set_yticks(range(len(chapters)), [c[0] for c in chapters])
 ax.invert_yaxis()
 ax.set_xlim(0, 28.5)
-ax.set_xlabel("Share of total thesis effort (%)")
+ax.set_xlabel("Share of total effort (%)")
 ax.tick_params(axis="y", length=0)
 ax.spines["left"].set_visible(False)
 ax.legend([Patch(color=LIGHT), Patch(color=BLUE)], ["Academic design (60%)", "Code (40%)"],
@@ -224,7 +224,7 @@ rows = [("Literature review and proposal", 0, 6, "x"), ("Data access, ethics and
         ("Gold-standard annotation", 6, 12, "a"), ("Study 1: indicator construction", 9, 18, "a"),
         ("Study 2: nowcasting evaluation", 15, 24, "a"), ("Study 3: assistant, three DSR cycles", 18, 30, "b"),
         ("Study 4: crossover experiment", 30, 36, "b"), ("Field pilot, two report cycles", 36, 42, "b"),
-        ("Thesis writing and papers", 33, 46, "x")]
+        ("Final report and papers", 33, 46, "x")]
 milestones = [("M1", 6), ("M2", 9), ("M3", 30), ("M4", 47)]
 colors = {"x": LIGHT, "a": BLUE_L, "b": BLUE}
 fig, ax = plt.subplots(figsize=(6.5, 3.05), layout="constrained")
