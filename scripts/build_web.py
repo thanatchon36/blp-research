@@ -24,6 +24,7 @@ OUT = ROOT / "docs" / "paper"
 REPO_URL = "https://github.com/thanatchon36/blp-research"
 PAPER_URL = "https://thanatchon36.github.io/blp-research/paper/"
 DATA_URL = "https://huggingface.co/datasets/thanatchon36/blp-research"
+CONCEPT_DOI = "10.5281/zenodo.24102338"
 
 # (label, style, finding, detail); {key.path} is looked up in paper/numbers.json.
 # style: "ref" = result on the synthetic data, "null" = pending.
@@ -227,6 +228,7 @@ def build() -> Path:
         f"  title  = {{{title}: {subtitle}}},\n"
         "  year   = {2026},\n"
         "  note   = {Preprint},\n"
+        f"  doi    = {{{CONCEPT_DOI}}},\n"
         f"  url    = {{{PAPER_URL}}}\n"
         "}"
     )
@@ -234,7 +236,8 @@ def build() -> Path:
         ("<!--ABSTRACT-->", abstract),
         ("<!--ACTIONS-->", '<li><a href="paper.pdf">Download PDF</a></li>'
                            f'<li><a href="{REPO_URL}">Code and replication</a></li>'
-                           f'<li><a href="{DATA_URL}">Data (Hugging Face)</a></li>'),
+                           f'<li><a href="{DATA_URL}">Data (Hugging Face)</a></li>'
+                           f'<li><a href="https://doi.org/{CONCEPT_DOI}">Zenodo archive</a></li>'),
         ("<!--RESULTS-NOTE-->", "Headline numbers from paper/numbers.json. All of them come from the synthetic data "
                                 "generator and validate the software, not the research hypotheses. Amber: results "
                                 "on synthetic data; grey: pending."),
