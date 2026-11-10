@@ -6,7 +6,7 @@ the simulated coders and experiment, and the pipeline's results on them. Notes a
 masking (text_anon): the generator draws random 08x-xxx-xxxx mobile numbers that could belong to real people,
 so the raw text stays out of the dataset; synthetic.generate(seed=42) reproduces it exactly.
 
-Usage: make dataset   (writes dataset/; needs the Zenodo DOI in CITATION.cff)
+Usage: make dataset   (writes dataset/; adds the Zenodo DOI once CITATION.cff has one)
        hf upload thanatchon36/blp-research dataset . --repo-type dataset
 """
 from __future__ import annotations
@@ -69,9 +69,14 @@ def main() -> None:
             raise SystemExit(f"{p.name} contains a phone number; nothing exported")
 
     doi = re.search(r"^doi: (\S+)$", (ROOT / "CITATION.cff").read_text(encoding="utf-8"), re.M)
-    if doi is None:
-        raise SystemExit("CITATION.cff has no doi: release on GitHub first so Zenodo mints one")
-    card = (ROOT / "dataset_card" / "README.md").read_text(encoding="utf-8").replace("{DOI}", doi.group(1))
+    card = (ROOT / "dataset_card" / "README.md").read_text(encoding="utf-8")
+    if doi:
+        card = card.replace("{DOI}", doi.group(1))
+    else:  # no release archived on Zenodo yet: leave the DOI out
+        card = re.sub(r";\narchived on Zenodo: \[\{DOI\}\]\(https://doi.org/\{DOI\}\)\.", ".", card)
+        card = re.sub(r"\n  doi    = \{\{DOI\}\},", "", card)
+    if "{DOI}" in card:
+        raise SystemExit("dataset card still has a {DOI} placeholder")
     (OUT / "README.md").write_text(card, encoding="utf-8")
     shutil.copyfile(ROOT / "dataset_card" / "LICENSE", OUT / "LICENSE")
     files = sorted(p for p in OUT.rglob("*") if p.is_file() and p.name not in {"README.md", "SHA256SUMS"})
