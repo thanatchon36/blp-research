@@ -1,0 +1,723 @@
+\documentclass[11pt]{article}
+% ---------------------------------------------------------------- layout (arXiv preprint style)
+\usepackage[letterpaper,textwidth=6.5in,textheight=9in,top=1in,headheight=14pt,headsep=20pt,footskip=30pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\IfFileExists{newtxtext.sty}{\usepackage{newtxtext}\usepackage{newtxmath}}{\usepackage{mathptmx}}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage[authoryear,round]{natbib}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf,skip=6pt]{caption}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+\IfFileExists{placeins.sty}{\usepackage[section]{placeins}}{}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.72}\setcounter{topnumber}{3}\setcounter{bottomnumber}{2}\setcounter{totalnumber}{5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt}
+\setlist{itemsep=1.5pt,topsep=2pt,parsep=0pt}
+\renewcommand{\arraystretch}{1.18}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\scshape Liaison-based regional indicators and AI-assisted report drafting}
+\fancyhead[R]{\small\scshape A Preprint}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{firstpage}{\fancyhf{}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\hypersetup{pdftitle={From Liaison Notes to Regional Indicators},pdfauthor={Thanatchon Chongmankhong}}
+
+% TikZ styles shared by the diagrams
+\tikzset{
+  arr/.style={-{Stealth[length=2.1mm,width=1.6mm]}, semithick, draw=black!70},
+  lbl/.style={font=\scriptsize, text=black!75},
+  tag/.style={font=\scriptsize\bfseries\scshape, text=black!70, inner sep=1pt},
+  every node/.append style={execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
+}
+
+\begin{document}
+\thispagestyle{firstpage}
+
+\begin{center}
+\rule{\linewidth}{2.5pt}\par\vspace{0.7em}
+{\LARGE\bfseries From Liaison Notes to Regional Indicators\par}
+\vspace{0.45em}
+{\large\bfseries Text-Based Measurement of Regional Economic Activity from Business Liaison\\[0.15em]
+Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant\par}
+\vspace{0.6em}\rule{\linewidth}{0.8pt}\par\vspace{1.3em}
+{\large\bfseries Thanatchon Chongmankhong}\par\vspace{0.35em}
+{\small November 2026}
+\end{center}
+
+\vspace{0.6em}
+\begin{center}{\large\bfseries Abstract}\end{center}
+\vspace{-0.6em}
+\begin{quote}
+\small
+Regional output statistics in Thailand are compiled annually and released with a substantial lag, whereas the Business Liaison Program (BLP) of the Bank of Thailand collects timely but qualitative information from firms. This proposal sets out a four-study research program that converts Thai-language BLP interview notes into quantitative regional indicators and builds and evaluates a retrieval-augmented generative-AI assistant that drafts regional economic reports. Study~1 develops a six-topic codebook, compares lexicon, fine-tuned encoder and large-language-model (LLM) coding against an expert gold standard, and constructs diffusion indices weighted by sectoral output shares and adjusted for changes in panel composition through weighted two-way fixed effects. Study~2 tests predictive validity in a pseudo-real-time nowcasting exercise with Clark--West and Diebold--Mariano tests. Study~3 follows design science research to build an assistant that cites a source for every sentence and blocks any number it cannot trace to a data table. Study~4 is a pre-registered randomized crossover experiment testing whether the assistant reduces report-preparation time by more than 20\% without degrading blinded quality ratings. An open-source implementation is validated end to end on synthetic data: composition adjustment raises the correlation between the index and latent activity from 0.89 to 0.92 on average, the verifier blocks every injected error, and a power analysis shows that 30 participants completing four tasks each provide power of 0.92 if the true time reduction is 35\%. Results on the confidential BLP data are the object of the doctoral research and are not reported here.
+\end{quote}
+
+\textbf{Keywords}\quad business liaison $\cdot$ text as data $\cdot$ nowcasting $\cdot$ regional economics $\cdot$ large language models $\cdot$ retrieval-augmented generation $\cdot$ randomized crossover experiment $\cdot$ central banking
+
+\textbf{JEL classification}\quad C53 $\cdot$ C55 $\cdot$ C93 $\cdot$ E32 $\cdot$ E58 $\cdot$ R11
+
+\newpage
+\setcounter{tocdepth}{2}
+{\small\setlength{\parskip}{0pt}\tableofcontents}
+\newpage
+
+% =====================================================================================
+\section{Introduction}\label{sec:intro}
+
+Monetary policy and regional development policy depend on timely information about economic conditions outside the capital. In Thailand, the official measure of regional output---the gross regional and provincial product compiled by the Office of the National Economic and Social Development Council (NESDC)---is annual and released with a substantial lag, so it cannot reveal turning points within the year. Higher-frequency regional indicators cover selected activities such as consumption, investment, manufacturing, tourism and farm income, and are themselves published weeks after the reference period.
+
+Central banks complement official statistics with systematic conversations with firms. Prominent examples are the Federal Reserve's Beige Book, the Bank of England's Agents, the Reserve Bank of Australia's business liaison program and the Bank of Canada's Business Outlook Survey. The Bank of Thailand (BOT) runs a Business Liaison Program (BLP) through its regional offices. Liaison information is timely, captures forward-looking intentions and explains \emph{why} conditions change. Its weakness is its form: it arrives as free text written by many interviewers, the set of firms changes from one round to the next, and turning it into a report requires economists to read, summarize and cross-check a large volume of notes by hand.
+
+Two developments make it possible to address both weaknesses. Text-as-data methods, and more recently large language models (LLMs), can score narrative text at scale \citep{gentzkow2019text,hansen2023fedspeak}. Generative AI can draft text, and randomized studies report substantial time savings in writing and other knowledge work \citep{noy2023experimental,dellacqua2023jagged,brynjolfsson2025genai}. Central bank reports, however, impose requirements that generic tools do not meet: every statement must be traceable to evidence, every number must be correct, and confidential information about individual firms must never appear in a draft.
+
+The research program is organized around four gaps.
+\begin{description}[leftmargin=0pt,labelsep=0.5em]
+\item[G1. Measurement in a low-resource language.] Quantitative work on liaison text has concentrated on English-language programs; Thai lacks validated economic lexicons and coding benchmarks.
+\item[G2. Panel composition.] Liaison samples are purposive and rotate. A change in the mix of firms can move a raw diffusion index even when no individual firm's conditions change.
+\item[G3. Causal evidence in central banking.] Experimental evidence on generative AI comes from consulting, customer support, software development and generic writing tasks. We are not aware of randomized evidence for analytical report production inside a central bank.
+\item[G4. Auditable generation.] Designs that guarantee sentence-level provenance and numerically correct output for official reports are rarely specified and evaluated.
+\end{description}
+
+The program answers four research questions.
+\begin{enumerate}[label=\textbf{RQ\arabic*.},leftmargin=3.2em]
+\item Can BLP interview notes be converted into regional indicators that are \emph{reliable}, in the sense of agreeing with expert coders, and \emph{valid}, in the sense of tracking official measures of activity?
+\item Do BLP indicators make regional nowcasts more accurate and more timely than benchmarks that use official data only?
+\item Does a grounded generative-AI assistant reduce report-preparation time by more than 20\% without lowering report quality or increasing errors?
+\item Which safeguards are needed for the responsible use of generative AI in central bank reporting?
+\end{enumerate}
+
+The program makes four contributions. First, it provides a measurement framework for Thai liaison text: a codebook, a head-to-head comparison of lexicon, fine-tuned encoder and LLM coding, and an index that removes the effect of changing panel composition. Second, it supplies evidence on the information content of liaison data for regional nowcasting in an emerging economy where official regional data are sparse. Third, it contributes a design artifact---a drafting assistant whose output is traceable sentence by sentence and is blocked when a number cannot be verified---together with its evaluation. Fourth, it delivers pre-registered randomized evidence on the time and quality effects of generative AI in central bank analytical work. An open-source implementation accompanies the proposal.
+
+\Cref{tab:hypotheses} states the hypotheses with their quantitative targets. \Cref{sec:literature} reviews the literature, \cref{sec:design} sets out the design and data, and \cref{sec:study1,sec:study2,sec:study3,sec:study4} describe the four studies. \Cref{sec:poc} validates the software on synthetic data, \cref{sec:discussion} discusses implications and limitations, and \cref{sec:plan} presents the work plan.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Hypotheses and pre-specified targets.}\label{tab:hypotheses}
+\begin{tabularx}{\textwidth}{@{}L{0.75cm}YL{4.2cm}L{4.1cm}@{}}
+\toprule
+ & Hypothesis & Measure & Target \\
+\midrule
+H1 & LLM coding agrees with expert coders & Cohen's $\kappa$ and macro-F1 against the adjudicated gold standard & $\kappa \geq 0.70$ and F1 $\geq 0.80$ \\
+H2 & The BLP index co-moves with activity & Correlation with an official activity composite & $r \geq 0.60$ \\
+H3 & BLP indicators improve nowcasts & Out-of-sample RMSE relative to an AR benchmark & Ratio $\leq 0.90$; Clark--West $p < 0.05$ \\
+H4 & BLP indicators are timelier & Days available before the official release & $\geq 30$ days \\
+H5 & The assistant saves time & $\tau = 1 - e^{\beta}$ from a log-time mixed model & $\tau > 20\%$, one-sided test \\
+H6 & Report quality is not worse & Blinded 10-point quality rubric & Non-inferiority margin 0.5 points \\
+H7 & Errors do not increase & Factual and numeric errors per 1{,}000 words & Rate ratio $\leq 1$; no numeric error after verification \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Related literature}\label{sec:literature}
+
+\subsection{Central bank liaison and soft information}
+A long literature asks whether the narrative information that central banks collect from firms contains signal beyond official data. For the Federal Reserve's Beige Book, \citet{balke2002beige} show that quantified district descriptions track current activity, \citet{armesto2009beige} use mixed-frequency regressions to measure its information content, and \citet{sadique2013soft} relate Beige Book sentiment to economic activity. For the Bank of Canada's Business Outlook Survey, \citet{pichette2011bos} summarize responses with principal components. Two features of this literature matter here: quantification has relied on human or dictionary scoring of English text, and the composition of the liaison panel has received limited attention. To our knowledge, BLP information in Thailand has been used qualitatively in regional and monetary policy communication but has not been systematically quantified and validated in published work.
+
+\subsection{Text as data and LLM-based measurement}
+Economists build indicators from text with dictionaries \citep{loughran2011liability}, keyword counts \citep{baker2016epu}, sentiment models \citep{shapiro2022news} and topic models \citep{thorsrud2020words}, and use text in machine-learning forecasts \citep{kalamara2022text}; \citet{gentzkow2019text} survey the field. LLMs extend these tools to classification without task-specific training \citep{hansen2023fedspeak}. For Thai, the building blocks are word segmentation \citep{phatthiyaphaibun2023pythainlp}, pretrained encoders \citep{lowphansirikul2021wangchanberta} and Thai-capable LLMs \citep{pipatanakul2023typhoon}. Measurement quality is judged with agreement statistics \citep{cohen1960coefficient,landis1977measurement,krippendorff2018content}.
+
+\subsection{Nowcasting with soft data}
+Nowcasting combines data released at different frequencies and dates \citep{giannone2008nowcasting,banbura2013nowcasting}, using bridge equations, mixed-data sampling \citep{ghysels2007midas} and factor models \citep{stock2002diffusion}. Forecast comparisons rely on the \citet{diebold1995comparing} test with the small-sample correction of \citet{harvey1997testing}, the \citet{clark2007approximately} test for nested models and the model confidence set \citep{hansen2011mcs}. Low-frequency regional output can be distributed to a higher frequency with related series \citep{chow1971best}, and satellite data offer an independent proxy for activity \citep{henderson2012lights}.
+
+\subsection{Generative AI and the productivity of knowledge work}
+Randomized evidence points to large but uneven effects. In professional writing tasks, \citet{noy2023experimental} report that access to a chatbot cut completion time by about 40\% and raised quality. In customer support, \citet{brynjolfsson2025genai} find an increase of about 14\% in issues resolved per hour, concentrated among less experienced workers. Consultants studied by \citet{dellacqua2023jagged} worked about 25\% faster on tasks inside the ``jagged frontier'' of model capability but made more errors on a task outside it, and developers using a coding assistant completed a programming task about 56\% faster \citep{peng2023copilot}. Against these estimates a 20\% threshold is conservative, but central bank reporting contains verification work that generative AI may not shorten, and errors are costly. The experiment in \cref{sec:study4} therefore measures time, quality and errors jointly.
+
+\subsection{Retrieval augmentation, hallucination and governance}
+Retrieval-augmented generation conditions a language model on retrieved documents \citep{lewis2020rag}; classical BM25 ranking \citep{robertson2009bm25} and reciprocal rank fusion \citep{cormack2009rrf} remain strong components. Retrieval reduces but does not eliminate unsupported statements \citep{ji2023hallucination}, which motivates automated faithfulness evaluation \citep{es2024ragas} and the explicit verification layer proposed here. Governance frameworks emphasize risk mapping, measurement and human oversight \citep{nist2023airmf}, and the BIS discusses the opportunities and risks of AI for central banks \citep{bis2024aer}.
+
+\subsection{Theoretical lenses}
+Four lenses organize the program. \emph{Soft versus hard information} \citep{stein2002information,petersen2004information}: liaison information is soft---contextual, hard to verify and costly to transmit---and quantification hardens it at the cost of nuance; Study~1 measures what survives hardening, and the assistant keeps a link to the original text. \emph{The task-based framework} \citep{acemoglu2011skills}: report production is a bundle of tasks (reading, summarizing, retrieving data, drafting, checking and revising), and generative AI substitutes for some and complements others, which predicts heterogeneous gains across tasks and workers. \emph{Design science research} \citep{hevner2004design,peffers2007dsrm} frames the assistant as an artifact that must be built and rigorously evaluated. \emph{Technology acceptance} \citep{davis1989tam} links perceived usefulness and ease of use to adoption, measured in Study~4.
+
+% =====================================================================================
+\section{Research design and data}\label{sec:design}
+
+\subsection{Overall design}
+The program follows a pragmatist mixed-methods design with two tracks (\cref{fig:framework}). The measurement track turns notes into indicators (Study~1) and tests their predictive validity (Study~2). The report-production track builds an assistant that drafts from the notes and the new indicators (Study~3) and estimates its causal effect on preparation time (Study~4). Safeguards for data governance cut across both tracks.
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  box/.style={draw=black!55, rounded corners=2pt, align=center, text width=3.25cm, minimum height=2.0cm, inner sep=3pt, fill=white},
+  study/.style={box, draw=blue!55!black, fill=blue!6},
+  outbox/.style={box, fill=black!4},
+]
+\node[box] (a1) at (0,0) {\textbf{BLP interview notes}\\Thai free text, firm level, quarterly};
+\node[study, right=0.6cm of a1] (a2) {\textbf{Study 1: Measurement}\\codebook; lexicon, fine-tuned and LLM coding; composition-adjusted indices};
+\node[study, right=0.6cm of a2] (a3) {\textbf{Study 2: Validation}\\pseudo-real-time nowcasts; Clark--West and Diebold--Mariano tests};
+\node[outbox, right=0.6cm of a3] (a4) {\textbf{Answers RQ1--RQ2}\\reliable, valid and timely regional indicators};
+\node[box, below=1.35cm of a1] (b1) {\textbf{Drafting inputs}\\anonymized notes, BLP indicators and past reports};
+\node[study, right=0.6cm of b1] (b2) {\textbf{Study 3: Assistant}\\retrieval-augmented drafting with citations and numeric verification};
+\node[study, right=0.6cm of b2] (b3) {\textbf{Study 4: Experiment}\\randomized crossover trial on report-preparation time};
+\node[outbox, right=0.6cm of b3] (b4) {\textbf{Answers RQ3--RQ4}\\time saving above 20\%, non-inferior quality, governance guideline};
+\draw[arr] (a1) -- (a2); \draw[arr] (a2) -- (a3); \draw[arr] (a3) -- (a4);
+\draw[arr] (b1) -- (b2); \draw[arr] (b2) -- (b3); \draw[arr] (b3) -- (b4);
+\draw[arr] (a2.south) -- node[lbl, right, pos=0.5] {indicators} (b2.north);
+\node[tag, anchor=south west] at ($(a1.north west)+(0,0.08)$) {Track A: measurement};
+\node[tag, anchor=south west] at ($(b1.north west)+(0,0.08)$) {Track B: report production};
+\coordinate (g1) at ($(b1.south west)+(0,-0.45)$);
+\coordinate (g2) at ($(b4.south east)+(0,-1.45)$);
+\node[draw=black!45, fill=black!3, rounded corners=2pt, fit=(g1)(g2), inner sep=0pt] (gov) {};
+\node[align=center, text width=15.0cm] at (gov.center) {\textbf{Cross-cutting safeguards:} secure data enclave $\cdot$ anonymization of firms and contacts $\cdot$ on-premise LLM by default $\cdot$ compliance with Thailand's Personal Data Protection Act $\cdot$ ethics approval $\cdot$ pre-registered analysis plan};
+\end{tikzpicture}
+\caption{Research framework. Track A converts liaison notes into indicators and tests them; Track B uses the notes and indicators to draft reports and tests the effect on preparation time. Shaded boxes are the four studies.}
+\label{fig:framework}
+\end{figure}
+
+\subsection{Data}
+\Cref{tab:data} lists the data sources. The BLP notes are the core input and are confidential; all processing of firm-level text takes place inside the BOT's secure environment.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Data sources.}\label{tab:data}
+\begin{tabularx}{\textwidth}{@{}L{4.2cm}L{2.0cm}L{1.9cm}Y@{}}
+\toprule
+Source & Frequency & Used in & Role and caveats \\
+\midrule
+BLP interview notes (Thai text) & Each round & Studies 1, 3 & Core input; confidential, processed in the data enclave only \\
+Structured BLP ratings, if recorded & Each round & Study 1 & Benchmark for text-based scores \\
+BOT regional economic indicators & Monthly & Study 2 & Nowcasting targets and benchmarks \\
+NESDC gross regional product & Annual & Study 2 & Long-run target; few observations, pooled across regions \\
+NSO Labour Force Survey & Quarterly & Study 2 & Validity check for the employment index \\
+VIIRS night-time lights & Monthly & Study 2 & Independent alternative measure of activity \\
+Past regional economic reports & Monthly, quarterly & Study 3 & Style reference and key points for evaluation \\
+Time and edit logs & Per session & Study 4 & Primary and secondary outcomes \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Gold-standard annotation}
+A stratified sample of at least 1{,}200 note segments, drawn by region, sector and year, is coded independently by two economists using the codebook in \cref{tab:codebook}; a third economist adjudicates disagreements. The codebook is revised until human--human agreement reaches $\kappa \geq 0.75$. The adjudicated sample is split 60/20/20 into training, development and test sets for the supervised model; all reported comparisons use the test set.
+
+\subsection{Data governance and ethics}
+Firm names, contact names, telephone numbers and e-mail addresses are masked before any modeling, first by exact matching against the BLP contact database and then by pattern rules and named-entity recognition; masking recall is audited on a human-checked sample. LLMs run on premises by default. An external API may be used only with masked data, under an approved data-processing agreement. All processing complies with Thailand's Personal Data Protection Act B.E.~2562 (2019) and the BOT's confidentiality rules. Study~4 requires ethics approval and informed consent, individual results are never used for performance assessment, and the hypotheses and analysis code are pre-registered before data collection \citep{nosek2018preregistration}.
+
+\subsection{Reproducibility}
+The code, configuration files and a synthetic data generator are released with the proposal; random seeds, model weights and prompt versions are fixed and logged. Results on confidential data can therefore be reproduced inside the enclave, and every software component can be inspected outside it.
+
+% =====================================================================================
+\section{Study 1: Measuring business conditions from liaison notes}\label{sec:study1}
+
+\subsection{Codebook}
+Each note is coded on the six topics in \cref{tab:codebook}. A topic receives a direction relative to the previous quarter---up ($+1$), unchanged ($0$) or down ($-1$)---or is marked as not mentioned. Statements about competitors, the government or world markets are not attributed to the interviewed firm, and a topic that contains both increases and decreases is coded as unchanged.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Codebook. Each topic is coded as up, unchanged, down or not mentioned, relative to the previous quarter.}\label{tab:codebook}
+\begin{tabularx}{\textwidth}{@{}L{3.2cm}YL{3.4cm}@{}}
+\toprule
+Topic & Definition & Index role \\
+\midrule
+Sales and demand & Sales, orders, revenue, customer and tourist numbers, occupancy & Activity (BLP-RAI) \\
+Employment & Headcount, hiring, working hours & Activity (BLP-RAI) \\
+Investment & Capital spending, machinery, capacity and branch expansion by the firm & Activity (BLP-RAI) \\
+Selling prices & Prices charged by the firm & Price pressure \\
+Costs & Input costs: raw materials, wages, energy & Cost pressure \\
+Outlook & Expected business conditions over the coming quarter & Leading indicator \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Scoring methods}
+Four scorers are compared on the gold-standard test set.
+\begin{enumerate}[label=\textbf{M\arabic*.},leftmargin=2.6em]
+\item \textbf{Lexicon.} A Thai economic lexicon assigns each clause to a topic by keyword priority and to a direction by counting increase and decrease terms, with negation handling (``not yet raised'' is unchanged). It is transparent and serves as the baseline.
+\item \textbf{Fine-tuned encoder.} A Thai pretrained encoder \citep{lowphansirikul2021wangchanberta} with one four-class head per topic, trained on the gold standard.
+\item \textbf{LLM structured extraction.} An instruction-tuned LLM returns one label per topic under a JSON schema, with the codebook and worked examples in the prompt (\cref{app:prompts}). On-premise and API models are compared.
+\item \textbf{Ensemble.} A majority vote over M1--M3.
+\end{enumerate}
+The comparison reports accuracy, macro-F1, Cohen's $\kappa$ and Krippendorff's $\alpha$ by topic, together with cost and processing time per 1{,}000 notes.
+
+\subsection{Index construction}
+Let $s_{ikt} \in \{-1,0,+1\}$ denote the score of firm $i$ on topic $k$ in quarter $t$, where firm $i$ belongs to region $r$ and sector $s(i)$. The diffusion index, or net balance, is
+\begin{equation}\label{eq:di}
+DI_{rkt} \;=\; 100\left(p^{+}_{rkt} - p^{-}_{rkt}\right) \;=\; \frac{100}{N_{rkt}} \sum_{i \in \mathcal{I}_{rkt}} s_{ikt},
+\end{equation}
+where $p^{+}$ and $p^{-}$ are the shares of firms reporting an increase and a decrease. Because the liaison sample is purposive, sectoral shares in the sample differ from the structure of the regional economy. The sector-weighted index re-weights sector-level net balances by the sector's share $w_{rs}$ in regional output, renormalized over the sectors $\mathcal{S}_{rt}$ observed in quarter $t$:
+\begin{equation}\label{eq:weighted}
+I^{w}_{rkt} \;=\; \frac{\sum_{s \in \mathcal{S}_{rt}} w_{rs}\, DI_{rskt}}{\sum_{s \in \mathcal{S}_{rt}} w_{rs}}.
+\end{equation}
+
+\subsection{Composition adjustment}
+Firms differ persistently in how optimistic they sound, and the set of firms interviewed changes over time. If firms that enter the panel are systematically more optimistic, a raw index drifts upward even when no firm's conditions improve. The composition-adjusted index separates persistent firm effects from common quarterly movements with a weighted two-way fixed-effects model,
+\begin{equation}\label{eq:fe}
+s_{ikt} \;=\; \alpha_{ik} + \lambda_{rkt} + \varepsilon_{ikt}, \qquad \omega_{it} \;=\; \frac{w_{r s(i)}}{n_{r s(i) t}},
+\end{equation}
+estimated by weighted least squares with weights $\omega_{it}$, so that each sector contributes in proportion to its output share. The quarter effects $\lambda_{rkt}$ are identified from changes within firms that are interviewed more than once and are computed by alternating projections, which converge for connected panels. They are normalized to the mean of the weighted raw index,
+\begin{equation}\label{eq:norm}
+I^{\mathrm{adj}}_{rkt} \;=\; 100\left(\hat{\lambda}_{rkt} - \bar{\hat{\lambda}}_{rk}\right) + \bar{I}^{w}_{rk},
+\end{equation}
+so the adjusted index retains the net-balance scale. The composite BLP Regional Activity Index (BLP-RAI) averages the adjusted sales, employment and investment indices. The cross-sectional standard deviation of firm scores provides an uncertainty index, and the series are seasonally adjusted with X-13ARIMA-SEATS where seasonality is detected.
+
+Fixed effects remove time-invariant differences between firms but not selection on current conditions---for example, distressed firms declining an interview. Participation is therefore modeled as a function of past scores, and the indices are re-estimated with inverse-probability weights as a sensitivity check.
+
+\subsection{Validity framework}
+\Cref{tab:validity} lists the validity tests and pass criteria. Predictive validity is the subject of Study~2.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Validity framework for the BLP indices.}\label{tab:validity}
+\begin{tabularx}{\textwidth}{@{}L{3.1cm}YL{3.6cm}@{}}
+\toprule
+Property & Test & Criterion \\
+\midrule
+Reliability & $\kappa$ and $\alpha$ between each scorer and the adjudicated gold standard & $\kappa \geq 0.70$ (H1) \\
+Content validity & Expert review of the codebook against report sections & All report topics covered \\
+Convergent validity & Correlation with official activity composites & $r \geq 0.60$ (H2) \\
+Discriminant validity & Sector indices correlate more with their own sector data (for example tourism) than with unrelated series & Expected ordering holds \\
+Predictive validity & Pseudo-real-time nowcasting (Study 2) & RMSE ratio $\leq 0.90$ (H3) \\
+Robustness & Leave-one-sector-out, alternative weights, alternative scorers & Conclusions unchanged \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Study 2: Predictive validity and nowcasting}\label{sec:study2}
+
+\subsection{Targets}
+Three targets are used: (i) quarterly composites of the BOT's monthly regional indicators; (ii) annual gross regional product, pooled across regions to increase the number of observations; and (iii) quarterly regional product distributed from annual totals with the \citet{chow1971best} method. When the BLP index itself serves as a related series in (iii), evaluation uses only targets that do not depend on it, to avoid circularity.
+
+\subsection{Pseudo-real-time design}
+At the end of quarter $t$ the information set contains the BLP indices for quarter $t$ and official data released by that date, following each series' publication calendar. Models are re-estimated on an expanding window, and out-of-sample evaluation starts in 2018 so that it includes the COVID-19 shock. First-release vintages are used where they are available.
+
+\subsection{Models}
+\Cref{tab:models} lists the competing models. The core specification adds the BLP index to an autoregressive benchmark with region fixed effects,
+\begin{equation}\label{eq:nowcast}
+y_{rt} \;=\; c + \rho\, y_{r,t-1} + \beta\, \mathrm{RAI}_{rt} + \gamma\, \mathrm{OUT}_{r,t-1} + \mu_r + u_{rt},
+\end{equation}
+where $\mathrm{OUT}$ is the outlook index; M1 sets $\gamma = 0$ and M0 sets $\beta = \gamma = 0$.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Nowcasting models.}\label{tab:models}
+\begin{tabularx}{\textwidth}{@{}L{1.0cm}L{6.4cm}Y@{}}
+\toprule
+Code & Specification & Purpose \\
+\midrule
+M0 & AR(1) with region fixed effects & Benchmark \\
+M1 & M0 + BLP-RAI & Main test of H3 \\
+M2 & M1 + lagged outlook index & Value of forward-looking statements \\
+M3 & Bridge equation or U-MIDAS with monthly indicators + BLP & Comparison with current practice \\
+M4 & Dynamic factor model & Advanced benchmark \\
+M5 & Panel pooled across regions & Statistical power with short histories \\
+M6 & Elastic net and gradient boosting & Robustness to functional form \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Evaluation}
+Accuracy is measured by the RMSE relative to M0, the mean absolute error and directional accuracy. Nested comparisons use the \citet{clark2007approximately} statistic, which adjusts the loss differential for the noise introduced by estimating additional parameters,
+\begin{equation}\label{eq:cw}
+f_{t} \;=\; \left(y_{t} - \hat{y}^{0}_{t}\right)^{2} - \left[\left(y_{t} - \hat{y}^{1}_{t}\right)^{2} - \left(\hat{y}^{0}_{t} - \hat{y}^{1}_{t}\right)^{2}\right],
+\end{equation}
+tested one-sided with heteroskedasticity- and autocorrelation-consistent standard errors. Non-nested comparisons use the Diebold--Mariano test with the small-sample correction of \citet{harvey1997testing}, and the model confidence set summarizes all models \citep{hansen2011mcs}. Event windows around the 2020 pandemic shock and the 2024 floods in northern Thailand show how quickly each model detects turning points.
+
+\subsection{Timeliness}
+Timeliness is the number of days between the date the BLP index can be computed and the release of the corresponding official figure, reported as a distribution across quarters; H4 requires a median gain of at least 30 days.
+
+% =====================================================================================
+\section{Study 3: Design of a grounded report-drafting assistant}\label{sec:study3}
+
+\subsection{Requirements and baseline}
+Semi-structured interviews and a focus group with 8--12 report writers establish requirements. A time-and-motion study over two report cycles measures the time spent reading notes, summarizing, retrieving data, drafting, checking numbers and revising. The baseline locates where the assistant can save time and defines the tasks used in Study~4.
+
+\subsection{Architecture}
+\Cref{fig:architecture} shows the architecture. An offline layer masks identifiers, indexes the notes for hybrid retrieval and stores the indicator tables from Study~1. For each report, a planner splits the report into six sections; for each section, the retriever returns evidence filtered by region and quarter, the drafter writes cited sentences, and the verifier decides whether the draft may reach the economist.
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  box/.style={draw=black!55, rounded corners=2pt, align=center, text width=2.45cm, minimum height=1.75cm, inner sep=3pt, fill=white},
+  key/.style={box, draw=blue!55!black, fill=blue!6},
+  gate/.style={box, draw=orange!75!black, fill=orange!7},
+]
+\node[box] (p1) at (0,0) {\textbf{Anonymize notes}\\contact dictionary, regex, NER};
+\node[box, right=0.6cm of p1] (p2) {\textbf{Hybrid index}\\BM25 (PyThaiNLP) + dense embeddings};
+\node[box, right=0.6cm of p2] (p3) {\textbf{Indicator tables}\\BLP-RAI and sub-indices from Study 1};
+\node[box, right=0.6cm of p3] (p4) {\textbf{Entity list}\\firm and contact names};
+\node[box, right=0.6cm of p4] (p5) {\textbf{Audit trail}\\prompts, sources, model versions};
+\node[box, below=1.3cm of p1] (q1) {\textbf{Section planner}\\six sections for one region-quarter};
+\node[box, below=1.3cm of p2] (q2) {\textbf{Retrieval}\\filters by region and quarter; RRF fusion};
+\node[key, below=1.3cm of p3] (q3) {\textbf{LLM drafter}\\one sentence per line, each cited [N:id] or [D:key]};
+\node[gate, below=1.3cm of p4] (q4) {\textbf{Verifier}\\numbers, citations, coverage, identifiers};
+\node[box, below=1.3cm of p5] (q5) {\textbf{Economist review}\\edit and approve; time and edit logs};
+\draw[arr] (p1) -- (p2);
+\draw[arr] (q1) -- (q2); \draw[arr] (q2) -- (q3); \draw[arr] (q3) -- (q4); \draw[arr] (q4) -- (q5);
+\draw[arr] (p2) -- node[lbl, right] {evidence} (q2);
+\draw[arr] (p3) -- node[lbl, right] {data table} (q3);
+\draw[arr] (p4) -- node[lbl, right] {identifiers} (q4);
+\draw[arr] (q5) -- node[lbl, right] {logs} (p5);
+\coordinate (loop) at ($(q3.south)+(0,-0.62)$);
+\draw[arr] (q4.south) -- ++(0,-0.62) -| node[lbl, below, pos=0.25] {fail: regenerate or flag} (q3.south);
+\begin{scope}[on background layer]
+\node[draw=black!30, dashed, rounded corners=3pt, fit=(p1)(p5), inner sep=5pt] (f1) {};
+\coordinate (lb) at ($(loop)+(0,-0.42)$);
+\node[draw=black!30, dashed, rounded corners=3pt, fit=(q1)(q5)(lb), inner sep=5pt] (f2) {};
+\end{scope}
+\node[tag, anchor=south west] at ($(f1.north west)+(0,0.05)$) {Offline preparation};
+\node[tag, anchor=south west] at ($(f2.north west)+(0,0.05)$) {Per-report drafting};
+\end{tikzpicture}
+\caption{Architecture of the drafting assistant. Only drafts that pass verification reach the economist; failing drafts are regenerated or flagged. Every prompt, retrieved source and model version is written to the audit trail.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Grounding constraints and the verifier}
+The drafter must satisfy four constraints, and the verifier enforces the first three mechanically.
+\begin{enumerate}[label=\textbf{C\arabic*.},leftmargin=2.6em]
+\item \textbf{Provenance.} Each sentence is written on its own line and ends with at least one citation, either to a note (\texttt{[N:id]}) or to a row of the data table (\texttt{[D:key]}). Citations must point to evidence actually supplied for that section.
+\item \textbf{Numeric grounding.} A number is accepted only if it matches a value in the data table (level, previous value, change or absolute change), a number in the cited evidence, a contextual number (quarter, year in the Gregorian or Buddhist calendar), or the count of notes cited in the same sentence.
+\item \textbf{Confidentiality.} The draft may not contain any name from the entity list or any pattern that resembles a firm name, contact name, telephone number or e-mail address.
+\item \textbf{Abstention.} When evidence is insufficient, the drafter must say so rather than generalize.
+\end{enumerate}
+A draft that violates C1--C3 is blocked rather than passed with a warning; its sentence-level citation coverage must reach at least 95\%.
+
+\subsection{Model selection and retrieval}
+On-premise open-weight models with Thai capability \citep{pipatanakul2023typhoon} are the default because notes never leave the organization, model versions can be frozen and costs are fixed. API models are evaluated on masked data as a benchmark. Retrieval combines BM25 over PyThaiNLP tokens with dense multilingual embeddings and fuses the two rankings by reciprocal rank fusion \citep{robertson2009bm25,cormack2009rrf}.
+
+\subsection{Design cycles}
+The assistant is developed in three design-science cycles \citep{peffers2007dsrm}: a retrieval-and-citation prototype evaluated offline; the addition of the verifier and an editing interface, tested in think-aloud sessions with three to five users; and a final revision after which the system, prompts and model weights are frozen for Study~4.
+
+\subsection{Offline evaluation}
+\Cref{tab:offline} lists the offline metrics. Three variants are compared to isolate the contribution of each component: an extractive template without an LLM, an LLM without retrieval and the full retrieval-augmented system.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Offline evaluation of the assistant.}\label{tab:offline}
+\begin{tabularx}{\textwidth}{@{}L{3.4cm}YL{3.4cm}@{}}
+\toprule
+Metric & Definition & Target \\
+\midrule
+Faithfulness & Share of statements supported by the cited source, judged by experts & $\geq 95\%$ \\
+Numeric accuracy & Share of numbers that match the data table & 100\% (otherwise blocked) \\
+Citation precision & Share of citations that support their sentence & $\geq 90\%$ \\
+Key-point coverage & Share of key points in the published report that the draft covers & $\geq 80\%$ \\
+Confidentiality leakage & Identifiers appearing in a draft & Zero \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Study 4: Randomized crossover experiment on preparation time}\label{sec:study4}
+
+\subsection{Design}
+Each participant drafts four reports, two with the assistant and two without, in a randomized crossover design \citep{jones2014crossover} shown in \cref{fig:crossover}. Participants are stratified by experience and randomized to the sequence ABAB or BABA, where A denotes AI-assisted drafting. The order of the four tasks follows a Williams Latin square \citep{williams1949experimental}, which balances first-order carryover and ensures that every task appears equally often under both conditions.
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  cell/.style={draw=black!55, minimum width=2.0cm, minimum height=0.8cm, align=center, inner sep=2pt},
+  aic/.style={cell, fill=blue!12, draw=blue!55!black},
+  ctl/.style={cell, fill=white},
+  box/.style={draw=black!55, rounded corners=2pt, align=center, text width=2.55cm, inner sep=4pt, fill=white, minimum height=2.4cm},
+]
+\node[box] (p) at (0,0) {\textbf{30 participants}\\stratified by experience and randomized to a sequence};
+\node[font=\footnotesize\bfseries] at (3.6,1.55) {Session 1};
+\node[font=\footnotesize\bfseries] at (5.75,1.55) {Session 2};
+\node[font=\footnotesize\bfseries] at (7.9,1.55) {Session 3};
+\node[font=\footnotesize\bfseries] at (10.05,1.55) {Session 4};
+\node[aic] (a1) at (3.6,0.7) {AI-assisted};
+\node[ctl] (a2) at (5.75,0.7) {Control};
+\node[aic] (a3) at (7.9,0.7) {AI-assisted};
+\node[ctl] (a4) at (10.05,0.7) {Control};
+\node[ctl] (b1) at (3.6,-0.7) {Control};
+\node[aic] (b2) at (5.75,-0.7) {AI-assisted};
+\node[ctl] (b3) at (7.9,-0.7) {Control};
+\node[aic] (b4) at (10.05,-0.7) {AI-assisted};
+\node[box] (o) at (13.0,0) {\textbf{Outcomes per task}\\minutes to a checklist-passing draft; blinded quality score; errors per 1{,}000 words};
+\draw[arr] (p.east |- a1.west) -- node[lbl, above] {ABAB} (a1.west);
+\draw[arr] (p.east |- b1.west) -- node[lbl, below] {BABA} (b1.west);
+\draw[arr] (a4.east) -- (o.west |- a4.east);
+\draw[arr] (b4.east) -- (o.west |- b4.east);
+\node[lbl, align=center, text width=8.4cm] at (6.825,-1.72) {Task order follows a Williams Latin square, so each of the four matched tasks appears equally often under both conditions.};
+\end{tikzpicture}
+\caption{Randomized crossover design. Each participant completes four matched drafting tasks, alternating between AI-assisted and control conditions; the two sequences mirror each other.}
+\label{fig:crossover}
+\end{figure}
+
+\subsection{Participants and tasks}
+Participants are BOT economists and analysts who prepare regional reports, recruited from the regional offices and the head office with a target of 30. If fewer are available, the design moves to eight tasks per participant (two per session), and trained research analysts may join as a separate stratum analyzed in a pre-specified subgroup. Each task is to draft the six-section report for one region and quarter from a fixed packet of masked notes and data tables. Packets are matched on the number of notes and the complexity of the data and pilot-tested for difficulty. A task ends when the draft passes a standard completion checklist, which prevents speed from being bought with incompleteness.
+
+\subsection{Outcomes}
+\Cref{tab:outcomes} lists the outcomes. Quality is rated by two economists who do not know the condition under which a draft was produced.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Outcomes of the experiment.}\label{tab:outcomes}
+\begin{tabularx}{\textwidth}{@{}L{2.0cm}L{4.4cm}Y@{}}
+\toprule
+Level & Variable & Measurement \\
+\midrule
+Primary & Minutes to a checklist-passing draft & Automatic time log of active working time \\
+Secondary & Quality & 10-point rubric (accuracy, completeness, coherence, insight), two blinded raters \\
+Secondary & Errors & Numeric errors and unsupported statements per 1{,}000 words \\
+Secondary & Workload and usability & NASA-TLX \citep{hart1988nasatlx}; System Usability Scale \citep{brooke1996sus}, target $\geq 70$ \\
+Exploratory & Reliance on the assistant & Edit distance between the AI draft and the submitted draft \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Estimation and hypothesis tests}
+Preparation time is analyzed on the log scale with a linear mixed model,
+\begin{equation}\label{eq:time}
+\log T_{ijk} \;=\; \mu + \beta\, \mathrm{AI}_{ij} + \gamma_{\mathrm{session}} + \delta_{\mathrm{task}} + u_{i} + \varepsilon_{ijk},
+\end{equation}
+where $u_i$ is a participant random effect. The proportional time reduction is $\tau = 1 - e^{\beta}$, and H5 is the one-sided test
+\begin{equation}\label{eq:h5}
+H_{0}\!: \beta \geq \ln 0.8 \qquad \text{against} \qquad H_{1}\!: \beta < \ln 0.8 .
+\end{equation}
+H5 is supported when the lower one-sided 95\% confidence bound for $\tau$ exceeds 20\%. Quality is analyzed with the same model, and H6 is a non-inferiority test with margin 0.5 points, $H_0\!: \theta \leq -0.5$ against $H_1\!: \theta > -0.5$, reported following the CONSORT extension for non-inferiority trials \citep{piaggio2012noninferiority}. Error counts are modeled with a Poisson regression with an offset for document length and standard errors clustered by participant (H7). A first-order carryover term (whether the previous session used the assistant) tests for carryover; robustness checks use a Wilcoxon signed-rank test on participant-level differences and per-protocol estimates. Heterogeneity by experience is a pre-specified secondary analysis, motivated by the larger gains for less experienced workers found by \citet{brynjolfsson2025genai}.
+
+\subsection{Power analysis}
+Power is computed by simulating \cref{eq:time} under the crossover design, with standard deviations on the log scale of 0.15 for task effects, 0.30 for residuals and 0.15 for individual differences in the AI effect, and a learning effect of $-0.03$ per session; these values will be updated with pilot data. \Cref{fig:power} shows that testing against a 20\% threshold, rather than against zero, is demanding. With four tasks per participant, 30 participants provide power of 0.92 if the true reduction is 35\% but only 0.61 if it is 30\%. Eight tasks per participant raise power at a 30\% reduction to 0.81. The plan is therefore 30 participants with four tasks each, moving to eight tasks if the pilot suggests a smaller effect or more residual variation. For quality, 30 participants give power of 0.83 to establish non-inferiority when the true difference is zero and the within-person standard deviation is one point.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_power.pdf}
+\caption{Power of the one-sided test that preparation time falls by more than 20\%, by number of participants, true reduction and tasks per participant (4{,}000 simulations per point). Dotted lines mark power of 0.80 and the planned sample of 30 participants.}
+\label{fig:power}
+\end{figure}
+
+\subsection{Field pilot}
+After the experiment, the assistant is used in two regular report cycles. Time logs are compared with the baseline time-and-motion study. Because the comparison is not randomized, the pilot supports external validity and adoption analysis rather than causal claims.
+
+\subsection{Threats to validity}
+\Cref{tab:threats} lists the main threats and the corresponding safeguards.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Threats to validity in Study 4.}\label{tab:threats}
+\begin{tabularx}{\textwidth}{@{}L{4.2cm}Y@{}}
+\toprule
+Threat & Safeguard \\
+\midrule
+Learning and carryover & Crossover with mirrored sequences, Williams square, test for first-order carryover \\
+Unequal task difficulty & Matched and pilot-tested packets; task fixed effects \\
+Speed bought with quality & Completion defined by checklist; non-inferiority test on blinded quality \\
+Novelty and Hawthorne effects & Training session before the experiment; field pilot over two cycles \\
+Small sample & Mixed model; option of eight tasks per participant \\
+Limited external validity & Field pilot with real report cycles \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Proof of concept on synthetic data}\label{sec:poc}
+
+All numbers in this section come from synthetic data generated by the companion code. They show that the pipeline is implemented correctly and behaves as intended; they are not evidence about BLP data or about the hypotheses.
+
+\subsection{Synthetic data}
+The generator (\cref{app:dgp}) produces three regions over 56 quarters (2012Q1--2025Q4), with 45 interviews per region and quarter and 80\% quarterly retention of firms, giving 7{,}560 notes from 1{,}714 firms. Latent national, regional and cost factors drive firm responses, with a pandemic shock in 2020Q2 and a slower recovery in tourism. Firms that join later are more optimistic, which creates composition bias, and the sample's sector mix differs from regional output shares. Notes are written in Thai from phrase templates and include mixed statements, negations and distractor sentences about competitors, the government and world markets, together with fictitious firm names, contact names and telephone numbers.
+
+\subsection{Anonymization and coding}
+After dictionary and pattern masking, no identifier remained in any of the 7{,}560 notes. The lexicon scorer reached accuracy of 0.970, macro-F1 of 0.971 and $\kappa = 0.958$ against the generated labels; agreement was lowest for investment ($\kappa = 0.843$) because distractor sentences about competitors' expansion are misattributed to the firm. Two simulated human coders agreed with $\kappa = 0.787$ and $\alpha = 0.802$. Because synthetic notes are built from templates, these figures are an upper bound for the lexicon on real notes, which is why Study~1 compares it with fine-tuned and LLM coding.
+
+\subsection{Composition adjustment}
+\Cref{fig:composition} compares the raw and adjusted activity indices with the latent activity that generated the data. The raw index drifts upward relative to the truth as optimistic firms enter the panel; the adjusted index removes the drift. Correlation with latent activity rises from 0.862 to 0.919 in the Northeast, from 0.895 to 0.905 in the North and from 0.901 to 0.921 in the South. Sector weighting alone does not help in this data-generating process (0.858, 0.895 and 0.897), because sectors share the regional factor except during the tourism shock.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_composition.pdf}
+\caption{Raw and composition-adjusted BLP activity indices against latent regional activity in synthetic data, 2012Q1--2025Q4. All series are standardized; the shaded band marks 2020Q2.}
+\label{fig:composition}
+\end{figure}
+
+\subsection{Nowcasting}
+The pseudo-real-time exercise produces 96 nowcasts (three regions, 2018Q1--2025Q4). Adding the BLP index lowers the RMSE by 41\% relative to the autoregressive benchmark, and adding the lagged outlook index lowers it by 46\% (\cref{tab:poc_nowcast,fig:nowcast}). Both improvements are significant under the Clark--West and Diebold--Mariano tests. The outlook index correlates 0.64 with contemporaneous growth and 0.81 with growth one quarter ahead, consistent with its role as a leading indicator. These gains reflect the synthetic data-generating process and set no expectation for real data.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Out-of-sample nowcast accuracy on synthetic data, 96 nowcasts, 2018Q1--2025Q4.}\label{tab:poc_nowcast}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Model & RMSE & MAE & RMSE ratio & Clark--West $t$ ($p$) & Diebold--Mariano ($p$) \\
+\midrule
+M0: AR(1) & 1.681 & 1.165 & 1.000 & -- & -- \\
+M1: + BLP-RAI & 0.986 & 0.750 & 0.587 & 3.10 (0.001) & 2.69 (0.008) \\
+M2: + lagged outlook & 0.901 & 0.716 & 0.536 & 3.03 (0.001) & 2.80 (0.006) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_nowcast.pdf}
+\caption{Pseudo-real-time nowcasts on synthetic data. Panel (a) shows the North region; panel (b) pools all regions, and the dotted line marks the H3 target ratio of 0.90.}
+\label{fig:nowcast}
+\end{figure}
+
+\subsection{Verification of drafts}
+With the extractive baseline in place of an LLM, the assistant drafted all six sections of a report for the North region in 2025Q4: 26 sentences, every one cited, and every section passed verification. As a negative control, a sentence containing a fictitious firm name, an invented number and a citation to a non-existent data row was appended to one section. The verifier blocked the section, reporting the two unverifiable numbers, the invalid citation and the firm name.
+
+\subsection{Dry run of the pre-registered analysis}
+The analysis code was run on a simulated experiment with 30 participants and a true reduction of 30\%. The randomization balanced tasks across conditions (14 to 16 observations per task and condition). The estimated reduction was 27.8\% (95\% confidence interval 20.2--34.7\%), with a lower one-sided bound of 21.5\% and $p = 0.022$ against the 20\% threshold. The quality difference was $-0.19$ points (non-inferiority $p = 0.053$), the error rate ratio 0.92 and the carryover test $p = 0.11$. That a single draw lands this close to both thresholds illustrates why the sample-size decision in \cref{fig:power} matters.
+
+% =====================================================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Expected contributions}
+If the hypotheses hold, the program will show that liaison text in a low-resource language can be turned into indicators that are reliable, valid and timely, and that a generative-AI assistant can shorten report production without sacrificing accuracy. If they fail, the program still documents where the pipeline breaks: in coding agreement, in composition, in predictive content or in the time cost of verification. Either outcome is informative for central banks that are deciding how to use these tools.
+
+\subsection{Policy implications}
+For the BOT, the indicators can feed a regional monitoring dashboard and the material prepared for monetary policy meetings, with uncertainty indices signaling when regional conditions diverge. The assistant can shift economists' time from summarizing notes toward analysis and from routine drafting toward judgment.
+
+\subsection{A responsible-AI guideline}
+RQ4 is answered with a guideline distilled from Studies 3 and 4: keep a human author responsible for every report; require a source for every statement; verify every number mechanically; mask identifiers before modeling; freeze and log model versions, prompts and sources; evaluate before deployment; and monitor reliance on the assistant for signs of automation bias.
+
+\subsection{Limitations}
+The BLP sample is purposive, and fixed effects cannot remove selection on current conditions. Histories are short, which limits the precision of nowcasting comparisons. LLMs change between versions, so results are specific to the frozen model. Synthetic validation shows that the software works, not that the hypotheses hold. The experiment measures drafting under controlled conditions, and its external validity depends on the field pilot. Finally, results from one central bank may not transfer to programs with different interview protocols.
+
+% =====================================================================================
+\section{Work plan}\label{sec:plan}
+
+\subsection{Effort allocation}
+Effort is split 60\% academic design and 40\% code (\cref{fig:effort}). Academic design covers the research questions, measurement design, identification, experimental design, statistical analysis and writing; code covers the data pipeline, models, the assistant, logging tools and reproducibility. Code is concentrated in Study~1 and Study~3, where the artifacts are built; the theoretical chapters carry no code.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_effort.pdf}
+\caption{Planned allocation of thesis effort by chapter. Bar segments show academic design and code; labels give percentage points of total effort.}
+\label{fig:effort}
+\end{figure}
+
+\subsection{Timeline}
+\Cref{fig:timeline} shows the four-year plan. The milestones are M1, the proposal defense (month 6); M2, ethics approval and the data-access agreement (month 9); M3, pre-registration of Study~4 (month 30); and M4, the final defense (month 47).
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_timeline.pdf}
+\caption{Four-year work plan. Bars show work packages by track; diamonds mark milestones M1--M4.}
+\label{fig:timeline}
+\end{figure}
+
+\subsection{Publication plan}
+Each study is written as a self-contained paper (\cref{tab:papers}), and the thesis combines them with an introduction and a concluding chapter.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Publication plan.}\label{tab:papers}
+\begin{tabularx}{\textwidth}{@{}L{0.8cm}YL{5.6cm}L{1.2cm}@{}}
+\toprule
+Paper & Working title & Target outlets & Year \\
+\midrule
+1 & Measuring business conditions from Thai liaison notes & International Journal of Central Banking; central bank working paper series & 2 \\
+2 & Liaison data and regional nowcasting in an emerging economy & International Journal of Forecasting; Journal of Forecasting & 2--3 \\
+3 & A grounded drafting assistant for central bank reports & Decision Support Systems; Government Information Quarterly & 3 \\
+4 & Generative AI and report preparation: a randomized crossover experiment & Management Science; Journal of Economic Behavior \& Organization & 4 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Risk register}
+\Cref{tab:risks} lists the main risks with their mitigations.
+
+\begin{table}[tbp]
+\centering\small
+\caption{Risk register.}\label{tab:risks}
+\begin{tabularx}{\textwidth}{@{}L{4.3cm}L{1.6cm}L{1.3cm}Y@{}}
+\toprule
+Risk & Likelihood & Impact & Mitigation and fallback \\
+\midrule
+Firm-level notes unavailable or delayed & Medium & High & Build indices from published BLP summaries and regional report texts; run Study 4 on masked or public-text packets \\
+Short history of digitized notes & High & Medium & Pool regions; parsimonious models; shrinkage \\
+Inadequate Thai LLM quality & Medium & High & Verifier blocks failures; fine-tune on-premise; extractive fallback \\
+Too few participants & Medium & High & Eight tasks per participant; analyst stratum \\
+Confidentiality incident & Low & High & Enclave only; masking audits; no external API without approval \\
+Model drift during the experiment & Medium & Medium & Freeze weights and prompts; log versions in the audit trail \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Conclusion}\label{sec:conclusion}
+The Business Liaison Program collects some of the most timely information available about Thailand's regional economies, but its value is limited by its form and by the effort needed to turn it into reports. This proposal sets out how to measure that information rigorously, how to test whether it improves regional nowcasts, how to build an assistant whose drafts can be audited sentence by sentence, and how to test causally whether that assistant saves more than a fifth of the time needed to prepare a report. The accompanying software already runs end to end; the doctoral research will apply it to the BLP data.
+
+\section*{Code and data availability}
+The companion code (\texttt{blp-research}) implements every study, includes a synthetic data generator and regenerates all data-driven figures and numbers in this paper with \texttt{python scripts/make\_figures.py}. BLP data are confidential and remain within the Bank of Thailand's secure environment; only synthetic data are distributed.
+
+\section*{Declaration on the use of generative AI}
+A generative-AI assistant was used to draft parts of the text, code and figures under the author's direction. The author reviewed the material and takes full responsibility for the content, including the verification of all references.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+% =====================================================================================
+\appendix
+\section{Prompt templates}\label{app:prompts}
+The prompts are written in Thai in the code; English translations follow.
+
+\textbf{Coding prompt (M3).} \textit{System:} You code interview notes from a central bank business liaison program. Answer only with JSON that follows the schema. \textit{User:} Codebook, relative to the previous quarter and only for the interviewed firm: sales (sales, orders, revenue, customers, tourists, occupancy); employment (headcount, hiring, hours); investment (capital spending, machinery, capacity or branch expansion by the firm itself); price (the firm's selling prices); cost (the firm's input costs); outlook (expected business conditions). Labels: up, flat, down, not\_mentioned. Rules: a topic with both increases and decreases is flat; statements about competitors, the government or world markets do not count; ``not yet raised'' is flat. Example and note follow.
+
+\textbf{JSON schema.} An object with the six topics as required keys, each a string restricted to \{up, flat, down, not\_mentioned\}, and no additional properties.
+
+\textbf{Drafting system prompt.} You assist central bank economists in drafting a formal, concise and neutral regional economic report in Thai. Use only DATA and EVIDENCE. Write one sentence per line and end every line with at least one citation [D:key] or [N:id]. Copy every number exactly from DATA; do not compute, round or estimate. Never name firms or people or give identifying details. If evidence is insufficient, say so and cite the table checked.
+
+\section{Software architecture}\label{app:software}
+
+\begin{table}[h]
+\centering\small
+\caption{Modules of the companion code and the sections they implement.}\label{tab:modules}
+\begin{tabularx}{\textwidth}{@{}L{4.4cm}YL{1.6cm}@{}}
+\toprule
+Module & Function & Section \\
+\midrule
+\texttt{blp/synthetic.py} & Synthetic notes, gold labels and target series & \ref{sec:poc}, \ref{app:dgp} \\
+\texttt{blp/preprocess.py} & Masking of identifiers; Thai clause splitting & 3.4 \\
+\texttt{blp/scoring.py} & Lexicon (M1), LLM (M3) and ensemble (M4) scorers & 4.2 \\
+\texttt{blp/reliability.py} & Cohen's $\kappa$, Krippendorff's $\alpha$, macro-F1 & 4.5 \\
+\texttt{blp/indicators.py} & Diffusion, sector-weighted and composition-adjusted indices & 4.3--4.4 \\
+\texttt{blp/nowcast.py} & Expanding-window evaluation; Clark--West and Diebold--Mariano tests & \ref{sec:study2} \\
+\texttt{blp/assistant/} & LLM clients, hybrid retrieval, drafter, verifier & \ref{sec:study3} \\
+\texttt{blp/experiment/} & Crossover randomization, power simulation, analysis, time logging & \ref{sec:study4} \\
+\texttt{run\_pipeline.py} & Runs every study on synthetic data & \ref{sec:poc} \\
+\texttt{scripts/make\_figures.py} & Regenerates all data-driven figures and numbers & All \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Power analysis grid}\label{app:power}
+
+\begin{table}[h]
+\centering\small
+\caption{Simulated power of the one-sided test of a time reduction above 20\% (4{,}000 simulations per cell).}\label{tab:powergrid}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{4 tasks per participant} & \multicolumn{2}{c}{6 tasks per participant} & \multicolumn{2}{c}{8 tasks per participant} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Participants & 30\% & 35\% & 30\% & 35\% & 30\% & 35\% \\
+\midrule
+10 & 0.27 & 0.52 & 0.35 & 0.61 & 0.41 & 0.69 \\
+15 & 0.37 & 0.66 & 0.48 & 0.79 & 0.54 & 0.86 \\
+20 & 0.47 & 0.79 & 0.57 & 0.88 & 0.66 & 0.94 \\
+25 & 0.54 & 0.86 & 0.67 & 0.93 & 0.74 & 0.97 \\
+30 & 0.61 & 0.92 & 0.73 & 0.97 & 0.81 & 0.99 \\
+35 & 0.68 & 0.95 & 0.79 & 0.98 & 0.86 & 1.00 \\
+40 & 0.74 & 0.97 & 0.83 & 0.99 & 0.90 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Synthetic data-generating process}\label{app:dgp}
+A national activity factor and a cost factor follow AR(1) processes, $g_t = 0.6\,g_{t-1} + e_t$ with $e_t \sim N(0, 0.55^2)$ and $\pi_t = 0.7\,\pi_{t-1} + v_t$ with $v_t \sim N(0, 0.45^2)$, with a shock of $-3.0$ in 2020Q2 and $-1.0$ in 2020Q3. Regional factors are $f_{rt} = \lambda_r g_t + u_{rt}$ with loadings $(1.0, 0.8, 1.2)$ for the North, Northeast and South and AR(1) idiosyncratic terms with coefficient 0.5 and standard deviation 0.4. Tourism receives an additional shock of $-1.5$ for seven quarters from 2020Q2. Regional activity is $a_{rt} = f_{rt} + \sum_s w_{rs}\tau_{st}$, and the official-data proxy is $y_{rt} = 2 + 1.8\,a_{rt} + \eta_{rt}$ with $\eta_{rt} \sim N(0, 0.6^2)$.
+
+Each region interviews 45 firms per quarter; a firm stays in the panel with probability 0.8, and entrants in quarter $t$ draw an optimism effect $\alpha_i \sim N(0.8\,t/(T-1) - 0.4,\; 0.5^2)$. With $a_{it} = f_{rt} + \tau_{s(i)t}$, latent firm responses are $z^{\mathrm{sales}} = a_{it} + \alpha_i + \epsilon$, $z^{\mathrm{emp}} = 0.6\,a_{it} + 0.7\,\alpha_i + \epsilon$, $z^{\mathrm{inv}} = 0.7\,a_{it} + 0.8\,\alpha_i + \epsilon$, $z^{\mathrm{price}} = 0.7\,\pi_t + 0.3\,a_{it} + 0.3\,\alpha_i + \epsilon$, $z^{\mathrm{cost}} = 0.9\,\pi_t + \epsilon$ and $z^{\mathrm{out}} = 0.6\,a_{i,t+1} + 0.3\,a_{it} + \alpha_i + \epsilon$, with $\epsilon \sim N(0, 0.7^2)$ ($0.8^2$ for investment). Responses above $0.55$ are coded up and below $-0.55$ down. Each topic is mentioned with probability 0.85 (0.90 for the outlook), activity topics are written as mixed statements with probability 0.08, and a distractor sentence is added with probability 0.25.
+
+\end{document}

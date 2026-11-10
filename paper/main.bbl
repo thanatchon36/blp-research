@@ -1,0 +1,338 @@
+\begin{thebibliography}{50}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Acemoglu and Autor(2011)]{acemoglu2011skills}
+Daron Acemoglu and David Autor.
+\newblock Skills, tasks and technologies: Implications for employment and
+  earnings.
+\newblock In Orley Ashenfelter and David Card, editors, \emph{Handbook of Labor
+  Economics}, volume~4B, pages 1043--1171. Elsevier, 2011.
+
+\bibitem[Armesto et~al.(2009)Armesto, Hern{\'a}ndez-Murillo, Owyang, and
+  Piger]{armesto2009beige}
+Michelle~T. Armesto, Rub{\'e}n Hern{\'a}ndez-Murillo, Michael~T. Owyang, and
+  Jeremy Piger.
+\newblock Measuring the information content of the {Beige Book}: A mixed data
+  sampling approach.
+\newblock \emph{Journal of Money, Credit and Banking}, 41\penalty0
+  (1):\penalty0 35--55, 2009.
+
+\bibitem[Baker et~al.(2016)Baker, Bloom, and Davis]{baker2016epu}
+Scott~R. Baker, Nicholas Bloom, and Steven~J. Davis.
+\newblock Measuring economic policy uncertainty.
+\newblock \emph{Quarterly Journal of Economics}, 131\penalty0 (4):\penalty0
+  1593--1636, 2016.
+
+\bibitem[Balke and Petersen(2002)]{balke2002beige}
+Nathan~S. Balke and D'Ann Petersen.
+\newblock How well does the {Beige Book} reflect economic activity?
+  {Evaluating} qualitative information quantitatively.
+\newblock \emph{Journal of Money, Credit and Banking}, 34\penalty0
+  (1):\penalty0 114--136, 2002.
+
+\bibitem[Ba{\'n}bura et~al.(2013)Ba{\'n}bura, Giannone, Modugno, and
+  Reichlin]{banbura2013nowcasting}
+Marta Ba{\'n}bura, Domenico Giannone, Michele Modugno, and Lucrezia Reichlin.
+\newblock Now-casting and the real-time data flow.
+\newblock In Graham Elliott and Allan Timmermann, editors, \emph{Handbook of
+  Economic Forecasting}, volume~2A, pages 195--237. Elsevier, 2013.
+
+\bibitem[{Bank for International Settlements}(2024)]{bis2024aer}
+{Bank for International Settlements}.
+\newblock Artificial intelligence and the economy: Implications for central
+  banks.
+\newblock In \emph{Annual Economic Report 2024}. BIS, Basel, 2024.
+
+\bibitem[Brooke(1996)]{brooke1996sus}
+John Brooke.
+\newblock {SUS}: A ``quick and dirty'' usability scale.
+\newblock In Patrick~W. Jordan, B.~Thomas, Bernard~A. Weerdmeester, and Ian~L.
+  McClelland, editors, \emph{Usability Evaluation in Industry}, pages 189--194.
+  Taylor \& Francis, London, 1996.
+
+\bibitem[Brynjolfsson et~al.(2025)Brynjolfsson, Li, and
+  Raymond]{brynjolfsson2025genai}
+Erik Brynjolfsson, Danielle Li, and Lindsey Raymond.
+\newblock Generative {AI} at work.
+\newblock \emph{Quarterly Journal of Economics}, 140\penalty0 (2):\penalty0
+  889--942, 2025.
+
+\bibitem[Chow and Lin(1971)]{chow1971best}
+Gregory~C. Chow and An-loh Lin.
+\newblock Best linear unbiased interpolation, distribution, and extrapolation
+  of time series by related series.
+\newblock \emph{Review of Economics and Statistics}, 53\penalty0 (4):\penalty0
+  372--375, 1971.
+
+\bibitem[Clark and West(2007)]{clark2007approximately}
+Todd~E. Clark and Kenneth~D. West.
+\newblock Approximately normal tests for equal predictive accuracy in nested
+  models.
+\newblock \emph{Journal of Econometrics}, 138\penalty0 (1):\penalty0 291--311,
+  2007.
+
+\bibitem[Cohen(1960)]{cohen1960coefficient}
+Jacob Cohen.
+\newblock A coefficient of agreement for nominal scales.
+\newblock \emph{Educational and Psychological Measurement}, 20\penalty0
+  (1):\penalty0 37--46, 1960.
+
+\bibitem[Cormack et~al.(2009)Cormack, Clarke, and B{\"u}ttcher]{cormack2009rrf}
+Gordon~V. Cormack, Charles L.~A. Clarke, and Stefan B{\"u}ttcher.
+\newblock Reciprocal rank fusion outperforms {Condorcet} and individual rank
+  learning methods.
+\newblock In \emph{Proceedings of the 32nd International ACM SIGIR Conference
+  on Research and Development in Information Retrieval}, pages 758--759, 2009.
+
+\bibitem[Davis(1989)]{davis1989tam}
+Fred~D. Davis.
+\newblock Perceived usefulness, perceived ease of use, and user acceptance of
+  information technology.
+\newblock \emph{MIS Quarterly}, 13\penalty0 (3):\penalty0 319--340, 1989.
+
+\bibitem[Dell'Acqua et~al.(2023)Dell'Acqua, McFowland, Mollick, Lifshitz-Assaf,
+  Kellogg, Rajendran, Krayer, Candelon, and Lakhani]{dellacqua2023jagged}
+Fabrizio Dell'Acqua, Edward McFowland, Ethan~R. Mollick, Hila Lifshitz-Assaf,
+  Katherine Kellogg, Saran Rajendran, Lisa Krayer, Fran{\c{c}}ois Candelon, and
+  Karim~R. Lakhani.
+\newblock Navigating the jagged technological frontier: Field experimental
+  evidence of the effects of {AI} on knowledge worker productivity and quality.
+\newblock Working Paper 24-013, Harvard Business School, 2023.
+
+\bibitem[Diebold and Mariano(1995)]{diebold1995comparing}
+Francis~X. Diebold and Roberto~S. Mariano.
+\newblock Comparing predictive accuracy.
+\newblock \emph{Journal of Business \& Economic Statistics}, 13\penalty0
+  (3):\penalty0 253--263, 1995.
+
+\bibitem[Es et~al.(2024)Es, James, Espinosa-Anke, and Schockaert]{es2024ragas}
+Shahul Es, Jithin James, Luis Espinosa-Anke, and Steven Schockaert.
+\newblock {RAGAS}: Automated evaluation of retrieval augmented generation.
+\newblock In \emph{Proceedings of the 18th Conference of the European Chapter
+  of the Association for Computational Linguistics: System Demonstrations},
+  pages 150--158, 2024.
+
+\bibitem[Gentzkow et~al.(2019)Gentzkow, Kelly, and Taddy]{gentzkow2019text}
+Matthew Gentzkow, Bryan Kelly, and Matt Taddy.
+\newblock Text as data.
+\newblock \emph{Journal of Economic Literature}, 57\penalty0 (3):\penalty0
+  535--574, 2019.
+
+\bibitem[Ghysels et~al.(2007)Ghysels, Sinko, and Valkanov]{ghysels2007midas}
+Eric Ghysels, Arthur Sinko, and Rossen Valkanov.
+\newblock {MIDAS} regressions: Further results and new directions.
+\newblock \emph{Econometric Reviews}, 26\penalty0 (1):\penalty0 53--90, 2007.
+
+\bibitem[Giannone et~al.(2008)Giannone, Reichlin, and
+  Small]{giannone2008nowcasting}
+Domenico Giannone, Lucrezia Reichlin, and David Small.
+\newblock Nowcasting: The real-time informational content of macroeconomic
+  data.
+\newblock \emph{Journal of Monetary Economics}, 55\penalty0 (4):\penalty0
+  665--676, 2008.
+
+\bibitem[Hansen and Kazinnik(2023)]{hansen2023fedspeak}
+Anne~Lundgaard Hansen and Sophia Kazinnik.
+\newblock Can {ChatGPT} decipher {Fedspeak}?
+\newblock SSRN Working Paper, 2023.
+
+\bibitem[Hansen et~al.(2011)Hansen, Lunde, and Nason]{hansen2011mcs}
+Peter~R. Hansen, Asger Lunde, and James~M. Nason.
+\newblock The model confidence set.
+\newblock \emph{Econometrica}, 79\penalty0 (2):\penalty0 453--497, 2011.
+
+\bibitem[Hart and Staveland(1988)]{hart1988nasatlx}
+Sandra~G. Hart and Lowell~E. Staveland.
+\newblock Development of {NASA-TLX} (task load index): Results of empirical and
+  theoretical research.
+\newblock In Peter~A. Hancock and Najmedin Meshkati, editors, \emph{Human
+  Mental Workload}, volume~52 of \emph{Advances in Psychology}, pages 139--183.
+  North-Holland, 1988.
+
+\bibitem[Harvey et~al.(1997)Harvey, Leybourne, and Newbold]{harvey1997testing}
+David Harvey, Stephen Leybourne, and Paul Newbold.
+\newblock Testing the equality of prediction mean squared errors.
+\newblock \emph{International Journal of Forecasting}, 13\penalty0
+  (2):\penalty0 281--291, 1997.
+
+\bibitem[Henderson et~al.(2012)Henderson, Storeygard, and
+  Weil]{henderson2012lights}
+J.~Vernon Henderson, Adam Storeygard, and David~N. Weil.
+\newblock Measuring economic growth from outer space.
+\newblock \emph{American Economic Review}, 102\penalty0 (2):\penalty0
+  994--1028, 2012.
+
+\bibitem[Hevner et~al.(2004)Hevner, March, Park, and Ram]{hevner2004design}
+Alan~R. Hevner, Salvatore~T. March, Jinsoo Park, and Sudha Ram.
+\newblock Design science in information systems research.
+\newblock \emph{MIS Quarterly}, 28\penalty0 (1):\penalty0 75--105, 2004.
+
+\bibitem[Ji et~al.(2023)Ji, Lee, Frieske, Yu, Su, Xu, Ishii, Bang, Madotto, and
+  Fung]{ji2023hallucination}
+Ziwei Ji, Nayeon Lee, Rita Frieske, Tiezheng Yu, Dan Su, Yan Xu, Etsuko Ishii,
+  Ye~Jin Bang, Andrea Madotto, and Pascale Fung.
+\newblock Survey of hallucination in natural language generation.
+\newblock \emph{ACM Computing Surveys}, 55\penalty0 (12):\penalty0 1--38, 2023.
+
+\bibitem[Jones and Kenward(2014)]{jones2014crossover}
+Byron Jones and Michael~G. Kenward.
+\newblock \emph{Design and Analysis of Cross-Over Trials}.
+\newblock Chapman and Hall/CRC, Boca Raton, FL, 3rd edition, 2014.
+
+\bibitem[Kalamara et~al.(2022)Kalamara, Turrell, Redl, Kapetanios, and
+  Kapadia]{kalamara2022text}
+Eleni Kalamara, Arthur Turrell, Chris Redl, George Kapetanios, and Sujit
+  Kapadia.
+\newblock Making text count: Economic forecasting using newspaper text.
+\newblock \emph{Journal of Applied Econometrics}, 37\penalty0 (5):\penalty0
+  896--919, 2022.
+
+\bibitem[Krippendorff(2018)]{krippendorff2018content}
+Klaus Krippendorff.
+\newblock \emph{Content Analysis: An Introduction to Its Methodology}.
+\newblock SAGE, Thousand Oaks, CA, 4th edition, 2018.
+
+\bibitem[Landis and Koch(1977)]{landis1977measurement}
+J.~Richard Landis and Gary~G. Koch.
+\newblock The measurement of observer agreement for categorical data.
+\newblock \emph{Biometrics}, 33\penalty0 (1):\penalty0 159--174, 1977.
+
+\bibitem[Lewis et~al.(2020)Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal,
+  K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel, and Kiela]{lewis2020rag}
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
+  Karpukhin, Naman Goyal, Heinrich K{\"u}ttler, Mike Lewis, Wen-tau Yih, Tim
+  Rockt{\"a}schel, Sebastian Riedel, and Douwe Kiela.
+\newblock Retrieval-augmented generation for knowledge-intensive {NLP} tasks.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~33, pages 9459--9474, 2020.
+
+\bibitem[Loughran and McDonald(2011)]{loughran2011liability}
+Tim Loughran and Bill McDonald.
+\newblock When is a liability not a liability? {Textual} analysis,
+  dictionaries, and {10-Ks}.
+\newblock \emph{Journal of Finance}, 66\penalty0 (1):\penalty0 35--65, 2011.
+
+\bibitem[Lowphansirikul et~al.(2021)Lowphansirikul, Polpanumas, Jantrakulchai,
+  and Nutanong]{lowphansirikul2021wangchanberta}
+Lalita Lowphansirikul, Charin Polpanumas, Nawat Jantrakulchai, and Sarana
+  Nutanong.
+\newblock {WangchanBERTa}: Pretraining transformer-based {Thai} language
+  models.
+\newblock arXiv:2101.09635, 2021.
+
+\bibitem[{National Institute of Standards and Technology}(2023)]{nist2023airmf}
+{National Institute of Standards and Technology}.
+\newblock Artificial intelligence risk management framework ({AI RMF} 1.0).
+\newblock Technical Report NIST AI 100-1, NIST, 2023.
+
+\bibitem[Nosek et~al.(2018)Nosek, Ebersole, DeHaven, and
+  Mellor]{nosek2018preregistration}
+Brian~A. Nosek, Charles~R. Ebersole, Alexander~C. DeHaven, and David~T. Mellor.
+\newblock The preregistration revolution.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 115\penalty0
+  (11):\penalty0 2600--2606, 2018.
+
+\bibitem[Noy and Zhang(2023)]{noy2023experimental}
+Shakked Noy and Whitney Zhang.
+\newblock Experimental evidence on the productivity effects of generative
+  artificial intelligence.
+\newblock \emph{Science}, 381\penalty0 (6654):\penalty0 187--192, 2023.
+
+\bibitem[Peffers et~al.(2007)Peffers, Tuunanen, Rothenberger, and
+  Chatterjee]{peffers2007dsrm}
+Ken Peffers, Tuure Tuunanen, Marcus~A. Rothenberger, and Samir Chatterjee.
+\newblock A design science research methodology for information systems
+  research.
+\newblock \emph{Journal of Management Information Systems}, 24\penalty0
+  (3):\penalty0 45--77, 2007.
+
+\bibitem[Peng et~al.(2023)Peng, Kalliamvakou, Cihon, and
+  Demirer]{peng2023copilot}
+Sida Peng, Eirini Kalliamvakou, Peter Cihon, and Mert Demirer.
+\newblock The impact of {AI} on developer productivity: Evidence from {GitHub
+  Copilot}.
+\newblock arXiv:2302.06590, 2023.
+
+\bibitem[Petersen(2004)]{petersen2004information}
+Mitchell~A. Petersen.
+\newblock Information: Hard and soft.
+\newblock Working paper, Kellogg School of Management, Northwestern University,
+  2004.
+
+\bibitem[Phatthiyaphaibun et~al.(2023)]{phatthiyaphaibun2023pythainlp}
+Wannaphong Phatthiyaphaibun et~al.
+\newblock {PyThaiNLP}: {Thai} natural language processing in {Python}.
+\newblock In \emph{Proceedings of the 3rd Workshop for Natural Language
+  Processing Open Source Software (NLP-OSS)}, 2023.
+
+\bibitem[Piaggio et~al.(2012)Piaggio, Elbourne, Pocock, Evans, and
+  Altman]{piaggio2012noninferiority}
+Gilda Piaggio, Diana~R. Elbourne, Stuart~J. Pocock, Stephen J.~W. Evans, and
+  Douglas~G. Altman.
+\newblock Reporting of noninferiority and equivalence randomized trials:
+  Extension of the {CONSORT} 2010 statement.
+\newblock \emph{JAMA}, 308\penalty0 (24):\penalty0 2594--2604, 2012.
+
+\bibitem[Pichette and Rennison(2011)]{pichette2011bos}
+Lise Pichette and Lori Rennison.
+\newblock Extracting information from the {Business Outlook Survey}: A
+  principal-component approach.
+\newblock \emph{Bank of Canada Review}, pages 21--28, 2011.
+\newblock Autumn issue.
+
+\bibitem[Pipatanakul et~al.(2023)]{pipatanakul2023typhoon}
+Kunat Pipatanakul et~al.
+\newblock Typhoon: {Thai} large language models.
+\newblock arXiv:2312.13951, 2023.
+
+\bibitem[Robertson and Zaragoza(2009)]{robertson2009bm25}
+Stephen Robertson and Hugo Zaragoza.
+\newblock The probabilistic relevance framework: {BM25} and beyond.
+\newblock \emph{Foundations and Trends in Information Retrieval}, 3\penalty0
+  (4):\penalty0 333--389, 2009.
+
+\bibitem[Sadique et~al.(2013)Sadique, In, Veeraraghavan, and
+  Wachtel]{sadique2013soft}
+Shibley Sadique, Francis In, Madhu Veeraraghavan, and Paul Wachtel.
+\newblock Soft information and economic activity: Evidence from the {Beige
+  Book}.
+\newblock \emph{Journal of Macroeconomics}, 37:\penalty0 81--92, 2013.
+
+\bibitem[Shapiro et~al.(2022)Shapiro, Sudhof, and Wilson]{shapiro2022news}
+Adam~Hale Shapiro, Moritz Sudhof, and Daniel~J. Wilson.
+\newblock Measuring news sentiment.
+\newblock \emph{Journal of Econometrics}, 228\penalty0 (2):\penalty0 221--243,
+  2022.
+
+\bibitem[Stein(2002)]{stein2002information}
+Jeremy~C. Stein.
+\newblock Information production and capital allocation: Decentralized versus
+  hierarchical firms.
+\newblock \emph{Journal of Finance}, 57\penalty0 (5):\penalty0 1891--1921,
+  2002.
+
+\bibitem[Stock and Watson(2002)]{stock2002diffusion}
+James~H. Stock and Mark~W. Watson.
+\newblock Macroeconomic forecasting using diffusion indexes.
+\newblock \emph{Journal of Business \& Economic Statistics}, 20\penalty0
+  (2):\penalty0 147--162, 2002.
+
+\bibitem[Thorsrud(2020)]{thorsrud2020words}
+Leif~Anders Thorsrud.
+\newblock Words are the new numbers: A newsy coincident index of the business
+  cycle.
+\newblock \emph{Journal of Business \& Economic Statistics}, 38\penalty0
+  (2):\penalty0 393--409, 2020.
+
+\bibitem[Williams(1949)]{williams1949experimental}
+E.~J. Williams.
+\newblock Experimental designs balanced for the estimation of residual effects
+  of treatments.
+\newblock \emph{Australian Journal of Scientific Research, Series A},
+  2:\penalty0 149--168, 1949.
+
+\end{thebibliography}
