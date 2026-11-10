@@ -25,3 +25,5 @@ data/
 
 # GitHub Pages build intermediates
 docs/paper/_build/
+paper/arxiv/
+paper/arxiv.tar.gz

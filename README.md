@@ -44,6 +44,7 @@ Outputs: `outputs/` (reliability, indicators, nowcast evaluation, verifier repor
 | `figures` | Every data-driven figure and number in the paper → `paper/figures/`, `paper/numbers.json` |
 | `paper` | Compile `paper/main.pdf` (tectonic) and rebuild the web reader `docs/paper/` |
 | `web` | Web reader only → `docs/paper/index.html`, served at <https://thanatchon36.github.io/blp-research/paper/> (pandoc, tectonic, poppler) |
+| `arxiv` | arXiv source bundle → `paper/arxiv.tar.gz` (prints title, abstract and comments for the form) |
 | `banner` | README banner → `docs/assets/banner.png` |
 
 ## What the pipeline does
@@ -67,7 +68,8 @@ Outputs: `outputs/` (reliability, indicators, nowcast evaluation, verifier repor
 The preprint by Thanatchon Chongmankhong is in [`paper/`](paper/): a PDF in [`paper/main.pdf`](paper/main.pdf)
 and its LaTeX source in [`paper/main.tex`](paper/main.tex) with [`paper/references.bib`](paper/references.bib).
 `make paper` compiles it with tectonic and renders the same text as a web page at
-<https://thanatchon36.github.io/blp-research/paper/>. Every data-driven figure and number comes from
+<https://thanatchon36.github.io/blp-research/paper/>; `make arxiv` packs the source with its figures and
+bibliography into `paper/arxiv.tar.gz` and checks the bundle compiles on its own. Every data-driven figure and number comes from
 `scripts/make_figures.py`, so `make figures` regenerates them all.
 
 | Module | Paper section |
@@ -107,6 +109,7 @@ src/blp/
 run_pipeline.py             all four studies end to end
 scripts/make_figures.py     every figure and number in the paper
 scripts/build_web.py        web reader docs/paper/ from paper/main.tex
+scripts/arxiv_bundle.py     arXiv source bundle
 scripts/make_banner.py      README banner
 paper/                      main.tex, references.bib, figures/, numbers.json, main.pdf, reader.html
 docs/                       GitHub Pages: web reader, banner, logo

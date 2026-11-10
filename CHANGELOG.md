@@ -11,6 +11,7 @@ All notable changes to this project are documented here. The format follows
   (`scripts/build_web.py`, pandoc + tectonic) from `paper/main.tex`.
 - `pyproject.toml` (installable package in `src/blp/`), `Makefile`, CI on GitHub Actions, MIT license,
   Zenodo metadata and the README banner (`make banner`).
+- `make arxiv` writes the self-contained arXiv source bundle `paper/arxiv.tar.gz` (`scripts/arxiv_bundle.py`).
 
 ### Changed
 - The package moved from `blp/` to `src/blp/`; `requirements.txt` is replaced by `pyproject.toml`
