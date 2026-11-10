@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reproduce every data-driven figure and number reported in the paper.
 
-All numbers come from the synthetic data generator (blp/synthetic.py); they verify the
+All numbers come from the synthetic data generator (src/blp/synthetic.py); they verify the
 software, not the research hypotheses.  Output: paper/figures/*.pdf, paper/numbers.json
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 from blp import indicators, nowcast, preprocess, reliability, scoring, synthetic  # noqa: E402
 from blp.assistant import drafter as drf  # noqa: E402
 from blp.assistant import retriever as retr  # noqa: E402

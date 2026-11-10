@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>From Liaison Notes to Regional Indicators</title>
+<meta name="description" content="Preprint: From Liaison Notes to Regional Indicators. Text-Based Measurement of Regional Economic Activity from Business Liaison Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant.">
+<meta name="author" content="Thanatchon Chongmankhong">
+<style>
+/* Web reader for paper/main.tex (same format as the thainowcast reader): one reading column
+   (~46rem) with a results strip up top. System font stacks only: the page is a single self-contained
+   file with no third-party requests. Colour tokens on :root, redefined for dark. */
+:root {
+  --paper: #fbfbf9; --ink: #17191c; --ink-2: #4c5058; --rule: #dcdcd6;
+  --accent: #1f5fae; --accent-soft: #e6eef8;
+  --pos: #1d6b52; --pos-soft: #e3f1ea; --null: #6b6f78; --null-soft: #eeeeea;
+  --find: #8a5a12; --find-soft: #f6eedd; --plate: #ffffff; --quote: #f3f3ef;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #15171a; --ink: #e8e9ec; --ink-2: #a6abb4; --rule: #30343a;
+    --accent: #7fb0ec; --accent-soft: #1b2a3d; --pos: #7dcfac; --pos-soft: #16302a;
+    --null: #a6abb4; --null-soft: #23262b; --find: #e7bd73; --find-soft: #33291a;
+    --plate: #f4f4f2; --quote: #1d2024; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #15171a; --ink: #e8e9ec; --ink-2: #a6abb4; --rule: #30343a;
+  --accent: #7fb0ec; --accent-soft: #1b2a3d; --pos: #7dcfac; --pos-soft: #16302a;
+  --null: #a6abb4; --null-soft: #23262b; --find: #e7bd73; --find-soft: #33291a;
+  --plate: #f4f4f2; --quote: #1d2024; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.62 var(--font-body); }
+.page { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 48px 72px;
+  display: flex; flex-direction: column; gap: 40px; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 650; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(1.7rem, 4.2vw, 2.35rem); margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 1.4rem; margin: 2.2em 0 0.5em; }
+h3 { font-size: 1.12rem; margin: 1.8em 0 0.4em; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+code { font: 500 0.84em var(--font-mono); overflow-wrap: anywhere; }
+pre { background: var(--quote); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px;
+  overflow-x: auto; font-size: 0.84rem; line-height: 1.5; }
+pre code { font-weight: 400; font-size: inherit; overflow-wrap: normal; }
+.masthead { display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 28px; }
+.kicker { margin: 0; font: 500 0.78rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent); }
+.subtitle { margin: 0; font-style: italic; color: var(--ink-2); font-size: 1.05rem; }
+.byline { margin: 0; color: var(--ink-2); }
+.meta { margin: 0; font: 400 0.8rem/1.6 var(--font-mono); color: var(--ink-2); }
+.meta b { font-weight: 500; color: var(--ink); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; }
+.actions a { display: inline-block; padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px;
+  font: 500 0.78rem var(--font-mono); text-decoration: none; color: var(--ink); }
+.actions a:hover { border-color: var(--accent); color: var(--accent); }
+.abstract h2, .results h2, .toc h2, .cite h2 { margin: 0 0 10px; font-size: 0.82rem; font-family: var(--font-mono);
+  font-weight: 500; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-2); }
+.abstract-body p { margin: 0 0 0.8em; font-size: 1.04rem; }
+.abstract-body p:last-child { margin-bottom: 0; }
+.results .note { margin: 0 0 14px; color: var(--ink-2); font-size: 0.95rem; }
+.result-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 8px; }
+.r { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "id tag" "text text"; gap: 2px 10px;
+  align-content: start; padding: 10px 12px; border-radius: 6px; border-left: 3px solid; font-size: 0.9rem; line-height: 1.4; }
+.r-pos { background: var(--pos-soft); border-color: var(--pos); }
+.r-ref { background: var(--find-soft); border-color: var(--find); }
+.r-null, .r-nf { background: var(--null-soft); border-color: var(--null); }
+.r-id { grid-area: id; font: 500 0.85rem var(--font-mono); }
+.r-text { grid-area: text; }
+.r-text small { display: block; color: var(--ink-2); font-size: 0.8rem; margin-top: 2px; }
+.toc ul { margin: 0; padding-left: 1.2em; columns: 2 14rem; column-gap: 32px; }
+.toc li { break-inside: avoid; }
+.toc ul ul { columns: 1; padding-left: 1em; font-size: 0.92em; color: var(--ink-2); }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.paper h1 { font-size: 1.55rem; margin: 2em 0 0.5em; padding-top: 0.6em; border-top: 1px solid var(--rule); }
+.paper p, .paper li { hyphens: auto; }
+.paper p { margin: 0 0 1em; }
+.paper math[display="block"] { overflow-x: auto; max-width: 100%; }
+/* MathML does not line-break: a long inline formula scrolls on its own instead of widening the page */
+.paper p > math { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.paper .header-section-number { color: var(--accent); margin-right: 0.5em; font-family: var(--font-mono); font-size: 0.85em; font-weight: 500; }
+.paper blockquote { margin: 1.2em 0; padding: 10px 16px; border-left: 3px solid var(--rule); background: var(--quote);
+  border-radius: 0 6px 6px 0; font-size: 0.93rem; color: var(--ink-2); }
+.paper blockquote p:last-child { margin-bottom: 0; }
+figure { margin: 1.6em 0; display: flex; flex-direction: column; gap: 10px; }
+figure img { background: var(--plate); padding: 12px; border-radius: 6px; border: 1px solid var(--rule); max-width: 100%; height: auto; }
+figcaption, caption, .tcap { font-size: 0.88rem; color: var(--ink-2); line-height: 1.45; text-align: left; }
+caption { caption-side: top; padding-bottom: 8px; }
+.tbl { margin: 1.6em 0; }
+.paper .tcap { margin: 0 0 8px; hyphens: auto; }
+.tscroll { overflow-x: auto; }
+/* Tables keep their natural width (scrolling sideways when wider than the column); only long text cells wrap. */
+.paper table { border-collapse: collapse; width: max-content; min-width: 100%;
+  font: 400 0.78rem/1.45 var(--font-mono); font-variant-numeric: tabular-nums; }
+.paper td { max-width: 17em; }
+/* Code in table cells must not break per letter on phones; the table scrolls sideways instead. */
+.paper table code { overflow-wrap: normal; word-break: normal; white-space: nowrap; }
+th, td { padding: 6px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+th { font-weight: 500; color: var(--ink-2); border-bottom-color: var(--ink-2); }
+.paper strong { font-weight: 650; }
+.cite { min-width: 0; }
+/* BibTeX keeps its lines intact (no mid-URL breaks); the block scrolls sideways on narrow screens. */
+.cite pre { overflow-x: auto; }
+.cite pre, .cite pre code { white-space: pre; overflow-wrap: normal; word-break: normal; }
+#refs > div { margin: 0 0 0.6em; padding-left: 1.5em; text-indent: -1.5em; font-size: 0.92rem; }
+.footnotes { font-size: 0.88rem; color: var(--ink-2); }
+.colophon { border-top: 1px solid var(--rule); padding-top: 20px; color: var(--ink-2); font-size: 0.85rem; }
+.colophon p { margin: 0 0 0.7em; }
+@media (max-width: 480px) { body { font-size: 16px; } .page { padding-block: 28px 48px; gap: 28px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="masthead">
+  <p class="kicker">Preprint · blp-research</p>
+  <h1>From Liaison Notes to Regional Indicators</h1>
+  <p class="subtitle">Text-Based Measurement of Regional Economic Activity from Business Liaison Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant</p>
+  <p class="byline">Thanatchon Chongmankhong · <a href="https://github.com/thanatchon36/blp-research">github.com/thanatchon36/blp-research</a></p>
+  <p class="meta"><b>November 2026</b> · business liaison, text as data, nowcasting, regional economics, large language models, retrieval-augmented generation, randomized crossover experiment, central banking · JEL C53, C55, C93, E32, E58, R11</p>
+  <ul class="actions"><li><a href="paper.pdf">Download PDF</a></li><li><a href="https://github.com/thanatchon36/blp-research">Code and replication</a></li></ul>
+</header>
+<section class="abstract" aria-label="Abstract">
+  <h2>Abstract</h2>
+  <div class="abstract-body"><p>Regional output statistics in Thailand are compiled annually and released with a substantial lag, whereas the Business Liaison Program (BLP) of the Bank of Thailand collects timely but qualitative information from firms. This proposal sets out a four-study research program that converts Thai-language BLP interview notes into quantitative regional indicators and builds and evaluates a retrieval-augmented generative-AI assistant that drafts regional economic reports. Study 1 develops a six-topic codebook, compares lexicon, fine-tuned encoder and large-language-model (LLM) coding against an expert gold standard, and constructs diffusion indices weighted by sectoral output shares and adjusted for changes in panel composition through weighted two-way fixed effects. Study 2 tests predictive validity in a pseudo-real-time nowcasting exercise with Clark–West and Diebold–Mariano tests. Study 3 follows design science research to build an assistant that cites a source for every sentence and blocks any number it cannot trace to a data table. Study 4 is a pre-registered randomized crossover experiment testing whether the assistant reduces report-preparation time by more than 20% without degrading blinded quality ratings. An open-source implementation is validated end to end on synthetic data: composition adjustment raises the correlation between the index and latent activity from 0.89 to 0.92 on average, the verifier blocks every injected error, and a power analysis shows that 30 participants completing four tasks each provide power of 0.92 if the true time reduction is 35%. Results on the confidential BLP data are the object of the doctoral research and are not reported here.</p>
+</div>
+</section>
+<section class="results" aria-label="Results at a glance">
+  <h2>Results at a glance</h2>
+  <p class="note">Headline numbers from paper/numbers.json. All of them come from the synthetic data generator and validate the software, not the research hypotheses. Amber: results on synthetic data; grey: pending.</p>
+  <ul class="result-list"><li class="r r-ref"><span class="r-id">Study 1 · coding</span><span class="r-text">Lexicon coder κ = 0.96 against the gold standard<small>macro-F1 0.97 over six topics; two simulated human coders agree at κ = 0.79</small></span></li>
+<li class="r r-ref"><span class="r-id">Study 1 · index</span><span class="r-text">Composition adjustment raises the correlation with latent activity from 0.89 to 0.92<small>mean over the Northeast, North and South; 7,560 notes from 1,714 firms, 0 identifiers left after masking</small></span></li>
+<li class="r r-ref"><span class="r-id">Study 2 · nowcast</span><span class="r-text">AR + BLP index cuts RMSE to 0.59 of the AR benchmark<small>0.54 with the outlook index; Clark–West p = 0.001; 96 forecasts</small></span></li>
+<li class="r r-ref"><span class="r-id">Study 3 · verifier</span><span class="r-text">6 of 6 drafted sections pass; every injected error is blocked<small>26 sentences, citation coverage 1.00; the negative control fails on numbers, citations and names</small></span></li>
+<li class="r r-ref"><span class="r-id">Study 4 · power</span><span class="r-text">30 participants × 4 tasks give power 0.92 if the true time saving is 35%<small>dry run: estimated reduction 0.28, 95% CI 0.20 to 0.35</small></span></li>
+<li class="r r-null"><span class="r-id">BLP data</span><span class="r-text">Results on the confidential BLP data pending<small>every number here comes from the synthetic data generator and verifies the software, not the hypotheses</small></span></li></ul>
+</section>
+<nav class="toc" aria-label="Contents"><h2>Contents</h2>
+<ul>
+<li><a href="#sec:intro" id="toc-sec:intro"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#sec:literature" id="toc-sec:literature"><span class="toc-section-number">2</span> Related literature</a></li>
+<li><a href="#sec:design" id="toc-sec:design"><span class="toc-section-number">3</span> Research design and data</a></li>
+<li><a href="#sec:study1" id="toc-sec:study1"><span class="toc-section-number">4</span> Study 1: Measuring business conditions from liaison notes</a></li>
+<li><a href="#sec:study2" id="toc-sec:study2"><span class="toc-section-number">5</span> Study 2: Predictive validity and nowcasting</a></li>
+<li><a href="#sec:study3" id="toc-sec:study3"><span class="toc-section-number">6</span> Study 3: Design of a grounded report-drafting assistant</a></li>
+<li><a href="#sec:study4" id="toc-sec:study4"><span class="toc-section-number">7</span> Study 4: Randomized crossover experiment on preparation time</a></li>
+<li><a href="#sec:poc" id="toc-sec:poc"><span class="toc-section-number">8</span> Proof of concept on synthetic data</a></li>
+<li><a href="#sec:discussion" id="toc-sec:discussion"><span class="toc-section-number">9</span> Discussion</a></li>
+<li><a href="#sec:plan" id="toc-sec:plan"><span class="toc-section-number">10</span> Work plan</a></li>
+<li><a href="#sec:conclusion" id="toc-sec:conclusion"><span class="toc-section-number">11</span> Conclusion</a></li>
+<li><a href="#code-and-data-availability" id="toc-code-and-data-availability">Code and data availability</a></li>
+<li><a href="#declaration-on-the-use-of-generative-ai" id="toc-declaration-on-the-use-of-generative-ai">Declaration on the use of generative AI</a></li>
+<li><a href="#app:prompts" id="toc-app:prompts"><span class="toc-section-number">A</span> Prompt templates</a></li>
+<li><a href="#app:software" id="toc-app:software"><span class="toc-section-number">B</span> Software architecture</a></li>
+<li><a href="#app:power" id="toc-app:power"><span class="toc-section-number">C</span> Power analysis grid</a></li>
+<li><a href="#app:dgp" id="toc-app:dgp"><span class="toc-section-number">D</span> Synthetic data-generating process</a></li>
+</ul>
+</nav>
+<article class="paper">
+<h1 data-number="1" id="sec:intro"><span class="header-section-number">1</span> Introduction</h1>
+<p>Monetary policy and regional development policy depend on timely information about economic conditions outside the capital. In Thailand, the official measure of regional output—the gross regional and provincial product compiled by the Office of the National Economic and Social Development Council (NESDC)—is annual and released with a substantial lag, so it cannot reveal turning points within the year. Higher-frequency regional indicators cover selected activities such as consumption, investment, manufacturing, tourism and farm income, and are themselves published weeks after the reference period.</p>
+<p>Central banks complement official statistics with systematic conversations with firms. Prominent examples are the Federal Reserve’s Beige Book, the Bank of England’s Agents, the Reserve Bank of Australia’s business liaison program and the Bank of Canada’s Business Outlook Survey. The Bank of Thailand (BOT) runs a Business Liaison Program (BLP) through its regional offices. Liaison information is timely, captures forward-looking intentions and explains <em>why</em> conditions change. Its weakness is its form: it arrives as free text written by many interviewers, the set of firms changes from one round to the next, and turning it into a report requires economists to read, summarize and cross-check a large volume of notes by hand.</p>
+<p>Two developments make it possible to address both weaknesses. Text-as-data methods, and more recently large language models (LLMs), can score narrative text at scale <span class="citation" data-cites="gentzkow2019text hansen2023fedspeak">(<a href="#ref-gentzkow2019text" role="doc-biblioref">Gentzkow et al. 2019</a>; <a href="#ref-hansen2023fedspeak" role="doc-biblioref">Hansen and Kazinnik 2023</a>)</span>. Generative AI can draft text, and randomized studies report substantial time savings in writing and other knowledge work <span class="citation" data-cites="noy2023experimental dellacqua2023jagged brynjolfsson2025genai">(<a href="#ref-noy2023experimental" role="doc-biblioref">Noy and Zhang 2023</a>; <a href="#ref-dellacqua2023jagged" role="doc-biblioref">Dell’Acqua et al. 2023</a>; <a href="#ref-brynjolfsson2025genai" role="doc-biblioref">Brynjolfsson et al. 2025</a>)</span>. Central bank reports, however, impose requirements that generic tools do not meet: every statement must be traceable to evidence, every number must be correct, and confidential information about individual firms must never appear in a draft.</p>
+<p>The research program is organized around four gaps.</p>
+<div class="description">
+<p>Quantitative work on liaison text has concentrated on English-language programs; Thai lacks validated economic lexicons and coding benchmarks.</p>
+<p>Liaison samples are purposive and rotate. A change in the mix of firms can move a raw diffusion index even when no individual firm’s conditions change.</p>
+<p>Experimental evidence on generative AI comes from consulting, customer support, software development and generic writing tasks. We are not aware of randomized evidence for analytical report production inside a central bank.</p>
+<p>Designs that guarantee sentence-level provenance and numerically correct output for official reports are rarely specified and evaluated.</p>
+</div>
+<p>The program answers four research questions.</p>
+<ol>
+<li><p>Can BLP interview notes be converted into regional indicators that are <em>reliable</em>, in the sense of agreeing with expert coders, and <em>valid</em>, in the sense of tracking official measures of activity?</p></li>
+<li><p>Do BLP indicators make regional nowcasts more accurate and more timely than benchmarks that use official data only?</p></li>
+<li><p>Does a grounded generative-AI assistant reduce report-preparation time by more than 20% without lowering report quality or increasing errors?</p></li>
+<li><p>Which safeguards are needed for the responsible use of generative AI in central bank reporting?</p></li>
+</ol>
+<p>The program makes four contributions. First, it provides a measurement framework for Thai liaison text: a codebook, a head-to-head comparison of lexicon, fine-tuned encoder and LLM coding, and an index that removes the effect of changing panel composition. Second, it supplies evidence on the information content of liaison data for regional nowcasting in an emerging economy where official regional data are sparse. Third, it contributes a design artifact—a drafting assistant whose output is traceable sentence by sentence and is blocked when a number cannot be verified—together with its evaluation. Fourth, it delivers pre-registered randomized evidence on the time and quality effects of generative AI in central bank analytical work. An open-source implementation accompanies the proposal.</p>
+<p>Table <a href="#tab:hypotheses" data-reference-type="ref" data-reference="tab:hypotheses">1</a> states the hypotheses with their quantitative targets. Section <a href="#sec:literature" data-reference-type="ref" data-reference="sec:literature">2</a> reviews the literature, Section <a href="#sec:design" data-reference-type="ref" data-reference="sec:design">3</a> sets out the design and data, and Sections <a href="#sec:study1" data-reference-type="ref" data-reference="sec:study1">4</a>, <a href="#sec:study2" data-reference-type="ref" data-reference="sec:study2">5</a>, <a href="#sec:study3" data-reference-type="ref" data-reference="sec:study3">6</a> and <a href="#sec:study4" data-reference-type="ref" data-reference="sec:study4">7</a> describe the four studies. Section <a href="#sec:poc" data-reference-type="ref" data-reference="sec:poc">8</a> validates the software on synthetic data, Section <a href="#sec:discussion" data-reference-type="ref" data-reference="sec:discussion">9</a> discusses implications and limitations, and Section <a href="#sec:plan" data-reference-type="ref" data-reference="sec:plan">10</a> presents the work plan.</p>
+<div id="tab:hypotheses">
+<div class="tbl"><p class="tcap"><b>Table 1.</b> Hypotheses and pre-specified targets.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Hypothesis</th>
+<th style="text-align: left;">Measure</th>
+<th style="text-align: left;">Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">H1</td>
+<td style="text-align: left;">LLM coding agrees with expert coders</td>
+<td style="text-align: left;">Cohen’s <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math> and macro-F1 against the adjudicated gold standard</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>≥</mo><mn>0.70</mn></mrow><annotation encoding="application/x-tex">\kappa \geq 0.70</annotation></semantics></math> and F1 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>0.80</mn></mrow><annotation encoding="application/x-tex">\geq 0.80</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">H2</td>
+<td style="text-align: left;">The BLP index co-moves with activity</td>
+<td style="text-align: left;">Correlation with an official activity composite</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>≥</mo><mn>0.60</mn></mrow><annotation encoding="application/x-tex">r \geq 0.60</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">H3</td>
+<td style="text-align: left;">BLP indicators improve nowcasts</td>
+<td style="text-align: left;">Out-of-sample RMSE relative to an AR benchmark</td>
+<td style="text-align: left;">Ratio <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>0.90</mn></mrow><annotation encoding="application/x-tex">\leq 0.90</annotation></semantics></math>; Clark–West <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">p &lt; 0.05</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">H4</td>
+<td style="text-align: left;">BLP indicators are timelier</td>
+<td style="text-align: left;">Days available before the official release</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">\geq 30</annotation></semantics></math> days</td>
+</tr>
+<tr>
+<td style="text-align: left;">H5</td>
+<td style="text-align: left;">The assistant saves time</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mi>β</mi></msup></mrow><annotation encoding="application/x-tex">\tau = 1 - e^{\beta}</annotation></semantics></math> from a log-time mixed model</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>&gt;</mo><mn>20</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\tau &gt; 20\%</annotation></semantics></math>, one-sided test</td>
+</tr>
+<tr>
+<td style="text-align: left;">H6</td>
+<td style="text-align: left;">Report quality is not worse</td>
+<td style="text-align: left;">Blinded 10-point quality rubric</td>
+<td style="text-align: left;">Non-inferiority margin 0.5 points</td>
+</tr>
+<tr>
+<td style="text-align: left;">H7</td>
+<td style="text-align: left;">Errors do not increase</td>
+<td style="text-align: left;">Factual and numeric errors per 1<span>,</span>000 words</td>
+<td style="text-align: left;">Rate ratio <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\leq 1</annotation></semantics></math>; no numeric error after verification</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="2" id="sec:literature"><span class="header-section-number">2</span> Related literature</h1>
+<h2 data-number="2.1" id="central-bank-liaison-and-soft-information"><span class="header-section-number">2.1</span> Central bank liaison and soft information</h2>
+<p>A long literature asks whether the narrative information that central banks collect from firms contains signal beyond official data. For the Federal Reserve’s Beige Book, <span class="citation" data-cites="balke2002beige">Balke and Petersen (<a href="#ref-balke2002beige" role="doc-biblioref">2002</a>)</span> show that quantified district descriptions track current activity, <span class="citation" data-cites="armesto2009beige">Armesto et al. (<a href="#ref-armesto2009beige" role="doc-biblioref">2009</a>)</span> use mixed-frequency regressions to measure its information content, and <span class="citation" data-cites="sadique2013soft">Sadique et al. (<a href="#ref-sadique2013soft" role="doc-biblioref">2013</a>)</span> relate Beige Book sentiment to economic activity. For the Bank of Canada’s Business Outlook Survey, <span class="citation" data-cites="pichette2011bos">Pichette and Rennison (<a href="#ref-pichette2011bos" role="doc-biblioref">2011</a>)</span> summarize responses with principal components. Two features of this literature matter here: quantification has relied on human or dictionary scoring of English text, and the composition of the liaison panel has received limited attention. To our knowledge, BLP information in Thailand has been used qualitatively in regional and monetary policy communication but has not been systematically quantified and validated in published work.</p>
+<h2 data-number="2.2" id="text-as-data-and-llm-based-measurement"><span class="header-section-number">2.2</span> Text as data and LLM-based measurement</h2>
+<p>Economists build indicators from text with dictionaries <span class="citation" data-cites="loughran2011liability">(<a href="#ref-loughran2011liability" role="doc-biblioref">Loughran and McDonald 2011</a>)</span>, keyword counts <span class="citation" data-cites="baker2016epu">(<a href="#ref-baker2016epu" role="doc-biblioref">Baker et al. 2016</a>)</span>, sentiment models <span class="citation" data-cites="shapiro2022news">(<a href="#ref-shapiro2022news" role="doc-biblioref">Shapiro et al. 2022</a>)</span> and topic models <span class="citation" data-cites="thorsrud2020words">(<a href="#ref-thorsrud2020words" role="doc-biblioref">Thorsrud 2020</a>)</span>, and use text in machine-learning forecasts <span class="citation" data-cites="kalamara2022text">(<a href="#ref-kalamara2022text" role="doc-biblioref">Kalamara et al. 2022</a>)</span>; <span class="citation" data-cites="gentzkow2019text">Gentzkow et al. (<a href="#ref-gentzkow2019text" role="doc-biblioref">2019</a>)</span> survey the field. LLMs extend these tools to classification without task-specific training <span class="citation" data-cites="hansen2023fedspeak">(<a href="#ref-hansen2023fedspeak" role="doc-biblioref">Hansen and Kazinnik 2023</a>)</span>. For Thai, the building blocks are word segmentation <span class="citation" data-cites="phatthiyaphaibun2023pythainlp">(<a href="#ref-phatthiyaphaibun2023pythainlp" role="doc-biblioref"><span class="nocase">Phatthiyaphaibun et al.</span> 2023</a>)</span>, pretrained encoders <span class="citation" data-cites="lowphansirikul2021wangchanberta">(<a href="#ref-lowphansirikul2021wangchanberta" role="doc-biblioref">Lowphansirikul et al. 2021</a>)</span> and Thai-capable LLMs <span class="citation" data-cites="pipatanakul2023typhoon">(<a href="#ref-pipatanakul2023typhoon" role="doc-biblioref"><span class="nocase">Pipatanakul et al.</span> 2023</a>)</span>. Measurement quality is judged with agreement statistics <span class="citation" data-cites="cohen1960coefficient landis1977measurement krippendorff2018content">(<a href="#ref-cohen1960coefficient" role="doc-biblioref">Cohen 1960</a>; <a href="#ref-landis1977measurement" role="doc-biblioref">Landis and Koch 1977</a>; <a href="#ref-krippendorff2018content" role="doc-biblioref">Krippendorff 2018</a>)</span>.</p>
+<h2 data-number="2.3" id="nowcasting-with-soft-data"><span class="header-section-number">2.3</span> Nowcasting with soft data</h2>
+<p>Nowcasting combines data released at different frequencies and dates <span class="citation" data-cites="giannone2008nowcasting banbura2013nowcasting">(<a href="#ref-giannone2008nowcasting" role="doc-biblioref">Giannone et al. 2008</a>; <a href="#ref-banbura2013nowcasting" role="doc-biblioref">Bańbura et al. 2013</a>)</span>, using bridge equations, mixed-data sampling <span class="citation" data-cites="ghysels2007midas">(<a href="#ref-ghysels2007midas" role="doc-biblioref">Ghysels et al. 2007</a>)</span> and factor models <span class="citation" data-cites="stock2002diffusion">(<a href="#ref-stock2002diffusion" role="doc-biblioref">Stock and Watson 2002</a>)</span>. Forecast comparisons rely on the <span class="citation" data-cites="diebold1995comparing">Diebold and Mariano (<a href="#ref-diebold1995comparing" role="doc-biblioref">1995</a>)</span> test with the small-sample correction of <span class="citation" data-cites="harvey1997testing">Harvey et al. (<a href="#ref-harvey1997testing" role="doc-biblioref">1997</a>)</span>, the <span class="citation" data-cites="clark2007approximately">Clark and West (<a href="#ref-clark2007approximately" role="doc-biblioref">2007</a>)</span> test for nested models and the model confidence set <span class="citation" data-cites="hansen2011mcs">(<a href="#ref-hansen2011mcs" role="doc-biblioref">Hansen et al. 2011</a>)</span>. Low-frequency regional output can be distributed to a higher frequency with related series <span class="citation" data-cites="chow1971best">(<a href="#ref-chow1971best" role="doc-biblioref">Chow and Lin 1971</a>)</span>, and satellite data offer an independent proxy for activity <span class="citation" data-cites="henderson2012lights">(<a href="#ref-henderson2012lights" role="doc-biblioref">Henderson et al. 2012</a>)</span>.</p>
+<h2 data-number="2.4" id="generative-ai-and-the-productivity-of-knowledge-work"><span class="header-section-number">2.4</span> Generative AI and the productivity of knowledge work</h2>
+<p>Randomized evidence points to large but uneven effects. In professional writing tasks, <span class="citation" data-cites="noy2023experimental">Noy and Zhang (<a href="#ref-noy2023experimental" role="doc-biblioref">2023</a>)</span> report that access to a chatbot cut completion time by about 40% and raised quality. In customer support, <span class="citation" data-cites="brynjolfsson2025genai">Brynjolfsson et al. (<a href="#ref-brynjolfsson2025genai" role="doc-biblioref">2025</a>)</span> find an increase of about 14% in issues resolved per hour, concentrated among less experienced workers. Consultants studied by <span class="citation" data-cites="dellacqua2023jagged">Dell’Acqua et al. (<a href="#ref-dellacqua2023jagged" role="doc-biblioref">2023</a>)</span> worked about 25% faster on tasks inside the “jagged frontier” of model capability but made more errors on a task outside it, and developers using a coding assistant completed a programming task about 56% faster <span class="citation" data-cites="peng2023copilot">(<a href="#ref-peng2023copilot" role="doc-biblioref">Peng et al. 2023</a>)</span>. Against these estimates a 20% threshold is conservative, but central bank reporting contains verification work that generative AI may not shorten, and errors are costly. The experiment in Section <a href="#sec:study4" data-reference-type="ref" data-reference="sec:study4">7</a> therefore measures time, quality and errors jointly.</p>
+<h2 data-number="2.5" id="retrieval-augmentation-hallucination-and-governance"><span class="header-section-number">2.5</span> Retrieval augmentation, hallucination and governance</h2>
+<p>Retrieval-augmented generation conditions a language model on retrieved documents <span class="citation" data-cites="lewis2020rag">(<a href="#ref-lewis2020rag" role="doc-biblioref">Lewis et al. 2020</a>)</span>; classical BM25 ranking <span class="citation" data-cites="robertson2009bm25">(<a href="#ref-robertson2009bm25" role="doc-biblioref">Robertson and Zaragoza 2009</a>)</span> and reciprocal rank fusion <span class="citation" data-cites="cormack2009rrf">(<a href="#ref-cormack2009rrf" role="doc-biblioref">Cormack et al. 2009</a>)</span> remain strong components. Retrieval reduces but does not eliminate unsupported statements <span class="citation" data-cites="ji2023hallucination">(<a href="#ref-ji2023hallucination" role="doc-biblioref">Ji et al. 2023</a>)</span>, which motivates automated faithfulness evaluation <span class="citation" data-cites="es2024ragas">(<a href="#ref-es2024ragas" role="doc-biblioref">Es et al. 2024</a>)</span> and the explicit verification layer proposed here. Governance frameworks emphasize risk mapping, measurement and human oversight <span class="citation" data-cites="nist2023airmf">(<a href="#ref-nist2023airmf" role="doc-biblioref">National Institute of Standards and Technology 2023</a>)</span>, and the BIS discusses the opportunities and risks of AI for central banks <span class="citation" data-cites="bis2024aer">(<a href="#ref-bis2024aer" role="doc-biblioref">Bank for International Settlements 2024</a>)</span>.</p>
+<h2 data-number="2.6" id="theoretical-lenses"><span class="header-section-number">2.6</span> Theoretical lenses</h2>
+<p>Four lenses organize the program. <em>Soft versus hard information</em> <span class="citation" data-cites="stein2002information petersen2004information">(<a href="#ref-stein2002information" role="doc-biblioref">Stein 2002</a>; <a href="#ref-petersen2004information" role="doc-biblioref">Petersen 2004</a>)</span>: liaison information is soft—contextual, hard to verify and costly to transmit—and quantification hardens it at the cost of nuance; Study 1 measures what survives hardening, and the assistant keeps a link to the original text. <em>The task-based framework</em> <span class="citation" data-cites="acemoglu2011skills">(<a href="#ref-acemoglu2011skills" role="doc-biblioref">Acemoglu and Autor 2011</a>)</span>: report production is a bundle of tasks (reading, summarizing, retrieving data, drafting, checking and revising), and generative AI substitutes for some and complements others, which predicts heterogeneous gains across tasks and workers. <em>Design science research</em> <span class="citation" data-cites="hevner2004design peffers2007dsrm">(<a href="#ref-hevner2004design" role="doc-biblioref">Hevner et al. 2004</a>; <a href="#ref-peffers2007dsrm" role="doc-biblioref">Peffers et al. 2007</a>)</span> frames the assistant as an artifact that must be built and rigorously evaluated. <em>Technology acceptance</em> <span class="citation" data-cites="davis1989tam">(<a href="#ref-davis1989tam" role="doc-biblioref">Davis 1989</a>)</span> links perceived usefulness and ease of use to adoption, measured in Study 4.</p>
+<h1 data-number="3" id="sec:design"><span class="header-section-number">3</span> Research design and data</h1>
+<h2 data-number="3.1" id="overall-design"><span class="header-section-number">3.1</span> Overall design</h2>
+<p>The program follows a pragmatist mixed-methods design with two tracks (Figure <a href="#fig:framework" data-reference-type="ref" data-reference="fig:framework">1</a>). The measurement track turns notes into indicators (Study 1) and tests their predictive validity (Study 2). The report-production track builds an assistant that drafts from the notes and the new indicators (Study 3) and estimates its causal effect on preparation time (Study 4). Safeguards for data governance cut across both tracks.</p>
+<figure id="fig:framework" data-latex-placement="tbp">
+<img loading="lazy" src="figures/tikz_1.svg" />
+<figcaption><b>Figure 1.</b> Research framework. Track A converts liaison notes into indicators and tests them; Track B uses the notes and indicators to draft reports and tests the effect on preparation time. Shaded boxes are the four studies.</figcaption>
+</figure>
+<h2 data-number="3.2" id="data"><span class="header-section-number">3.2</span> Data</h2>
+<p>Table <a href="#tab:data" data-reference-type="ref" data-reference="tab:data">2</a> lists the data sources. The BLP notes are the core input and are confidential; all processing of firm-level text takes place inside the BOT’s secure environment.</p>
+<div id="tab:data">
+<div class="tbl"><p class="tcap"><b>Table 2.</b> Data sources.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Frequency</th>
+<th style="text-align: left;">Used in</th>
+<th style="text-align: left;">Role and caveats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">BLP interview notes (Thai text)</td>
+<td style="text-align: left;">Each round</td>
+<td style="text-align: left;">Studies 1, 3</td>
+<td style="text-align: left;">Core input; confidential, processed in the data enclave only</td>
+</tr>
+<tr>
+<td style="text-align: left;">Structured BLP ratings, if recorded</td>
+<td style="text-align: left;">Each round</td>
+<td style="text-align: left;">Study 1</td>
+<td style="text-align: left;">Benchmark for text-based scores</td>
+</tr>
+<tr>
+<td style="text-align: left;">BOT regional economic indicators</td>
+<td style="text-align: left;">Monthly</td>
+<td style="text-align: left;">Study 2</td>
+<td style="text-align: left;">Nowcasting targets and benchmarks</td>
+</tr>
+<tr>
+<td style="text-align: left;">NESDC gross regional product</td>
+<td style="text-align: left;">Annual</td>
+<td style="text-align: left;">Study 2</td>
+<td style="text-align: left;">Long-run target; few observations, pooled across regions</td>
+</tr>
+<tr>
+<td style="text-align: left;">NSO Labour Force Survey</td>
+<td style="text-align: left;">Quarterly</td>
+<td style="text-align: left;">Study 2</td>
+<td style="text-align: left;">Validity check for the employment index</td>
+</tr>
+<tr>
+<td style="text-align: left;">VIIRS night-time lights</td>
+<td style="text-align: left;">Monthly</td>
+<td style="text-align: left;">Study 2</td>
+<td style="text-align: left;">Independent alternative measure of activity</td>
+</tr>
+<tr>
+<td style="text-align: left;">Past regional economic reports</td>
+<td style="text-align: left;">Monthly, quarterly</td>
+<td style="text-align: left;">Study 3</td>
+<td style="text-align: left;">Style reference and key points for evaluation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Time and edit logs</td>
+<td style="text-align: left;">Per session</td>
+<td style="text-align: left;">Study 4</td>
+<td style="text-align: left;">Primary and secondary outcomes</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h2 data-number="3.3" id="gold-standard-annotation"><span class="header-section-number">3.3</span> Gold-standard annotation</h2>
+<p>A stratified sample of at least 1<span>,</span>200 note segments, drawn by region, sector and year, is coded independently by two economists using the codebook in Table <a href="#tab:codebook" data-reference-type="ref" data-reference="tab:codebook">3</a>; a third economist adjudicates disagreements. The codebook is revised until human–human agreement reaches <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>≥</mo><mn>0.75</mn></mrow><annotation encoding="application/x-tex">\kappa \geq 0.75</annotation></semantics></math>. The adjudicated sample is split 60/20/20 into training, development and test sets for the supervised model; all reported comparisons use the test set.</p>
+<h2 data-number="3.4" id="data-governance-and-ethics"><span class="header-section-number">3.4</span> Data governance and ethics</h2>
+<p>Firm names, contact names, telephone numbers and e-mail addresses are masked before any modeling, first by exact matching against the BLP contact database and then by pattern rules and named-entity recognition; masking recall is audited on a human-checked sample. LLMs run on premises by default. An external API may be used only with masked data, under an approved data-processing agreement. All processing complies with Thailand’s Personal Data Protection Act B.E. 2562 (2019) and the BOT’s confidentiality rules. Study 4 requires ethics approval and informed consent, individual results are never used for performance assessment, and the hypotheses and analysis code are pre-registered before data collection <span class="citation" data-cites="nosek2018preregistration">(<a href="#ref-nosek2018preregistration" role="doc-biblioref">Nosek et al. 2018</a>)</span>.</p>
+<h2 data-number="3.5" id="reproducibility"><span class="header-section-number">3.5</span> Reproducibility</h2>
+<p>The code, configuration files and a synthetic data generator are released with the proposal; random seeds, model weights and prompt versions are fixed and logged. Results on confidential data can therefore be reproduced inside the enclave, and every software component can be inspected outside it.</p>
+<h1 data-number="4" id="sec:study1"><span class="header-section-number">4</span> Study 1: Measuring business conditions from liaison notes</h1>
+<h2 data-number="4.1" id="codebook"><span class="header-section-number">4.1</span> Codebook</h2>
+<p>Each note is coded on the six topics in Table <a href="#tab:codebook" data-reference-type="ref" data-reference="tab:codebook">3</a>. A topic receives a direction relative to the previous quarter—up (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>), unchanged (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>) or down (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>)—or is marked as not mentioned. Statements about competitors, the government or world markets are not attributed to the interviewed firm, and a topic that contains both increases and decreases is coded as unchanged.</p>
+<div id="tab:codebook">
+<div class="tbl"><p class="tcap"><b>Table 3.</b> Codebook. Each topic is coded as up, unchanged, down or not mentioned, relative to the previous quarter.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Index role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Sales and demand</td>
+<td style="text-align: left;">Sales, orders, revenue, customer and tourist numbers, occupancy</td>
+<td style="text-align: left;">Activity (BLP-RAI)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Employment</td>
+<td style="text-align: left;">Headcount, hiring, working hours</td>
+<td style="text-align: left;">Activity (BLP-RAI)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Investment</td>
+<td style="text-align: left;">Capital spending, machinery, capacity and branch expansion by the firm</td>
+<td style="text-align: left;">Activity (BLP-RAI)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Selling prices</td>
+<td style="text-align: left;">Prices charged by the firm</td>
+<td style="text-align: left;">Price pressure</td>
+</tr>
+<tr>
+<td style="text-align: left;">Costs</td>
+<td style="text-align: left;">Input costs: raw materials, wages, energy</td>
+<td style="text-align: left;">Cost pressure</td>
+</tr>
+<tr>
+<td style="text-align: left;">Outlook</td>
+<td style="text-align: left;">Expected business conditions over the coming quarter</td>
+<td style="text-align: left;">Leading indicator</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h2 data-number="4.2" id="scoring-methods"><span class="header-section-number">4.2</span> Scoring methods</h2>
+<p>Four scorers are compared on the gold-standard test set.</p>
+<ol>
+<li><p><strong>Lexicon.</strong> A Thai economic lexicon assigns each clause to a topic by keyword priority and to a direction by counting increase and decrease terms, with negation handling (“not yet raised” is unchanged). It is transparent and serves as the baseline.</p></li>
+<li><p><strong>Fine-tuned encoder.</strong> A Thai pretrained encoder <span class="citation" data-cites="lowphansirikul2021wangchanberta">(<a href="#ref-lowphansirikul2021wangchanberta" role="doc-biblioref">Lowphansirikul et al. 2021</a>)</span> with one four-class head per topic, trained on the gold standard.</p></li>
+<li><p><strong>LLM structured extraction.</strong> An instruction-tuned LLM returns one label per topic under a JSON schema, with the codebook and worked examples in the prompt (Appendix <a href="#app:prompts" data-reference-type="ref" data-reference="app:prompts">A</a>). On-premise and API models are compared.</p></li>
+<li><p><strong>Ensemble.</strong> A majority vote over M1–M3.</p></li>
+</ol>
+<p>The comparison reports accuracy, macro-F1, Cohen’s <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math> and Krippendorff’s <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> by topic, together with cost and processing time per 1<span>,</span>000 notes.</p>
+<h2 data-number="4.3" id="index-construction"><span class="header-section-number">4.3</span> Index construction</h2>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mrow><mi>i</mi><mi>k</mi><mi>t</mi></mrow></msub><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>+</mi><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">s_{ikt} \in \{-1,0,+1\}</annotation></semantics></math> denote the score of firm <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> on topic <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> in quarter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>, where firm <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> belongs to region <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> and sector <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">s(i)</annotation></semantics></math>. The diffusion index, or net balance, is <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><msub><mi>I</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mn>100</mn><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>p</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow><mo>+</mo></msubsup><mo>−</mo><msubsup><mi>p</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow><mo>−</mo></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mfrac><mn>100</mn><msub><mi>N</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub></mfrac><munder><mo>∑</mo><mrow><mi>i</mi><mo>∈</mo><msub><mi>ℐ</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub></mrow></munder><msub><mi>s</mi><mrow><mi>i</mi><mi>k</mi><mi>t</mi></mrow></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:di}
+DI_{rkt} \;=\; 100\left(p^{+}_{rkt} - p^{-}_{rkt}\right) \;=\; \frac{100}{N_{rkt}} \sum_{i \in \mathcal{I}_{rkt}} s_{ikt},
+\end{equation}</annotation></semantics></math> where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mo>+</mo></msup><annotation encoding="application/x-tex">p^{+}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mo>−</mo></msup><annotation encoding="application/x-tex">p^{-}</annotation></semantics></math> are the shares of firms reporting an increase and a decrease. Because the liaison sample is purposive, sectoral shares in the sample differ from the structure of the regional economy. The sector-weighted index re-weights sector-level net balances by the sector’s share <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mrow><mi>r</mi><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">w_{rs}</annotation></semantics></math> in regional output, renormalized over the sectors <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝒮</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">\mathcal{S}_{rt}</annotation></semantics></math> observed in quarter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>I</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow><mi>w</mi></msubsup><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mfrac><mrow><munder><mo>∑</mo><mrow><mi>s</mi><mo>∈</mo><msub><mi>𝒮</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub></mrow></munder><msub><mi>w</mi><mrow><mi>r</mi><mi>s</mi></mrow></msub><mspace width="0.167em"></mspace><mi>D</mi><msub><mi>I</mi><mrow><mi>r</mi><mi>s</mi><mi>k</mi><mi>t</mi></mrow></msub></mrow><mrow><munder><mo>∑</mo><mrow><mi>s</mi><mo>∈</mo><msub><mi>𝒮</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub></mrow></munder><msub><mi>w</mi><mrow><mi>r</mi><mi>s</mi></mrow></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:weighted}
+I^{w}_{rkt} \;=\; \frac{\sum_{s \in \mathcal{S}_{rt}} w_{rs}\, DI_{rskt}}{\sum_{s \in \mathcal{S}_{rt}} w_{rs}}.
+\end{equation}</annotation></semantics></math></p>
+<h2 data-number="4.4" id="composition-adjustment"><span class="header-section-number">4.4</span> Composition adjustment</h2>
+<p>Firms differ persistently in how optimistic they sound, and the set of firms interviewed changes over time. If firms that enter the panel are systematically more optimistic, a raw index drifts upward even when no firm’s conditions improve. The composition-adjusted index separates persistent firm effects from common quarterly movements with a weighted two-way fixed-effects model, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mrow><mi>i</mi><mi>k</mi><mi>t</mi></mrow></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><msub><mi>α</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>λ</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>ε</mi><mrow><mi>i</mi><mi>k</mi><mi>t</mi></mrow></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>ω</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mfrac><msub><mi>w</mi><mrow><mi>r</mi><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo></mrow></msub><msub><mi>n</mi><mrow><mi>r</mi><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mi>t</mi></mrow></msub></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:fe}
+s_{ikt} \;=\; \alpha_{ik} + \lambda_{rkt} + \varepsilon_{ikt}, \qquad \omega_{it} \;=\; \frac{w_{r s(i)}}{n_{r s(i) t}},
+\end{equation}</annotation></semantics></math> estimated by weighted least squares with weights <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">\omega_{it}</annotation></semantics></math>, so that each sector contributes in proportion to its output share. The quarter effects <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">\lambda_{rkt}</annotation></semantics></math> are identified from changes within firms that are interviewed more than once and are computed by alternating projections, which converge for connected panels. They are normalized to the mean of the weighted raw index, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>I</mi><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">j</mi></mrow></msubsup><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mn>100</mn><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mrow><mi>r</mi><mi>k</mi><mi>t</mi></mrow></msub><mo>−</mo><msub><mover><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo accent="true">‾</mo></mover><mrow><mi>r</mi><mi>k</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msubsup><mover><mi>I</mi><mo accent="true">‾</mo></mover><mrow><mi>r</mi><mi>k</mi></mrow><mi>w</mi></msubsup><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:norm}
+I^{\mathrm{adj}}_{rkt} \;=\; 100\left(\hat{\lambda}_{rkt} - \bar{\hat{\lambda}}_{rk}\right) + \bar{I}^{w}_{rk},
+\end{equation}</annotation></semantics></math> so the adjusted index retains the net-balance scale. The composite BLP Regional Activity Index (BLP-RAI) averages the adjusted sales, employment and investment indices. The cross-sectional standard deviation of firm scores provides an uncertainty index, and the series are seasonally adjusted with X-13ARIMA-SEATS where seasonality is detected.</p>
+<p>Fixed effects remove time-invariant differences between firms but not selection on current conditions—for example, distressed firms declining an interview. Participation is therefore modeled as a function of past scores, and the indices are re-estimated with inverse-probability weights as a sensitivity check.</p>
+<h2 data-number="4.5" id="validity-framework"><span class="header-section-number">4.5</span> Validity framework</h2>
+<p>Table <a href="#tab:validity" data-reference-type="ref" data-reference="tab:validity">4</a> lists the validity tests and pass criteria. Predictive validity is the subject of Study 2.</p>
+<div id="tab:validity">
+<div class="tbl"><p class="tcap"><b>Table 4.</b> Validity framework for the BLP indices.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Test</th>
+<th style="text-align: left;">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Reliability</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> between each scorer and the adjudicated gold standard</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>≥</mo><mn>0.70</mn></mrow><annotation encoding="application/x-tex">\kappa \geq 0.70</annotation></semantics></math> (H1)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Content validity</td>
+<td style="text-align: left;">Expert review of the codebook against report sections</td>
+<td style="text-align: left;">All report topics covered</td>
+</tr>
+<tr>
+<td style="text-align: left;">Convergent validity</td>
+<td style="text-align: left;">Correlation with official activity composites</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>≥</mo><mn>0.60</mn></mrow><annotation encoding="application/x-tex">r \geq 0.60</annotation></semantics></math> (H2)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Discriminant validity</td>
+<td style="text-align: left;">Sector indices correlate more with their own sector data (for example tourism) than with unrelated series</td>
+<td style="text-align: left;">Expected ordering holds</td>
+</tr>
+<tr>
+<td style="text-align: left;">Predictive validity</td>
+<td style="text-align: left;">Pseudo-real-time nowcasting (Study 2)</td>
+<td style="text-align: left;">RMSE ratio <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>0.90</mn></mrow><annotation encoding="application/x-tex">\leq 0.90</annotation></semantics></math> (H3)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Robustness</td>
+<td style="text-align: left;">Leave-one-sector-out, alternative weights, alternative scorers</td>
+<td style="text-align: left;">Conclusions unchanged</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="5" id="sec:study2"><span class="header-section-number">5</span> Study 2: Predictive validity and nowcasting</h1>
+<h2 data-number="5.1" id="targets"><span class="header-section-number">5.1</span> Targets</h2>
+<p>Three targets are used: (i) quarterly composites of the BOT’s monthly regional indicators; (ii) annual gross regional product, pooled across regions to increase the number of observations; and (iii) quarterly regional product distributed from annual totals with the <span class="citation" data-cites="chow1971best">Chow and Lin (<a href="#ref-chow1971best" role="doc-biblioref">1971</a>)</span> method. When the BLP index itself serves as a related series in (iii), evaluation uses only targets that do not depend on it, to avoid circularity.</p>
+<h2 data-number="5.2" id="pseudo-real-time-design"><span class="header-section-number">5.2</span> Pseudo-real-time design</h2>
+<p>At the end of quarter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> the information set contains the BLP indices for quarter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> and official data released by that date, following each series’ publication calendar. Models are re-estimated on an expanding window, and out-of-sample evaluation starts in 2018 so that it includes the COVID-19 shock. First-release vintages are used where they are available.</p>
+<h2 data-number="5.3" id="models"><span class="header-section-number">5.3</span> Models</h2>
+<p>Table <a href="#tab:models" data-reference-type="ref" data-reference="tab:models">5</a> lists the competing models. The core specification adds the BLP index to an autoregressive benchmark with region fixed effects, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mi>c</mi><mo>+</mo><mi>ρ</mi><mspace width="0.167em"></mspace><msub><mi>y</mi><mrow><mi>r</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><mi>β</mi><mspace width="0.167em"></mspace><msub><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">I</mi></mrow><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>+</mo><mi>γ</mi><mspace width="0.167em"></mspace><msub><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">T</mi></mrow><mrow><mi>r</mi><mo>,</mo><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>μ</mi><mi>r</mi></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:nowcast}
+y_{rt} \;=\; c + \rho\, y_{r,t-1} + \beta\, \mathrm{RAI}_{rt} + \gamma\, \mathrm{OUT}_{r,t-1} + \mu_r + u_{rt},
+\end{equation}</annotation></semantics></math> where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">O</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">T</mi></mrow><annotation encoding="application/x-tex">\mathrm{OUT}</annotation></semantics></math> is the outlook index; M1 sets <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\gamma = 0</annotation></semantics></math> and M0 sets <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mi>γ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\beta = \gamma = 0</annotation></semantics></math>.</p>
+<div id="tab:models">
+<div class="tbl"><p class="tcap"><b>Table 5.</b> Nowcasting models.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">M0</td>
+<td style="text-align: left;">AR(1) with region fixed effects</td>
+<td style="text-align: left;">Benchmark</td>
+</tr>
+<tr>
+<td style="text-align: left;">M1</td>
+<td style="text-align: left;">M0 + BLP-RAI</td>
+<td style="text-align: left;">Main test of H3</td>
+</tr>
+<tr>
+<td style="text-align: left;">M2</td>
+<td style="text-align: left;">M1 + lagged outlook index</td>
+<td style="text-align: left;">Value of forward-looking statements</td>
+</tr>
+<tr>
+<td style="text-align: left;">M3</td>
+<td style="text-align: left;">Bridge equation or U-MIDAS with monthly indicators + BLP</td>
+<td style="text-align: left;">Comparison with current practice</td>
+</tr>
+<tr>
+<td style="text-align: left;">M4</td>
+<td style="text-align: left;">Dynamic factor model</td>
+<td style="text-align: left;">Advanced benchmark</td>
+</tr>
+<tr>
+<td style="text-align: left;">M5</td>
+<td style="text-align: left;">Panel pooled across regions</td>
+<td style="text-align: left;">Statistical power with short histories</td>
+</tr>
+<tr>
+<td style="text-align: left;">M6</td>
+<td style="text-align: left;">Elastic net and gradient boosting</td>
+<td style="text-align: left;">Robustness to functional form</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h2 data-number="5.4" id="evaluation"><span class="header-section-number">5.4</span> Evaluation</h2>
+<p>Accuracy is measured by the RMSE relative to M0, the mean absolute error and directional accuracy. Nested comparisons use the <span class="citation" data-cites="clark2007approximately">Clark and West (<a href="#ref-clark2007approximately" role="doc-biblioref">2007</a>)</span> statistic, which adjusts the loss differential for the noise introduced by estimating additional parameters, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>t</mi></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>t</mi></msub><mo>−</mo><msubsup><mover><mi>y</mi><mo accent="true">̂</mo></mover><mi>t</mi><mn>0</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><mrow><mo stretchy="true" form="prefix">[</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>t</mi></msub><mo>−</mo><msubsup><mover><mi>y</mi><mo accent="true">̂</mo></mover><mi>t</mi><mn>1</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mover><mi>y</mi><mo accent="true">̂</mo></mover><mi>t</mi><mn>0</mn></msubsup><mo>−</mo><msubsup><mover><mi>y</mi><mo accent="true">̂</mo></mover><mi>t</mi><mn>1</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:cw}
+f_{t} \;=\; \left(y_{t} - \hat{y}^{0}_{t}\right)^{2} - \left[\left(y_{t} - \hat{y}^{1}_{t}\right)^{2} - \left(\hat{y}^{0}_{t} - \hat{y}^{1}_{t}\right)^{2}\right],
+\end{equation}</annotation></semantics></math> tested one-sided with heteroskedasticity- and autocorrelation-consistent standard errors. Non-nested comparisons use the Diebold–Mariano test with the small-sample correction of <span class="citation" data-cites="harvey1997testing">Harvey et al. (<a href="#ref-harvey1997testing" role="doc-biblioref">1997</a>)</span>, and the model confidence set summarizes all models <span class="citation" data-cites="hansen2011mcs">(<a href="#ref-hansen2011mcs" role="doc-biblioref">Hansen et al. 2011</a>)</span>. Event windows around the 2020 pandemic shock and the 2024 floods in northern Thailand show how quickly each model detects turning points.</p>
+<h2 data-number="5.5" id="timeliness"><span class="header-section-number">5.5</span> Timeliness</h2>
+<p>Timeliness is the number of days between the date the BLP index can be computed and the release of the corresponding official figure, reported as a distribution across quarters; H4 requires a median gain of at least 30 days.</p>
+<h1 data-number="6" id="sec:study3"><span class="header-section-number">6</span> Study 3: Design of a grounded report-drafting assistant</h1>
+<h2 data-number="6.1" id="requirements-and-baseline"><span class="header-section-number">6.1</span> Requirements and baseline</h2>
+<p>Semi-structured interviews and a focus group with 8–12 report writers establish requirements. A time-and-motion study over two report cycles measures the time spent reading notes, summarizing, retrieving data, drafting, checking numbers and revising. The baseline locates where the assistant can save time and defines the tasks used in Study 4.</p>
+<h2 data-number="6.2" id="architecture"><span class="header-section-number">6.2</span> Architecture</h2>
+<p>Figure <a href="#fig:architecture" data-reference-type="ref" data-reference="fig:architecture">2</a> shows the architecture. An offline layer masks identifiers, indexes the notes for hybrid retrieval and stores the indicator tables from Study 1. For each report, a planner splits the report into six sections; for each section, the retriever returns evidence filtered by region and quarter, the drafter writes cited sentences, and the verifier decides whether the draft may reach the economist.</p>
+<figure id="fig:architecture" data-latex-placement="tbp">
+<img loading="lazy" src="figures/tikz_2.svg" />
+<figcaption><b>Figure 2.</b> Architecture of the drafting assistant. Only drafts that pass verification reach the economist; failing drafts are regenerated or flagged. Every prompt, retrieved source and model version is written to the audit trail.</figcaption>
+</figure>
+<h2 data-number="6.3" id="grounding-constraints-and-the-verifier"><span class="header-section-number">6.3</span> Grounding constraints and the verifier</h2>
+<p>The drafter must satisfy four constraints, and the verifier enforces the first three mechanically.</p>
+<ol>
+<li><p><strong>Provenance.</strong> Each sentence is written on its own line and ends with at least one citation, either to a note (<code>[N:id]</code>) or to a row of the data table (<code>[D:key]</code>). Citations must point to evidence actually supplied for that section.</p></li>
+<li><p><strong>Numeric grounding.</strong> A number is accepted only if it matches a value in the data table (level, previous value, change or absolute change), a number in the cited evidence, a contextual number (quarter, year in the Gregorian or Buddhist calendar), or the count of notes cited in the same sentence.</p></li>
+<li><p><strong>Confidentiality.</strong> The draft may not contain any name from the entity list or any pattern that resembles a firm name, contact name, telephone number or e-mail address.</p></li>
+<li><p><strong>Abstention.</strong> When evidence is insufficient, the drafter must say so rather than generalize.</p></li>
+</ol>
+<p>A draft that violates C1–C3 is blocked rather than passed with a warning; its sentence-level citation coverage must reach at least 95%.</p>
+<h2 data-number="6.4" id="model-selection-and-retrieval"><span class="header-section-number">6.4</span> Model selection and retrieval</h2>
+<p>On-premise open-weight models with Thai capability <span class="citation" data-cites="pipatanakul2023typhoon">(<a href="#ref-pipatanakul2023typhoon" role="doc-biblioref"><span class="nocase">Pipatanakul et al.</span> 2023</a>)</span> are the default because notes never leave the organization, model versions can be frozen and costs are fixed. API models are evaluated on masked data as a benchmark. Retrieval combines BM25 over PyThaiNLP tokens with dense multilingual embeddings and fuses the two rankings by reciprocal rank fusion <span class="citation" data-cites="robertson2009bm25 cormack2009rrf">(<a href="#ref-robertson2009bm25" role="doc-biblioref">Robertson and Zaragoza 2009</a>; <a href="#ref-cormack2009rrf" role="doc-biblioref">Cormack et al. 2009</a>)</span>.</p>
+<h2 data-number="6.5" id="design-cycles"><span class="header-section-number">6.5</span> Design cycles</h2>
+<p>The assistant is developed in three design-science cycles <span class="citation" data-cites="peffers2007dsrm">(<a href="#ref-peffers2007dsrm" role="doc-biblioref">Peffers et al. 2007</a>)</span>: a retrieval-and-citation prototype evaluated offline; the addition of the verifier and an editing interface, tested in think-aloud sessions with three to five users; and a final revision after which the system, prompts and model weights are frozen for Study 4.</p>
+<h2 data-number="6.6" id="offline-evaluation"><span class="header-section-number">6.6</span> Offline evaluation</h2>
+<p>Table <a href="#tab:offline" data-reference-type="ref" data-reference="tab:offline">6</a> lists the offline metrics. Three variants are compared to isolate the contribution of each component: an extractive template without an LLM, an LLM without retrieval and the full retrieval-augmented system.</p>
+<div id="tab:offline">
+<div class="tbl"><p class="tcap"><b>Table 6.</b> Offline evaluation of the assistant.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Faithfulness</td>
+<td style="text-align: left;">Share of statements supported by the cited source, judged by experts</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\geq 95\%</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Numeric accuracy</td>
+<td style="text-align: left;">Share of numbers that match the data table</td>
+<td style="text-align: left;">100% (otherwise blocked)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Citation precision</td>
+<td style="text-align: left;">Share of citations that support their sentence</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>90</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\geq 90\%</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Key-point coverage</td>
+<td style="text-align: left;">Share of key points in the published report that the draft covers</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>80</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">\geq 80\%</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Confidentiality leakage</td>
+<td style="text-align: left;">Identifiers appearing in a draft</td>
+<td style="text-align: left;">Zero</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="7" id="sec:study4"><span class="header-section-number">7</span> Study 4: Randomized crossover experiment on preparation time</h1>
+<h2 data-number="7.1" id="design"><span class="header-section-number">7.1</span> Design</h2>
+<p>Each participant drafts four reports, two with the assistant and two without, in a randomized crossover design <span class="citation" data-cites="jones2014crossover">(<a href="#ref-jones2014crossover" role="doc-biblioref">Jones and Kenward 2014</a>)</span> shown in Figure <a href="#fig:crossover" data-reference-type="ref" data-reference="fig:crossover">3</a>. Participants are stratified by experience and randomized to the sequence ABAB or BABA, where A denotes AI-assisted drafting. The order of the four tasks follows a Williams Latin square <span class="citation" data-cites="williams1949experimental">(<a href="#ref-williams1949experimental" role="doc-biblioref">Williams 1949</a>)</span>, which balances first-order carryover and ensures that every task appears equally often under both conditions.</p>
+<figure id="fig:crossover" data-latex-placement="tbp">
+<img loading="lazy" src="figures/tikz_3.svg" />
+<figcaption><b>Figure 3.</b> Randomized crossover design. Each participant completes four matched drafting tasks, alternating between AI-assisted and control conditions; the two sequences mirror each other.</figcaption>
+</figure>
+<h2 data-number="7.2" id="participants-and-tasks"><span class="header-section-number">7.2</span> Participants and tasks</h2>
+<p>Participants are BOT economists and analysts who prepare regional reports, recruited from the regional offices and the head office with a target of 30. If fewer are available, the design moves to eight tasks per participant (two per session), and trained research analysts may join as a separate stratum analyzed in a pre-specified subgroup. Each task is to draft the six-section report for one region and quarter from a fixed packet of masked notes and data tables. Packets are matched on the number of notes and the complexity of the data and pilot-tested for difficulty. A task ends when the draft passes a standard completion checklist, which prevents speed from being bought with incompleteness.</p>
+<h2 data-number="7.3" id="outcomes"><span class="header-section-number">7.3</span> Outcomes</h2>
+<p>Table <a href="#tab:outcomes" data-reference-type="ref" data-reference="tab:outcomes">7</a> lists the outcomes. Quality is rated by two economists who do not know the condition under which a draft was produced.</p>
+<div id="tab:outcomes">
+<div class="tbl"><p class="tcap"><b>Table 7.</b> Outcomes of the experiment.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Level</th>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Primary</td>
+<td style="text-align: left;">Minutes to a checklist-passing draft</td>
+<td style="text-align: left;">Automatic time log of active working time</td>
+</tr>
+<tr>
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">Quality</td>
+<td style="text-align: left;">10-point rubric (accuracy, completeness, coherence, insight), two blinded raters</td>
+</tr>
+<tr>
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">Errors</td>
+<td style="text-align: left;">Numeric errors and unsupported statements per 1<span>,</span>000 words</td>
+</tr>
+<tr>
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">Workload and usability</td>
+<td style="text-align: left;">NASA-TLX <span class="citation" data-cites="hart1988nasatlx">(<a href="#ref-hart1988nasatlx" role="doc-biblioref">Hart and Staveland 1988</a>)</span>; System Usability Scale <span class="citation" data-cites="brooke1996sus">(<a href="#ref-brooke1996sus" role="doc-biblioref">Brooke 1996</a>)</span>, target <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">\geq 70</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">Exploratory</td>
+<td style="text-align: left;">Reliance on the assistant</td>
+<td style="text-align: left;">Edit distance between the AI draft and the submitted draft</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h2 data-number="7.4" id="estimation-and-hypothesis-tests"><span class="header-section-number">7.4</span> Estimation and hypothesis tests</h2>
+<p>Preparation time is analyzed on the log scale with a linear mixed model, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><msub><mi>T</mi><mrow><mi>i</mi><mi>j</mi><mi>k</mi></mrow></msub><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mi>μ</mi><mo>+</mo><mi>β</mi><mspace width="0.167em"></mspace><msub><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">I</mi></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>γ</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>+</mo><msub><mi>δ</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">k</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ε</mi><mrow><mi>i</mi><mi>j</mi><mi>k</mi></mrow></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:time}
+\log T_{ijk} \;=\; \mu + \beta\, \mathrm{AI}_{ij} + \gamma_{\mathrm{session}} + \delta_{\mathrm{task}} + u_{i} + \varepsilon_{ijk},
+\end{equation}</annotation></semantics></math> where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>i</mi></msub><annotation encoding="application/x-tex">u_i</annotation></semantics></math> is a participant random effect. The proportional time reduction is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mi>β</mi></msup></mrow><annotation encoding="application/x-tex">\tau = 1 - e^{\beta}</annotation></semantics></math>, and H5 is the one-sided test <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mspace width="-0.167em"></mspace><mo>:</mo><mi>β</mi><mo>≥</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mn>0.8</mn><mspace width="2.0em"></mspace><mtext mathvariant="normal">against</mtext><mspace width="2.0em"></mspace><msub><mi>H</mi><mn>1</mn></msub><mspace width="-0.167em"></mspace><mo>:</mo><mi>β</mi><mo>&lt;</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mn>0.8</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\begin{equation}
+\label{eq:h5}
+H_{0}\!: \beta \geq \ln 0.8 \qquad \text{against} \qquad H_{1}\!: \beta &lt; \ln 0.8 .
+\end{equation}</annotation></semantics></math> H5 is supported when the lower one-sided 95% confidence bound for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math> exceeds 20%. Quality is analyzed with the same model, and H6 is a non-inferiority test with margin 0.5 points, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mspace width="-0.167em"></mspace><mo>:</mo><mi>θ</mi><mo>≤</mo><mi>−</mi><mn>0.5</mn></mrow><annotation encoding="application/x-tex">H_0\!: \theta \leq -0.5</annotation></semantics></math> against <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mspace width="-0.167em"></mspace><mo>:</mo><mi>θ</mi><mo>&gt;</mo><mi>−</mi><mn>0.5</mn></mrow><annotation encoding="application/x-tex">H_1\!: \theta &gt; -0.5</annotation></semantics></math>, reported following the CONSORT extension for non-inferiority trials <span class="citation" data-cites="piaggio2012noninferiority">(<a href="#ref-piaggio2012noninferiority" role="doc-biblioref">Piaggio et al. 2012</a>)</span>. Error counts are modeled with a Poisson regression with an offset for document length and standard errors clustered by participant (H7). A first-order carryover term (whether the previous session used the assistant) tests for carryover; robustness checks use a Wilcoxon signed-rank test on participant-level differences and per-protocol estimates. Heterogeneity by experience is a pre-specified secondary analysis, motivated by the larger gains for less experienced workers found by <span class="citation" data-cites="brynjolfsson2025genai">Brynjolfsson et al. (<a href="#ref-brynjolfsson2025genai" role="doc-biblioref">2025</a>)</span>.</p>
+<h2 data-number="7.5" id="power-analysis"><span class="header-section-number">7.5</span> Power analysis</h2>
+<p>Power is computed by simulating Equation <a href="#eq:time" data-reference-type="ref" data-reference="eq:time">7</a> under the crossover design, with standard deviations on the log scale of 0.15 for task effects, 0.30 for residuals and 0.15 for individual differences in the AI effect, and a learning effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.03</mn></mrow><annotation encoding="application/x-tex">-0.03</annotation></semantics></math> per session; these values will be updated with pilot data. Figure <a href="#fig:power" data-reference-type="ref" data-reference="fig:power">4</a> shows that testing against a 20% threshold, rather than against zero, is demanding. With four tasks per participant, 30 participants provide power of 0.92 if the true reduction is 35% but only 0.61 if it is 30%. Eight tasks per participant raise power at a 30% reduction to 0.81. The plan is therefore 30 participants with four tasks each, moving to eight tasks if the pilot suggests a smaller effect or more residual variation. For quality, 30 participants give power of 0.83 to establish non-inferiority when the true difference is zero and the within-person standard deviation is one point.</p>
+<figure id="fig:power" data-latex-placement="tbp">
+<img loading="lazy" src="figures/fig_power.svg" />
+<figcaption><b>Figure 4.</b> Power of the one-sided test that preparation time falls by more than 20%, by number of participants, true reduction and tasks per participant (4<span>,</span>000 simulations per point). Dotted lines mark power of 0.80 and the planned sample of 30 participants.</figcaption>
+</figure>
+<h2 data-number="7.6" id="field-pilot"><span class="header-section-number">7.6</span> Field pilot</h2>
+<p>After the experiment, the assistant is used in two regular report cycles. Time logs are compared with the baseline time-and-motion study. Because the comparison is not randomized, the pilot supports external validity and adoption analysis rather than causal claims.</p>
+<h2 data-number="7.7" id="threats-to-validity"><span class="header-section-number">7.7</span> Threats to validity</h2>
+<p>Table <a href="#tab:threats" data-reference-type="ref" data-reference="tab:threats">8</a> lists the main threats and the corresponding safeguards.</p>
+<div id="tab:threats">
+<div class="tbl"><p class="tcap"><b>Table 8.</b> Threats to validity in Study 4.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Threat</th>
+<th style="text-align: left;">Safeguard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Learning and carryover</td>
+<td style="text-align: left;">Crossover with mirrored sequences, Williams square, test for first-order carryover</td>
+</tr>
+<tr>
+<td style="text-align: left;">Unequal task difficulty</td>
+<td style="text-align: left;">Matched and pilot-tested packets; task fixed effects</td>
+</tr>
+<tr>
+<td style="text-align: left;">Speed bought with quality</td>
+<td style="text-align: left;">Completion defined by checklist; non-inferiority test on blinded quality</td>
+</tr>
+<tr>
+<td style="text-align: left;">Novelty and Hawthorne effects</td>
+<td style="text-align: left;">Training session before the experiment; field pilot over two cycles</td>
+</tr>
+<tr>
+<td style="text-align: left;">Small sample</td>
+<td style="text-align: left;">Mixed model; option of eight tasks per participant</td>
+</tr>
+<tr>
+<td style="text-align: left;">Limited external validity</td>
+<td style="text-align: left;">Field pilot with real report cycles</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="8" id="sec:poc"><span class="header-section-number">8</span> Proof of concept on synthetic data</h1>
+<p>All numbers in this section come from synthetic data generated by the companion code. They show that the pipeline is implemented correctly and behaves as intended; they are not evidence about BLP data or about the hypotheses.</p>
+<h2 data-number="8.1" id="synthetic-data"><span class="header-section-number">8.1</span> Synthetic data</h2>
+<p>The generator (Appendix <a href="#app:dgp" data-reference-type="ref" data-reference="app:dgp">D</a>) produces three regions over 56 quarters (2012Q1–2025Q4), with 45 interviews per region and quarter and 80% quarterly retention of firms, giving 7<span>,</span>560 notes from 1<span>,</span>714 firms. Latent national, regional and cost factors drive firm responses, with a pandemic shock in 2020Q2 and a slower recovery in tourism. Firms that join later are more optimistic, which creates composition bias, and the sample’s sector mix differs from regional output shares. Notes are written in Thai from phrase templates and include mixed statements, negations and distractor sentences about competitors, the government and world markets, together with fictitious firm names, contact names and telephone numbers.</p>
+<h2 data-number="8.2" id="anonymization-and-coding"><span class="header-section-number">8.2</span> Anonymization and coding</h2>
+<p>After dictionary and pattern masking, no identifier remained in any of the 7<span>,</span>560 notes. The lexicon scorer reached accuracy of 0.970, macro-F1 of 0.971 and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mn>0.958</mn></mrow><annotation encoding="application/x-tex">\kappa = 0.958</annotation></semantics></math> against the generated labels; agreement was lowest for investment (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mn>0.843</mn></mrow><annotation encoding="application/x-tex">\kappa = 0.843</annotation></semantics></math>) because distractor sentences about competitors’ expansion are misattributed to the firm. Two simulated human coders agreed with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mn>0.787</mn></mrow><annotation encoding="application/x-tex">\kappa = 0.787</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.802</mn></mrow><annotation encoding="application/x-tex">\alpha = 0.802</annotation></semantics></math>. Because synthetic notes are built from templates, these figures are an upper bound for the lexicon on real notes, which is why Study 1 compares it with fine-tuned and LLM coding.</p>
+<h2 data-number="8.3" id="composition-adjustment-1"><span class="header-section-number">8.3</span> Composition adjustment</h2>
+<p>Figure <a href="#fig:composition" data-reference-type="ref" data-reference="fig:composition">5</a> compares the raw and adjusted activity indices with the latent activity that generated the data. The raw index drifts upward relative to the truth as optimistic firms enter the panel; the adjusted index removes the drift. Correlation with latent activity rises from 0.862 to 0.919 in the Northeast, from 0.895 to 0.905 in the North and from 0.901 to 0.921 in the South. Sector weighting alone does not help in this data-generating process (0.858, 0.895 and 0.897), because sectors share the regional factor except during the tourism shock.</p>
+<figure id="fig:composition" data-latex-placement="tbp">
+<img loading="lazy" src="figures/fig_composition.svg" />
+<figcaption><b>Figure 5.</b> Raw and composition-adjusted BLP activity indices against latent regional activity in synthetic data, 2012Q1–2025Q4. All series are standardized; the shaded band marks 2020Q2.</figcaption>
+</figure>
+<h2 data-number="8.4" id="nowcasting"><span class="header-section-number">8.4</span> Nowcasting</h2>
+<p>The pseudo-real-time exercise produces 96 nowcasts (three regions, 2018Q1–2025Q4). Adding the BLP index lowers the RMSE by 41% relative to the autoregressive benchmark, and adding the lagged outlook index lowers it by 46% (Tables <a href="#tab:poc_nowcast" data-reference-type="ref" data-reference="tab:poc_nowcast">9</a> and <a href="#fig:nowcast" data-reference-type="ref" data-reference="fig:nowcast">6</a>). Both improvements are significant under the Clark–West and Diebold–Mariano tests. The outlook index correlates 0.64 with contemporaneous growth and 0.81 with growth one quarter ahead, consistent with its role as a leading indicator. These gains reflect the synthetic data-generating process and set no expectation for real data.</p>
+<div id="tab:poc_nowcast">
+<div class="tbl"><p class="tcap"><b>Table 9.</b> Out-of-sample nowcast accuracy on synthetic data, 96 nowcasts, 2018Q1–2025Q4.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">MAE</th>
+<th style="text-align: center;">RMSE ratio</th>
+<th style="text-align: center;">Clark–West <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)</th>
+<th style="text-align: center;">Diebold–Mariano (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">M0: AR(1)</td>
+<td style="text-align: center;">1.681</td>
+<td style="text-align: center;">1.165</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">–</td>
+<td style="text-align: center;">–</td>
+</tr>
+<tr>
+<td style="text-align: left;">M1: + BLP-RAI</td>
+<td style="text-align: center;">0.986</td>
+<td style="text-align: center;">0.750</td>
+<td style="text-align: center;">0.587</td>
+<td style="text-align: center;">3.10 (0.001)</td>
+<td style="text-align: center;">2.69 (0.008)</td>
+</tr>
+<tr>
+<td style="text-align: left;">M2: + lagged outlook</td>
+<td style="text-align: center;">0.901</td>
+<td style="text-align: center;">0.716</td>
+<td style="text-align: center;">0.536</td>
+<td style="text-align: center;">3.03 (0.001)</td>
+<td style="text-align: center;">2.80 (0.006)</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<figure id="fig:nowcast" data-latex-placement="tbp">
+<img loading="lazy" src="figures/fig_nowcast.svg" />
+<figcaption><b>Figure 6.</b> Pseudo-real-time nowcasts on synthetic data. Panel (a) shows the North region; panel (b) pools all regions, and the dotted line marks the H3 target ratio of 0.90.</figcaption>
+</figure>
+<h2 data-number="8.5" id="verification-of-drafts"><span class="header-section-number">8.5</span> Verification of drafts</h2>
+<p>With the extractive baseline in place of an LLM, the assistant drafted all six sections of a report for the North region in 2025Q4: 26 sentences, every one cited, and every section passed verification. As a negative control, a sentence containing a fictitious firm name, an invented number and a citation to a non-existent data row was appended to one section. The verifier blocked the section, reporting the two unverifiable numbers, the invalid citation and the firm name.</p>
+<h2 data-number="8.6" id="dry-run-of-the-pre-registered-analysis"><span class="header-section-number">8.6</span> Dry run of the pre-registered analysis</h2>
+<p>The analysis code was run on a simulated experiment with 30 participants and a true reduction of 30%. The randomization balanced tasks across conditions (14 to 16 observations per task and condition). The estimated reduction was 27.8% (95% confidence interval 20.2–34.7%), with a lower one-sided bound of 21.5% and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.022</mn></mrow><annotation encoding="application/x-tex">p = 0.022</annotation></semantics></math> against the 20% threshold. The quality difference was <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.19</mn></mrow><annotation encoding="application/x-tex">-0.19</annotation></semantics></math> points (non-inferiority <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.053</mn></mrow><annotation encoding="application/x-tex">p = 0.053</annotation></semantics></math>), the error rate ratio 0.92 and the carryover test <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.11</mn></mrow><annotation encoding="application/x-tex">p = 0.11</annotation></semantics></math>. That a single draw lands this close to both thresholds illustrates why the sample-size decision in Figure <a href="#fig:power" data-reference-type="ref" data-reference="fig:power">4</a> matters.</p>
+<h1 data-number="9" id="sec:discussion"><span class="header-section-number">9</span> Discussion</h1>
+<h2 data-number="9.1" id="expected-contributions"><span class="header-section-number">9.1</span> Expected contributions</h2>
+<p>If the hypotheses hold, the program will show that liaison text in a low-resource language can be turned into indicators that are reliable, valid and timely, and that a generative-AI assistant can shorten report production without sacrificing accuracy. If they fail, the program still documents where the pipeline breaks: in coding agreement, in composition, in predictive content or in the time cost of verification. Either outcome is informative for central banks that are deciding how to use these tools.</p>
+<h2 data-number="9.2" id="policy-implications"><span class="header-section-number">9.2</span> Policy implications</h2>
+<p>For the BOT, the indicators can feed a regional monitoring dashboard and the material prepared for monetary policy meetings, with uncertainty indices signaling when regional conditions diverge. The assistant can shift economists’ time from summarizing notes toward analysis and from routine drafting toward judgment.</p>
+<h2 data-number="9.3" id="a-responsible-ai-guideline"><span class="header-section-number">9.3</span> A responsible-AI guideline</h2>
+<p>RQ4 is answered with a guideline distilled from Studies 3 and 4: keep a human author responsible for every report; require a source for every statement; verify every number mechanically; mask identifiers before modeling; freeze and log model versions, prompts and sources; evaluate before deployment; and monitor reliance on the assistant for signs of automation bias.</p>
+<h2 data-number="9.4" id="limitations"><span class="header-section-number">9.4</span> Limitations</h2>
+<p>The BLP sample is purposive, and fixed effects cannot remove selection on current conditions. Histories are short, which limits the precision of nowcasting comparisons. LLMs change between versions, so results are specific to the frozen model. Synthetic validation shows that the software works, not that the hypotheses hold. The experiment measures drafting under controlled conditions, and its external validity depends on the field pilot. Finally, results from one central bank may not transfer to programs with different interview protocols.</p>
+<h1 data-number="10" id="sec:plan"><span class="header-section-number">10</span> Work plan</h1>
+<h2 data-number="10.1" id="effort-allocation"><span class="header-section-number">10.1</span> Effort allocation</h2>
+<p>Effort is split 60% academic design and 40% code (Figure <a href="#fig:effort" data-reference-type="ref" data-reference="fig:effort">7</a>). Academic design covers the research questions, measurement design, identification, experimental design, statistical analysis and writing; code covers the data pipeline, models, the assistant, logging tools and reproducibility. Code is concentrated in Study 1 and Study 3, where the artifacts are built; the theoretical chapters carry no code.</p>
+<figure id="fig:effort" data-latex-placement="tbp">
+<img loading="lazy" src="figures/fig_effort.svg" />
+<figcaption><b>Figure 7.</b> Planned allocation of thesis effort by chapter. Bar segments show academic design and code; labels give percentage points of total effort.</figcaption>
+</figure>
+<h2 data-number="10.2" id="timeline"><span class="header-section-number">10.2</span> Timeline</h2>
+<p>Figure <a href="#fig:timeline" data-reference-type="ref" data-reference="fig:timeline">8</a> shows the four-year plan. The milestones are M1, the proposal defense (month 6); M2, ethics approval and the data-access agreement (month 9); M3, pre-registration of Study 4 (month 30); and M4, the final defense (month 47).</p>
+<figure id="fig:timeline" data-latex-placement="tbp">
+<img loading="lazy" src="figures/fig_timeline.svg" />
+<figcaption><b>Figure 8.</b> Four-year work plan. Bars show work packages by track; diamonds mark milestones M1–M4.</figcaption>
+</figure>
+<h2 data-number="10.3" id="publication-plan"><span class="header-section-number">10.3</span> Publication plan</h2>
+<p>Each study is written as a self-contained paper (Table <a href="#tab:papers" data-reference-type="ref" data-reference="tab:papers">10</a>), and the thesis combines them with an introduction and a concluding chapter.</p>
+<div id="tab:papers">
+<div class="tbl"><p class="tcap"><b>Table 10.</b> Publication plan.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Paper</th>
+<th style="text-align: left;">Working title</th>
+<th style="text-align: left;">Target outlets</th>
+<th style="text-align: left;">Year</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Measuring business conditions from Thai liaison notes</td>
+<td style="text-align: left;">International Journal of Central Banking; central bank working paper series</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Liaison data and regional nowcasting in an emerging economy</td>
+<td style="text-align: left;">International Journal of Forecasting; Journal of Forecasting</td>
+<td style="text-align: left;">2–3</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">A grounded drafting assistant for central bank reports</td>
+<td style="text-align: left;">Decision Support Systems; Government Information Quarterly</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Generative AI and report preparation: a randomized crossover experiment</td>
+<td style="text-align: left;">Management Science; Journal of Economic Behavior &amp; Organization</td>
+<td style="text-align: left;">4</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h2 data-number="10.4" id="risk-register"><span class="header-section-number">10.4</span> Risk register</h2>
+<p>Table <a href="#tab:risks" data-reference-type="ref" data-reference="tab:risks">11</a> lists the main risks with their mitigations.</p>
+<div id="tab:risks">
+<div class="tbl"><p class="tcap"><b>Table 11.</b> Risk register.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Risk</th>
+<th style="text-align: left;">Likelihood</th>
+<th style="text-align: left;">Impact</th>
+<th style="text-align: left;">Mitigation and fallback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Firm-level notes unavailable or delayed</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Build indices from published BLP summaries and regional report texts; run Study 4 on masked or public-text packets</td>
+</tr>
+<tr>
+<td style="text-align: left;">Short history of digitized notes</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Pool regions; parsimonious models; shrinkage</td>
+</tr>
+<tr>
+<td style="text-align: left;">Inadequate Thai LLM quality</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Verifier blocks failures; fine-tune on-premise; extractive fallback</td>
+</tr>
+<tr>
+<td style="text-align: left;">Too few participants</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Eight tasks per participant; analyst stratum</td>
+</tr>
+<tr>
+<td style="text-align: left;">Confidentiality incident</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Enclave only; masking audits; no external API without approval</td>
+</tr>
+<tr>
+<td style="text-align: left;">Model drift during the experiment</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Freeze weights and prompts; log versions in the audit trail</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="11" id="sec:conclusion"><span class="header-section-number">11</span> Conclusion</h1>
+<p>The Business Liaison Program collects some of the most timely information available about Thailand’s regional economies, but its value is limited by its form and by the effort needed to turn it into reports. This proposal sets out how to measure that information rigorously, how to test whether it improves regional nowcasts, how to build an assistant whose drafts can be audited sentence by sentence, and how to test causally whether that assistant saves more than a fifth of the time needed to prepare a report. The accompanying software already runs end to end; the doctoral research will apply it to the BLP data.</p>
+<h1 class="unnumbered" id="code-and-data-availability">Code and data availability</h1>
+<p>The companion code (<a href="https://github.com/thanatchon36/blp-research" class="uri">https://github.com/thanatchon36/blp-research</a>) implements every study, includes a synthetic data generator and regenerates all data-driven figures and numbers in this paper with <code>make figures</code>. BLP data are confidential and remain within the Bank of Thailand’s secure environment; only synthetic data are distributed.</p>
+<h1 class="unnumbered" id="declaration-on-the-use-of-generative-ai">Declaration on the use of generative AI</h1>
+<p>A generative-AI assistant was used to draft parts of the text, code and figures under the author’s direction. The author reviewed the material and takes full responsibility for the content, including the verification of all references.</p>
+<h1 class="unnumbered" id="references">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-acemoglu2011skills" class="csl-entry" role="listitem">
+Acemoglu, Daron, and David Autor. 2011. <span>“Skills, Tasks and Technologies: Implications for Employment and Earnings.”</span> In <em>Handbook of Labor Economics</em>, edited by Orley Ashenfelter and David Card, vol. 4B. Elsevier.
+</div>
+
+
+<h1 data-number="12" id="app:prompts"><span class="header-section-number">A</span> Prompt templates</h1>
+<p>The prompts are written in Thai in the code; English translations follow.</p>
+<p><strong>Coding prompt (M3).</strong> <em>System:</em> You code interview notes from a central bank business liaison program. Answer only with JSON that follows the schema. <em>User:</em> Codebook, relative to the previous quarter and only for the interviewed firm: sales (sales, orders, revenue, customers, tourists, occupancy); employment (headcount, hiring, hours); investment (capital spending, machinery, capacity or branch expansion by the firm itself); price (the firm’s selling prices); cost (the firm’s input costs); outlook (expected business conditions). Labels: up, flat, down, not_mentioned. Rules: a topic with both increases and decreases is flat; statements about competitors, the government or world markets do not count; “not yet raised” is flat. Example and note follow.</p>
+<p><strong>JSON schema.</strong> An object with the six topics as required keys, each a string restricted to {up, flat, down, not_mentioned}, and no additional properties.</p>
+<p><strong>Drafting system prompt.</strong> You assist central bank economists in drafting a formal, concise and neutral regional economic report in Thai. Use only DATA and EVIDENCE. Write one sentence per line and end every line with at least one citation [D:key] or [N:id]. Copy every number exactly from DATA; do not compute, round or estimate. Never name firms or people or give identifying details. If evidence is insufficient, say so and cite the table checked.</p>
+<h1 data-number="13" id="app:software"><span class="header-section-number">B</span> Software architecture</h1>
+<div id="tab:modules">
+<div class="tbl"><p class="tcap"><b>Table 12.</b> Modules of the companion code and the sections they implement.</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Function</th>
+<th style="text-align: left;">Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>src/blp/synthetic.py</code></td>
+<td style="text-align: left;">Synthetic notes, gold labels and target series</td>
+<td style="text-align: left;"><a href="#sec:poc" data-reference-type="ref" data-reference="sec:poc">8</a>, <a href="#app:dgp" data-reference-type="ref" data-reference="app:dgp">D</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/preprocess.py</code></td>
+<td style="text-align: left;">Masking of identifiers; Thai clause splitting</td>
+<td style="text-align: left;">3.4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/scoring.py</code></td>
+<td style="text-align: left;">Lexicon (M1), LLM (M3) and ensemble (M4) scorers</td>
+<td style="text-align: left;">4.2</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/reliability.py</code></td>
+<td style="text-align: left;">Cohen’s <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math>, Krippendorff’s <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>, macro-F1</td>
+<td style="text-align: left;">4.5</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/indicators.py</code></td>
+<td style="text-align: left;">Diffusion, sector-weighted and composition-adjusted indices</td>
+<td style="text-align: left;">4.3–4.4</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/nowcast.py</code></td>
+<td style="text-align: left;">Expanding-window evaluation; Clark–West and Diebold–Mariano tests</td>
+<td style="text-align: left;"><a href="#sec:study2" data-reference-type="ref" data-reference="sec:study2">5</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/assistant/</code></td>
+<td style="text-align: left;">LLM clients, hybrid retrieval, drafter, verifier</td>
+<td style="text-align: left;"><a href="#sec:study3" data-reference-type="ref" data-reference="sec:study3">6</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>src/blp/experiment/</code></td>
+<td style="text-align: left;">Crossover randomization, power simulation, analysis, time logging</td>
+<td style="text-align: left;"><a href="#sec:study4" data-reference-type="ref" data-reference="sec:study4">7</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>run_pipeline.py</code></td>
+<td style="text-align: left;">Runs every study on synthetic data</td>
+<td style="text-align: left;"><a href="#sec:poc" data-reference-type="ref" data-reference="sec:poc">8</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>scripts/make_figures.py</code></td>
+<td style="text-align: left;">Regenerates all data-driven figures and numbers</td>
+<td style="text-align: left;">All</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="14" id="app:power"><span class="header-section-number">C</span> Power analysis grid</h1>
+<div id="tab:powergrid">
+<div class="tbl"><p class="tcap"><b>Table 13.</b> Simulated power of the one-sided test of a time reduction above 20% (4<span>,</span>000 simulations per cell).</p><div class="tscroll"><table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th colspan="2" style="text-align: center;">4 tasks per participant</th>
+<th colspan="2" style="text-align: center;">6 tasks per participant</th>
+<th colspan="2" style="text-align: center;">8 tasks per participant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span>2-3</span>(lr)<span>4-5</span>(lr)<span>6-7</span> Participants</td>
+<td style="text-align: center;">30%</td>
+<td style="text-align: center;">35%</td>
+<td style="text-align: center;">30%</td>
+<td style="text-align: center;">35%</td>
+<td style="text-align: center;">30%</td>
+<td style="text-align: center;">35%</td>
+</tr>
+<tr>
+<td style="text-align: left;">10</td>
+<td style="text-align: center;">0.27</td>
+<td style="text-align: center;">0.52</td>
+<td style="text-align: center;">0.35</td>
+<td style="text-align: center;">0.61</td>
+<td style="text-align: center;">0.41</td>
+<td style="text-align: center;">0.69</td>
+</tr>
+<tr>
+<td style="text-align: left;">15</td>
+<td style="text-align: center;">0.37</td>
+<td style="text-align: center;">0.66</td>
+<td style="text-align: center;">0.48</td>
+<td style="text-align: center;">0.79</td>
+<td style="text-align: center;">0.54</td>
+<td style="text-align: center;">0.86</td>
+</tr>
+<tr>
+<td style="text-align: left;">20</td>
+<td style="text-align: center;">0.47</td>
+<td style="text-align: center;">0.79</td>
+<td style="text-align: center;">0.57</td>
+<td style="text-align: center;">0.88</td>
+<td style="text-align: center;">0.66</td>
+<td style="text-align: center;">0.94</td>
+</tr>
+<tr>
+<td style="text-align: left;">25</td>
+<td style="text-align: center;">0.54</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">0.74</td>
+<td style="text-align: center;">0.97</td>
+</tr>
+<tr>
+<td style="text-align: left;">30</td>
+<td style="text-align: center;">0.61</td>
+<td style="text-align: center;">0.92</td>
+<td style="text-align: center;">0.73</td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">0.81</td>
+<td style="text-align: center;">0.99</td>
+</tr>
+<tr>
+<td style="text-align: left;">35</td>
+<td style="text-align: center;">0.68</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.79</td>
+<td style="text-align: center;">0.98</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">40</td>
+<td style="text-align: center;">0.74</td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">0.83</td>
+<td style="text-align: center;">0.99</td>
+<td style="text-align: center;">0.90</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<h1 data-number="15" id="app:dgp"><span class="header-section-number">D</span> Synthetic data-generating process</h1>
+<p>A national activity factor and a cost factor follow AR(1) processes, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mi>t</mi></msub><mo>=</mo><mn>0.6</mn><mspace width="0.167em"></mspace><msub><mi>g</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>e</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">g_t = 0.6\,g_{t-1} + e_t</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mi>t</mi></msub><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mn>0.55</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">e_t \sim N(0, 0.55^2)</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>t</mi></msub><mo>=</mo><mn>0.7</mn><mspace width="0.167em"></mspace><msub><mi>π</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>v</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\pi_t = 0.7\,\pi_{t-1} + v_t</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>t</mi></msub><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mn>0.45</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">v_t \sim N(0, 0.45^2)</annotation></semantics></math>, with a shock of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>3.0</mn></mrow><annotation encoding="application/x-tex">-3.0</annotation></semantics></math> in 2020Q2 and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1.0</mn></mrow><annotation encoding="application/x-tex">-1.0</annotation></semantics></math> in 2020Q3. Regional factors are <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>λ</mi><mi>r</mi></msub><msub><mi>g</mi><mi>t</mi></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">f_{rt} = \lambda_r g_t + u_{rt}</annotation></semantics></math> with loadings <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0</mn><mo>,</mo><mn>0.8</mn><mo>,</mo><mn>1.2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1.0, 0.8, 1.2)</annotation></semantics></math> for the North, Northeast and South and AR(1) idiosyncratic terms with coefficient 0.5 and standard deviation 0.4. Tourism receives an additional shock of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1.5</mn></mrow><annotation encoding="application/x-tex">-1.5</annotation></semantics></math> for seven quarters from 2020Q2. Regional activity is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mo>∑</mo><mi>s</mi></msub><msub><mi>w</mi><mrow><mi>r</mi><mi>s</mi></mrow></msub><msub><mi>τ</mi><mrow><mi>s</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">a_{rt} = f_{rt} + \sum_s w_{rs}\tau_{st}</annotation></semantics></math>, and the official-data proxy is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>=</mo><mn>2</mn><mo>+</mo><mn>1.8</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>η</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">y_{rt} = 2 + 1.8\,a_{rt} + \eta_{rt}</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>η</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mn>0.6</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\eta_{rt} \sim N(0, 0.6^2)</annotation></semantics></math>.</p>
+<p>Each region interviews 45 firms per quarter; a firm stays in the panel with probability 0.8, and entrants in quarter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> draw an optimism effect <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0.8</mn><mspace width="0.167em"></mspace><mi>t</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>0.4</mn><mo>,</mo><mspace width="0.278em"></mspace><msup><mn>0.5</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha_i \sim N(0.8\,t/(T-1) - 0.4,\; 0.5^2)</annotation></semantics></math>. With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mi>r</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>τ</mi><mrow><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">a_{it} = f_{rt} + \tau_{s(i)t}</annotation></semantics></math>, latent firm responses are <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi></mrow></msup><mo>=</mo><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{sales}} = a_{it} + \alpha_i + \epsilon</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">p</mi></mrow></msup><mo>=</mo><mn>0.6</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><mn>0.7</mn><mspace width="0.167em"></mspace><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{emp}} = 0.6\,a_{it} + 0.7\,\alpha_i + \epsilon</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">v</mi></mrow></msup><mo>=</mo><mn>0.7</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><mn>0.8</mn><mspace width="0.167em"></mspace><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{inv}} = 0.7\,a_{it} + 0.8\,\alpha_i + \epsilon</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">e</mi></mrow></msup><mo>=</mo><mn>0.7</mn><mspace width="0.167em"></mspace><msub><mi>π</mi><mi>t</mi></msub><mo>+</mo><mn>0.3</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><mn>0.3</mn><mspace width="0.167em"></mspace><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{price}} = 0.7\,\pi_t + 0.3\,a_{it} + 0.3\,\alpha_i + \epsilon</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi></mrow></msup><mo>=</mo><mn>0.9</mn><mspace width="0.167em"></mspace><msub><mi>π</mi><mi>t</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{cost}} = 0.9\,\pi_t + \epsilon</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>z</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msup><mo>=</mo><mn>0.6</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>i</mi><mo>,</mo><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>+</mo><mn>0.3</mn><mspace width="0.167em"></mspace><msub><mi>a</mi><mrow><mi>i</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">z^{\mathrm{out}} = 0.6\,a_{i,t+1} + 0.3\,a_{it} + \alpha_i + \epsilon</annotation></semantics></math>, with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mn>0.7</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\epsilon \sim N(0, 0.7^2)</annotation></semantics></math> (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>0.8</mn><mn>2</mn></msup><annotation encoding="application/x-tex">0.8^2</annotation></semantics></math> for investment). Responses above <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.55</mn><annotation encoding="application/x-tex">0.55</annotation></semantics></math> are coded up and below <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.55</mn></mrow><annotation encoding="application/x-tex">-0.55</annotation></semantics></math> down. Each topic is mentioned with probability 0.85 (0.90 for the outlook), activity topics are written as mixed statements with probability 0.08, and a distractor sentence is added with probability 0.25.</p>
+<div id="ref-armesto2009beige" class="csl-entry" role="listitem">
+Armesto, Michelle T., Rubén Hernández-Murillo, Michael T. Owyang, and Jeremy Piger. 2009. <span>“Measuring the Information Content of the <span>Beige Book</span>: A Mixed Data Sampling Approach.”</span> <em>Journal of Money, Credit and Banking</em> 41 (1): 35–55.
+</div>
+<div id="ref-baker2016epu" class="csl-entry" role="listitem">
+Baker, Scott R., Nicholas Bloom, and Steven J. Davis. 2016. <span>“Measuring Economic Policy Uncertainty.”</span> <em>Quarterly Journal of Economics</em> 131 (4): 1593–636.
+</div>
+<div id="ref-balke2002beige" class="csl-entry" role="listitem">
+Balke, Nathan S., and D’Ann Petersen. 2002. <span>“How Well Does the <span>Beige Book</span> Reflect Economic Activity? <span>Evaluating</span> Qualitative Information Quantitatively.”</span> <em>Journal of Money, Credit and Banking</em> 34 (1): 114–36.
+</div>
+<div id="ref-banbura2013nowcasting" class="csl-entry" role="listitem">
+Bańbura, Marta, Domenico Giannone, Michele Modugno, and Lucrezia Reichlin. 2013. <span>“Now-Casting and the Real-Time Data Flow.”</span> In <em>Handbook of Economic Forecasting</em>, edited by Graham Elliott and Allan Timmermann, vol. 2A. Elsevier.
+</div>
+<div id="ref-bis2024aer" class="csl-entry" role="listitem">
+Bank for International Settlements. 2024. <span>“Artificial Intelligence and the Economy: Implications for Central Banks.”</span> In <em>Annual Economic Report 2024</em>. BIS.
+</div>
+<div id="ref-brooke1996sus" class="csl-entry" role="listitem">
+Brooke, John. 1996. <span>“<span>SUS</span>: A <span>‘Quick and Dirty’</span> Usability Scale.”</span> In <em>Usability Evaluation in Industry</em>, edited by Patrick W. Jordan, B. Thomas, Bernard A. Weerdmeester, and Ian L. McClelland. Taylor &amp; Francis.
+</div>
+<div id="ref-brynjolfsson2025genai" class="csl-entry" role="listitem">
+Brynjolfsson, Erik, Danielle Li, and Lindsey Raymond. 2025. <span>“Generative <span>AI</span> at Work.”</span> <em>Quarterly Journal of Economics</em> 140 (2): 889–942.
+</div>
+<div id="ref-chow1971best" class="csl-entry" role="listitem">
+Chow, Gregory C., and An-loh Lin. 1971. <span>“Best Linear Unbiased Interpolation, Distribution, and Extrapolation of Time Series by Related Series.”</span> <em>Review of Economics and Statistics</em> 53 (4): 372–75.
+</div>
+<div id="ref-clark2007approximately" class="csl-entry" role="listitem">
+Clark, Todd E., and Kenneth D. West. 2007. <span>“Approximately Normal Tests for Equal Predictive Accuracy in Nested Models.”</span> <em>Journal of Econometrics</em> 138 (1): 291–311.
+</div>
+<div id="ref-cohen1960coefficient" class="csl-entry" role="listitem">
+Cohen, Jacob. 1960. <span>“A Coefficient of Agreement for Nominal Scales.”</span> <em>Educational and Psychological Measurement</em> 20 (1): 37–46.
+</div>
+<div id="ref-cormack2009rrf" class="csl-entry" role="listitem">
+Cormack, Gordon V., Charles L. A. Clarke, and Stefan Büttcher. 2009. <span>“Reciprocal Rank Fusion Outperforms <span>Condorcet</span> and Individual Rank Learning Methods.”</span> <em>Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval</em>, 758–59.
+</div>
+<div id="ref-davis1989tam" class="csl-entry" role="listitem">
+Davis, Fred D. 1989. <span>“Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology.”</span> <em>MIS Quarterly</em> 13 (3): 319–40.
+</div>
+<div id="ref-dellacqua2023jagged" class="csl-entry" role="listitem">
+Dell’Acqua, Fabrizio, Edward McFowland, Ethan R. Mollick, et al. 2023. <em>Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of <span>AI</span> on Knowledge Worker Productivity and Quality</em>. Working Paper Nos. 24-013. Harvard Business School.
+</div>
+<div id="ref-diebold1995comparing" class="csl-entry" role="listitem">
+Diebold, Francis X., and Roberto S. Mariano. 1995. <span>“Comparing Predictive Accuracy.”</span> <em>Journal of Business &amp; Economic Statistics</em> 13 (3): 253–63.
+</div>
+<div id="ref-es2024ragas" class="csl-entry" role="listitem">
+Es, Shahul, Jithin James, Luis Espinosa-Anke, and Steven Schockaert. 2024. <span>“<span>RAGAS</span>: Automated Evaluation of Retrieval Augmented Generation.”</span> <em>Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations</em>, 150–58.
+</div>
+<div id="ref-gentzkow2019text" class="csl-entry" role="listitem">
+Gentzkow, Matthew, Bryan Kelly, and Matt Taddy. 2019. <span>“Text as Data.”</span> <em>Journal of Economic Literature</em> 57 (3): 535–74.
+</div>
+<div id="ref-ghysels2007midas" class="csl-entry" role="listitem">
+Ghysels, Eric, Arthur Sinko, and Rossen Valkanov. 2007. <span>“<span>MIDAS</span> Regressions: Further Results and New Directions.”</span> <em>Econometric Reviews</em> 26 (1): 53–90.
+</div>
+<div id="ref-giannone2008nowcasting" class="csl-entry" role="listitem">
+Giannone, Domenico, Lucrezia Reichlin, and David Small. 2008. <span>“Nowcasting: The Real-Time Informational Content of Macroeconomic Data.”</span> <em>Journal of Monetary Economics</em> 55 (4): 665–76.
+</div>
+<div id="ref-hansen2023fedspeak" class="csl-entry" role="listitem">
+Hansen, Anne Lundgaard, and Sophia Kazinnik. 2023. <em>Can <span>ChatGPT</span> Decipher <span>Fedspeak</span>?</em> SSRN Working Paper.
+</div>
+<div id="ref-hansen2011mcs" class="csl-entry" role="listitem">
+Hansen, Peter R., Asger Lunde, and James M. Nason. 2011. <span>“The Model Confidence Set.”</span> <em>Econometrica</em> 79 (2): 453–97.
+</div>
+<div id="ref-hart1988nasatlx" class="csl-entry" role="listitem">
+Hart, Sandra G., and Lowell E. Staveland. 1988. <span>“Development of <span>NASA-TLX</span> (Task Load Index): Results of Empirical and Theoretical Research.”</span> In <em>Human Mental Workload</em>, edited by Peter A. Hancock and Najmedin Meshkati, vol. 52. Advances in Psychology. North-Holland.
+</div>
+<div id="ref-harvey1997testing" class="csl-entry" role="listitem">
+Harvey, David, Stephen Leybourne, and Paul Newbold. 1997. <span>“Testing the Equality of Prediction Mean Squared Errors.”</span> <em>International Journal of Forecasting</em> 13 (2): 281–91.
+</div>
+<div id="ref-henderson2012lights" class="csl-entry" role="listitem">
+Henderson, J. Vernon, Adam Storeygard, and David N. Weil. 2012. <span>“Measuring Economic Growth from Outer Space.”</span> <em>American Economic Review</em> 102 (2): 994–1028.
+</div>
+<div id="ref-hevner2004design" class="csl-entry" role="listitem">
+Hevner, Alan R., Salvatore T. March, Jinsoo Park, and Sudha Ram. 2004. <span>“Design Science in Information Systems Research.”</span> <em>MIS Quarterly</em> 28 (1): 75–105.
+</div>
+<div id="ref-ji2023hallucination" class="csl-entry" role="listitem">
+Ji, Ziwei, Nayeon Lee, Rita Frieske, et al. 2023. <span>“Survey of Hallucination in Natural Language Generation.”</span> <em>ACM Computing Surveys</em> 55 (12): 1–38.
+</div>
+<div id="ref-jones2014crossover" class="csl-entry" role="listitem">
+Jones, Byron, and Michael G. Kenward. 2014. <em>Design and Analysis of Cross-over Trials</em>. 3rd ed. Chapman; Hall/CRC.
+</div>
+<div id="ref-kalamara2022text" class="csl-entry" role="listitem">
+Kalamara, Eleni, Arthur Turrell, Chris Redl, George Kapetanios, and Sujit Kapadia. 2022. <span>“Making Text Count: Economic Forecasting Using Newspaper Text.”</span> <em>Journal of Applied Econometrics</em> 37 (5): 896–919.
+</div>
+<div id="ref-krippendorff2018content" class="csl-entry" role="listitem">
+Krippendorff, Klaus. 2018. <em>Content Analysis: An Introduction to Its Methodology</em>. 4th ed. SAGE.
+</div>
+<div id="ref-landis1977measurement" class="csl-entry" role="listitem">
+Landis, J. Richard, and Gary G. Koch. 1977. <span>“The Measurement of Observer Agreement for Categorical Data.”</span> <em>Biometrics</em> 33 (1): 159–74.
+</div>
+<div id="ref-lewis2020rag" class="csl-entry" role="listitem">
+Lewis, Patrick, Ethan Perez, Aleksandra Piktus, et al. 2020. <span>“Retrieval-Augmented Generation for Knowledge-Intensive <span>NLP</span> Tasks.”</span> <em>Advances in Neural Information Processing Systems</em> 33: 9459–74.
+</div>
+<div id="ref-loughran2011liability" class="csl-entry" role="listitem">
+Loughran, Tim, and Bill McDonald. 2011. <span>“When Is a Liability Not a Liability? <span>Textual</span> Analysis, Dictionaries, and <span>10-Ks</span>.”</span> <em>Journal of Finance</em> 66 (1): 35–65.
+</div>
+<div id="ref-lowphansirikul2021wangchanberta" class="csl-entry" role="listitem">
+Lowphansirikul, Lalita, Charin Polpanumas, Nawat Jantrakulchai, and Sarana Nutanong. 2021. <em><span>WangchanBERTa</span>: Pretraining Transformer-Based <span>Thai</span> Language Models</em>. arXiv:2101.09635.
+</div>
+<div id="ref-nist2023airmf" class="csl-entry" role="listitem">
+National Institute of Standards and Technology. 2023. <em>Artificial Intelligence Risk Management Framework (<span>AI RMF</span> 1.0)</em>. NIST AI 100-1. NIST.
+</div>
+<div id="ref-nosek2018preregistration" class="csl-entry" role="listitem">
+Nosek, Brian A., Charles R. Ebersole, Alexander C. DeHaven, and David T. Mellor. 2018. <span>“The Preregistration Revolution.”</span> <em>Proceedings of the National Academy of Sciences</em> 115 (11): 2600–2606.
+</div>
+<div id="ref-noy2023experimental" class="csl-entry" role="listitem">
+Noy, Shakked, and Whitney Zhang. 2023. <span>“Experimental Evidence on the Productivity Effects of Generative Artificial Intelligence.”</span> <em>Science</em> 381 (6654): 187–92.
+</div>
+<div id="ref-peffers2007dsrm" class="csl-entry" role="listitem">
+Peffers, Ken, Tuure Tuunanen, Marcus A. Rothenberger, and Samir Chatterjee. 2007. <span>“A Design Science Research Methodology for Information Systems Research.”</span> <em>Journal of Management Information Systems</em> 24 (3): 45–77.
+</div>
+<div id="ref-peng2023copilot" class="csl-entry" role="listitem">
+Peng, Sida, Eirini Kalliamvakou, Peter Cihon, and Mert Demirer. 2023. <em>The Impact of <span>AI</span> on Developer Productivity: Evidence from <span>GitHub Copilot</span></em>. arXiv:2302.06590.
+</div>
+<div id="ref-petersen2004information" class="csl-entry" role="listitem">
+Petersen, Mitchell A. 2004. <em>Information: Hard and Soft</em>. Working Paper. Kellogg School of Management, Northwestern University.
+</div>
+<div id="ref-phatthiyaphaibun2023pythainlp" class="csl-entry" role="listitem">
+<span class="nocase">Phatthiyaphaibun, Wannaphong et al.</span> 2023. <span>“<span>PyThaiNLP</span>: <span>Thai</span> Natural Language Processing in <span>Python</span>.”</span> <em>Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS)</em>.
+</div>
+<div id="ref-piaggio2012noninferiority" class="csl-entry" role="listitem">
+Piaggio, Gilda, Diana R. Elbourne, Stuart J. Pocock, Stephen J. W. Evans, and Douglas G. Altman. 2012. <span>“Reporting of Noninferiority and Equivalence Randomized Trials: Extension of the <span>CONSORT</span> 2010 Statement.”</span> <em>JAMA</em> 308 (24): 2594–604.
+</div>
+<div id="ref-pichette2011bos" class="csl-entry" role="listitem">
+Pichette, Lise, and Lori Rennison. 2011. <span>“Extracting Information from the <span>Business Outlook Survey</span>: A Principal-Component Approach.”</span> <em>Bank of Canada Review</em>, 21–28.
+</div>
+<div id="ref-pipatanakul2023typhoon" class="csl-entry" role="listitem">
+<span class="nocase">Pipatanakul, Kunat et al.</span> 2023. <em>Typhoon: <span>Thai</span> Large Language Models</em>. arXiv:2312.13951.
+</div>
+<div id="ref-robertson2009bm25" class="csl-entry" role="listitem">
+Robertson, Stephen, and Hugo Zaragoza. 2009. <span>“The Probabilistic Relevance Framework: <span>BM25</span> and Beyond.”</span> <em>Foundations and Trends in Information Retrieval</em> 3 (4): 333–89.
+</div>
+<div id="ref-sadique2013soft" class="csl-entry" role="listitem">
+Sadique, Shibley, Francis In, Madhu Veeraraghavan, and Paul Wachtel. 2013. <span>“Soft Information and Economic Activity: Evidence from the <span>Beige Book</span>.”</span> <em>Journal of Macroeconomics</em> 37: 81–92.
+</div>
+<div id="ref-shapiro2022news" class="csl-entry" role="listitem">
+Shapiro, Adam Hale, Moritz Sudhof, and Daniel J. Wilson. 2022. <span>“Measuring News Sentiment.”</span> <em>Journal of Econometrics</em> 228 (2): 221–43.
+</div>
+<div id="ref-stein2002information" class="csl-entry" role="listitem">
+Stein, Jeremy C. 2002. <span>“Information Production and Capital Allocation: Decentralized Versus Hierarchical Firms.”</span> <em>Journal of Finance</em> 57 (5): 1891–921.
+</div>
+<div id="ref-stock2002diffusion" class="csl-entry" role="listitem">
+Stock, James H., and Mark W. Watson. 2002. <span>“Macroeconomic Forecasting Using Diffusion Indexes.”</span> <em>Journal of Business &amp; Economic Statistics</em> 20 (2): 147–62.
+</div>
+<div id="ref-thorsrud2020words" class="csl-entry" role="listitem">
+Thorsrud, Leif Anders. 2020. <span>“Words Are the New Numbers: A Newsy Coincident Index of the Business Cycle.”</span> <em>Journal of Business &amp; Economic Statistics</em> 38 (2): 393–409.
+</div>
+<div id="ref-williams1949experimental" class="csl-entry" role="listitem">
+Williams, E. J. 1949. <span>“Experimental Designs Balanced for the Estimation of Residual Effects of Treatments.”</span> <em>Australian Journal of Scientific Research, Series A</em> 2: 149–68.
+</div>
+</div>
+</article>
+<section class="cite" id="how-to-cite" aria-label="How to cite"><h2>How to cite</h2><pre><code>@misc{chongmankhong2026liaison,
+  author = {Chongmankhong, Thanatchon},
+  title  = {From Liaison Notes to Regional Indicators: Text-Based Measurement of Regional Economic Activity from Business Liaison Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant},
+  year   = {2026},
+  note   = {Preprint},
+  url    = {https://thanatchon36.github.io/blp-research/paper/}
+}</code></pre></section>
+<footer class="colophon">
+<p>Rendered from <code>paper/main.tex</code> by <code>scripts/build_web.py</code> (<code>make web</code>). Every number comes from the same source as the PDF, which is authoritative. BLP data are confidential; this page uses synthetic data only.</p>
+</footer>
+</div>
+</body>
+</html>

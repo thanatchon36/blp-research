@@ -3,9 +3,9 @@
 \usepackage[letterpaper,textwidth=6.5in,textheight=9in,top=1in,headheight=14pt,headsep=20pt,footskip=30pt]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\IfFileExists{newtxtext.sty}{\usepackage{newtxtext}\usepackage{newtxmath}}{\usepackage{mathptmx}}
+\usepackage{amsmath}
+\IfFileExists{newtxtext.sty}{\usepackage{newtxtext}\usepackage{newtxmath}}{\usepackage{mathptmx}\usepackage{amssymb}}
 \usepackage{microtype}
-\usepackage{amsmath,amssymb}
 \usepackage{booktabs,tabularx,array}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -651,7 +651,7 @@ Model drift during the experiment & Medium & Medium & Freeze weights and prompts
 The Business Liaison Program collects some of the most timely information available about Thailand's regional economies, but its value is limited by its form and by the effort needed to turn it into reports. This proposal sets out how to measure that information rigorously, how to test whether it improves regional nowcasts, how to build an assistant whose drafts can be audited sentence by sentence, and how to test causally whether that assistant saves more than a fifth of the time needed to prepare a report. The accompanying software already runs end to end; the doctoral research will apply it to the BLP data.
 
 \section*{Code and data availability}
-The companion code (\texttt{blp-research}) implements every study, includes a synthetic data generator and regenerates all data-driven figures and numbers in this paper with \texttt{python scripts/make\_figures.py}. BLP data are confidential and remain within the Bank of Thailand's secure environment; only synthetic data are distributed.
+The companion code (\url{https://github.com/thanatchon36/blp-research}) implements every study, includes a synthetic data generator and regenerates all data-driven figures and numbers in this paper with \texttt{make figures}. BLP data are confidential and remain within the Bank of Thailand's secure environment; only synthetic data are distributed.
 
 \section*{Declaration on the use of generative AI}
 A generative-AI assistant was used to draft parts of the text, code and figures under the author's direction. The author reviewed the material and takes full responsibility for the content, including the verification of all references.
@@ -679,14 +679,14 @@ The prompts are written in Thai in the code; English translations follow.
 \toprule
 Module & Function & Section \\
 \midrule
-\texttt{blp/synthetic.py} & Synthetic notes, gold labels and target series & \ref{sec:poc}, \ref{app:dgp} \\
-\texttt{blp/preprocess.py} & Masking of identifiers; Thai clause splitting & 3.4 \\
-\texttt{blp/scoring.py} & Lexicon (M1), LLM (M3) and ensemble (M4) scorers & 4.2 \\
-\texttt{blp/reliability.py} & Cohen's $\kappa$, Krippendorff's $\alpha$, macro-F1 & 4.5 \\
-\texttt{blp/indicators.py} & Diffusion, sector-weighted and composition-adjusted indices & 4.3--4.4 \\
-\texttt{blp/nowcast.py} & Expanding-window evaluation; Clark--West and Diebold--Mariano tests & \ref{sec:study2} \\
-\texttt{blp/assistant/} & LLM clients, hybrid retrieval, drafter, verifier & \ref{sec:study3} \\
-\texttt{blp/experiment/} & Crossover randomization, power simulation, analysis, time logging & \ref{sec:study4} \\
+\texttt{src/blp/synthetic.py} & Synthetic notes, gold labels and target series & \ref{sec:poc}, \ref{app:dgp} \\
+\texttt{src/blp/preprocess.py} & Masking of identifiers; Thai clause splitting & 3.4 \\
+\texttt{src/blp/scoring.py} & Lexicon (M1), LLM (M3) and ensemble (M4) scorers & 4.2 \\
+\texttt{src/blp/reliability.py} & Cohen's $\kappa$, Krippendorff's $\alpha$, macro-F1 & 4.5 \\
+\texttt{src/blp/indicators.py} & Diffusion, sector-weighted and composition-adjusted indices & 4.3--4.4 \\
+\texttt{src/blp/nowcast.py} & Expanding-window evaluation; Clark--West and Diebold--Mariano tests & \ref{sec:study2} \\
+\texttt{src/blp/assistant/} & LLM clients, hybrid retrieval, drafter, verifier & \ref{sec:study3} \\
+\texttt{src/blp/experiment/} & Crossover randomization, power simulation, analysis, time logging & \ref{sec:study4} \\
 \texttt{run\_pipeline.py} & Runs every study on synthetic data & \ref{sec:poc} \\
 \texttt{scripts/make\_figures.py} & Regenerates all data-driven figures and numbers & All \\
 \bottomrule

@@ -1,0 +1,29 @@
+{
+  "title": "blp-research",
+  "upload_type": "software",
+  "description": "Companion code for a four-study research program on the Bank of Thailand's Business Liaison Program (BLP): anonymization and coding of Thai-language interview notes (lexicon, LLM and ensemble coders against a gold standard), sector-weighted and composition-adjusted diffusion indices, pseudo-real-time nowcasting with Clark-West and Diebold-Mariano tests, a retrieval-augmented drafting assistant that cites a source for every sentence and blocks numbers it cannot verify, and the design and power analysis of a randomized crossover experiment on report-preparation time. Runs end to end on synthetic data. Companion software to the preprint \"From Liaison Notes to Regional Indicators: Text-Based Measurement of Regional Economic Activity from Business Liaison Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant\".",
+  "creators": [
+    {
+      "name": "Chongmankhong, Thanatchon"
+    }
+  ],
+  "license": "mit",
+  "keywords": [
+    "business liaison",
+    "text as data",
+    "nowcasting",
+    "regional economics",
+    "large language models",
+    "retrieval-augmented generation",
+    "randomized experiment",
+    "Thailand"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://thanatchon36.github.io/blp-research/paper/",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-preprint",
+      "scheme": "url"
+    }
+  ]
+}

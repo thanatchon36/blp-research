@@ -1,8 +1,30 @@
 cff-version: 1.2.0
-message: "If you use this code, please cite the accompanying preprint."
-title: "From Liaison Notes to Regional Indicators: companion code"
+message: "Please cite the paper (preferred-citation); if you use the blp-research code, also cite the software."
+title: "blp-research: text-based regional indicators from Business Liaison Program notes and a grounded report-drafting assistant"
+abstract: >-
+  Companion code for a four-study research program on the Bank of Thailand's
+  Business Liaison Program: anonymization and coding of Thai-language interview
+  notes, sector-weighted and composition-adjusted diffusion indices,
+  pseudo-real-time nowcasting with Clark-West and Diebold-Mariano tests, a
+  retrieval-augmented drafting assistant with a number and citation verifier,
+  and the design and power analysis of a randomized crossover experiment.
+  Runs end to end on synthetic data.
+type: software
 authors:
   - family-names: Chongmankhong
     given-names: Thanatchon
 version: 0.1.0
 date-released: 2026-11-09
+license: MIT
+repository-code: "https://github.com/thanatchon36/blp-research"
+url: "https://thanatchon36.github.io/blp-research/paper/"
+keywords: [business-liaison, text-as-data, nowcasting, regional-economics, large-language-models, retrieval-augmented-generation, randomized-experiment, thailand]
+preferred-citation:
+  type: generic
+  title: "From Liaison Notes to Regional Indicators: Text-Based Measurement of Regional Economic Activity from Business Liaison Program Data and a Randomized Evaluation of a Generative-AI Report-Drafting Assistant"
+  authors:
+    - family-names: Chongmankhong
+      given-names: Thanatchon
+  year: 2026
+  url: "https://thanatchon36.github.io/blp-research/paper/"
+  notes: "Preprint; results are from synthetic data."

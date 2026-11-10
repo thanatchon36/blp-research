@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">
+  <title id="t">blp-research</title>
+  <rect width="128" height="128" rx="28" fill="#03060d"/>
+  <!-- interview notes: lines of text -->
+  <path d="M22 34 H58 M22 46 H52 M22 58 H60 M22 70 H48" stroke="#2b3c5c" stroke-width="5" stroke-linecap="round"/>
+  <!-- coding: notes become a regional activity index -->
+  <path d="M64 52 L74 52" stroke="#9fb0d0" stroke-width="3" stroke-dasharray="3 3" stroke-linecap="round"/>
+  <path d="M22 100 H106" stroke="#2b3c5c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M24 92 C34 88 40 94 50 84 C58 76 64 86 72 74 C80 62 88 70 96 52 L104 40" fill="none" stroke="#f5a623" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="104" cy="40" r="7" fill="#b0560f" stroke="#ffe8a3" stroke-width="3"/>
+</svg>

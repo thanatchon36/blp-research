@@ -22,3 +22,6 @@ paper/previews/
 # Secrets and confidential data: never commit BLP notes or API keys
 .env
 data/
+
+# GitHub Pages build intermediates
+docs/paper/_build/
