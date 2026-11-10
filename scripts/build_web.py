@@ -23,6 +23,7 @@ PAPER = ROOT / "paper"
 OUT = ROOT / "docs" / "paper"
 REPO_URL = "https://github.com/thanatchon36/blp-research"
 PAPER_URL = "https://thanatchon36.github.io/blp-research/paper/"
+DATA_URL = "https://huggingface.co/datasets/thanatchon36/blp-research"
 
 # (label, style, finding, detail); {key.path} is looked up in paper/numbers.json.
 # style: "ref" = result on the synthetic data, "null" = pending.
@@ -232,7 +233,8 @@ def build() -> Path:
     for marker, value in (
         ("<!--ABSTRACT-->", abstract),
         ("<!--ACTIONS-->", '<li><a href="paper.pdf">Download PDF</a></li>'
-                           f'<li><a href="{REPO_URL}">Code and replication</a></li>'),
+                           f'<li><a href="{REPO_URL}">Code and replication</a></li>'
+                           f'<li><a href="{DATA_URL}">Data (Hugging Face)</a></li>'),
         ("<!--RESULTS-NOTE-->", "Headline numbers from paper/numbers.json. All of them come from the synthetic data "
                                 "generator and validate the software, not the research hypotheses. Amber: results "
                                 "on synthetic data; grey: pending."),

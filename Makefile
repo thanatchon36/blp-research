@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 ARGS ?=
 
-.PHONY: setup pipeline figures paper web arxiv banner test all clean
+.PHONY: setup pipeline figures paper web arxiv dataset banner test all clean
 
 setup:          ## create venv and install the package (needs uv)
 	uv venv .venv --python 3.12
@@ -23,6 +23,9 @@ web:            ## web reader only -> docs/paper/index.html (pandoc + tectonic; 
 arxiv: paper    ## arXiv source bundle -> paper/arxiv.tar.gz (prints title, abstract and comments for the form)
 	$(PY) scripts/arxiv_bundle.py
 
+dataset:        ## Hugging Face dataset -> dataset/ (synthetic data and results; upload with hf upload)
+	$(PY) scripts/export_dataset.py
+
 banner:         ## README banner -> docs/assets/banner.png
 	$(PY) scripts/make_banner.py
 
@@ -32,4 +35,4 @@ test:
 all: pipeline figures paper
 
 clean:
-	rm -rf outputs paper/previews paper/*.aux paper/*.log paper/*.out paper/*.toc paper/*.blg paper/arxiv paper/arxiv.tar.gz
+	rm -rf outputs paper/previews paper/*.aux paper/*.log paper/*.out paper/*.toc paper/*.blg paper/arxiv paper/arxiv.tar.gz dataset
